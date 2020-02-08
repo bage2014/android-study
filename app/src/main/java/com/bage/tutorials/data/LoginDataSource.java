@@ -1,6 +1,9 @@
 package com.bage.tutorials.data;
 
 import com.bage.tutorials.data.model.LoggedInUser;
+import com.bage.tutorials.http.HttpCallback;
+import com.bage.tutorials.http.HttpRequests;
+import com.bage.tutorials.http.HttpResult;
 
 import java.io.IOException;
 
@@ -10,6 +13,17 @@ import java.io.IOException;
 public class LoginDataSource {
 
     public Result<LoggedInUser> login(String username, String password) {
+        HttpRequests.get("http://101.132.119.250:8866/pass/opts/appInfo/query/page", new HttpCallback() {
+            @Override
+            public void onFailure(HttpResult result) {
+                System.out.println(result);
+            }
+
+            @Override
+            public void onSuccess(HttpResult result) {
+                System.out.println(result);
+            }
+        });
 
         try {
             // TODO: handle loggedInUser authentication

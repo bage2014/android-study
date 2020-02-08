@@ -4,6 +4,14 @@ public class HttpResult {
     int statusCode;
     String value;
 
+    public HttpResult() {
+    }
+
+    public HttpResult(int statusCode, String value) {
+        this.statusCode = statusCode;
+        this.value = value;
+    }
+
     public int getStatusCode() {
         return statusCode;
     }
@@ -18,5 +26,13 @@ public class HttpResult {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "HttpResult{" +
+                "statusCode=" + statusCode +
+                ", value='" + value + '\'' +
+                '}';
     }
 }

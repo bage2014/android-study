@@ -3,74 +3,143 @@ package com.bage.tutorials.http;
 
 import android.util.Log;
 
+import com.bage.tutorials.adapter.okhttp.builder.OkHttpClientBuilder;
 import com.bage.tutorials.utils.JsonUtils;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class HttpRequests {
 
+    private static String TAG = "HttpRequests";
 
-    public HttpResult get(String url, List<HttpParam> params,List<HttpHeader> headers){
-        Log.i("","HttpRequests get url = {}",url);
-        log.info("HttpRequests get headers = {}", JsonUtils.toJson(headers));
-        log.info("HttpRequests get params = {}", JsonUtils.toJson(params));
+    public static void get(String url, final HttpCallback callback) {
+        get(url, null, callback);
+    }
+
+    public static void get(String url, List<HttpParam> params, final HttpCallback callback) {
+        get(url, params, null, callback);
+    }
+
+    public static void get(String url, List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
+        Log.i(TAG, "get url = {}" + url);
+        Log.i(TAG, "get headers = {}" + JsonUtils.toJson(headers));
+        Log.i(TAG, "get params = {}" + JsonUtils.toJson(params));
 
         // 构建请求参数
-        HttpEntity<MultiValueMap<String, String>> requestEntity = buildHeaderAndParam(params, headers);
+        OkHttpClient client = new OkHttpClientBuilder().build();
+        Request request = buildGetRequest(url, params, headers);
 
         // 发起请求
-        ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
-        log.info("HttpRequests get statusCodeValue = {}", result.getStatusCodeValue());
-        log.info("HttpRequests get body = {}", result.getBody());
-
-        // 处理响应并返回
-        return buildResult(result);
-    }
-
-    public HttpResult post(String url, List<HttpParam> params,List<HttpHeader> headers){
-        log.info("HttpRequests post url = {}",url);
-        log.info("HttpRequests post headers = {}", JsonUtils.toJson(headers));
-        log.info("HttpRequests post params = {}", JsonUtils.toJson(params));
-
-        // 构建请求参数
-        HttpEntity<MultiValueMap<String, String>> requestEntity = buildHeaderAndParam(params, headers);
-
-        // 发起请求
-        ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        log.info("HttpRequests post statusCodeValue = {}", result.getStatusCodeValue());
-        log.info("HttpRequests post body = {}", result.getBody());
-
-        // 处理响应并返回
-        return buildResult(result);
-    }
-
-    private HttpResult buildResult(ResponseEntity<String> result) {
-        HttpResult httpResult = new HttpResult();
-        httpResult.setStatusCode(result.getStatusCodeValue());
-        httpResult.setValue(result.getBody());
-        return httpResult;
-    }
-
-    private HttpEntity<MultiValueMap<String, String>> buildHeaderAndParam(List<HttpParam> params, List<HttpHeader> headers) {
-        // 设置请求头
-        HttpHeaders header = new HttpHeaders();
-        header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        if(Objects.nonNull(headers)){
-            for (HttpHeader httpHeader : headers) {
-                header.add(httpHeader.getKey(),httpHeader.getValue());
+        client.newCall(request).enqueue(new Callback() {
+            // 处理响应并返回
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                callback.onFailure(new HttpResult(500, ""));
             }
-        }
 
-        // 设置参数
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
-        if(Objects.nonNull(params)){
+            // 处理响应并返回
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "get statusCodeValue = {}" + result);
+                Log.i(TAG, "get body = {}" + result);
+                callback.onSuccess(new HttpResult(200, result));
+            }
+        });
+    }
+
+
+    public static void post(String url, final HttpCallback callback) {
+        post(url, null, callback);
+    }
+
+    public static void post(String url, List<HttpParam> params, final HttpCallback callback) {
+        post(url, params, null, callback);
+    }
+
+    public static void post(String url, List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
+        Log.i(TAG, "post url = {}" + url);
+        Log.i(TAG, "post headers = {}" + JsonUtils.toJson(headers));
+        Log.i(TAG, "post params = {}" + JsonUtils.toJson(params));
+
+        // 构建请求参数
+        OkHttpClient client = new OkHttpClientBuilder().build();
+        Request request = buildPostRequest(url, params, headers);
+
+        // 发起请求
+        client.newCall(request).enqueue(new Callback() {
+            // 处理响应并返回
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                callback.onFailure(new HttpResult(500, ""));
+            }
+
+            // 处理响应并返回
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "post statusCodeValue = {}" + result);
+                Log.i(TAG, "post body = {}" + result);
+                callback.onSuccess(new HttpResult(200, result));
+            }
+        });
+    }
+
+
+    private static Request buildGetRequest(String url, List<HttpParam> params, List<HttpHeader> headers) {
+
+        // param
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
+                .newBuilder();
+        if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                map.add(param.getKey(),param.getValue());
+                urlBuilder.addQueryParameter(param.getKey(), param.getValue());
             }
         }
+
+        // header
+        Request.Builder requestBuilder = new Request.Builder();
+        if (Objects.nonNull(headers)) {
+            for (HttpHeader header : headers) {
+                requestBuilder.addHeader(header.getKey(), header.getValue());
+            }
+        }
+
         // 返回
-        return new HttpEntity<>(map, header);
+        return requestBuilder.url(urlBuilder.build()).build();
     }
 
+    private static Request buildPostRequest(String url, List<HttpParam> params, List<HttpHeader> headers) {
+
+        // param
+        FormBody.Builder formBodyBuilder = new FormBody.Builder();
+        if (Objects.nonNull(params)) {
+            for (HttpParam param : params) {
+                formBodyBuilder.add(param.getKey(), param.getValue());
+            }
+        }
+
+        // header
+        Request.Builder requestBuilder = new Request.Builder();
+        if (Objects.nonNull(headers)) {
+            for (HttpHeader header : headers) {
+                requestBuilder.addHeader(header.getKey(), header.getValue());
+            }
+        }
+
+        // 返回
+        return requestBuilder.url(url).post(formBodyBuilder.build()).build();
+    }
 }

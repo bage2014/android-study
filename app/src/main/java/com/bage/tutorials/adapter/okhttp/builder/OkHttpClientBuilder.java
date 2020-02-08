@@ -4,10 +4,10 @@ import com.bage.tutorials.adapter.okhttp.interceptor.TimeCostInterceptor;
 
 import okhttp3.OkHttpClient;
 
-public class HttpRequestBuilder {
+public class OkHttpClientBuilder {
 
-    public void newHttpRequest() {
-        OkHttpClient client = new OkHttpClient.Builder()
+    public OkHttpClient build() {
+        return new OkHttpClient.Builder()
                 .addInterceptor(new TimeCostInterceptor())
                 .build();
     }

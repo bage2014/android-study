@@ -1,10 +1,13 @@
 package com.bage.tutorials;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.bage.tutorials.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -58,6 +61,19 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_login:
+                Intent i=new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+                return true;
+        }
+        return false;
     }
 
     @Override

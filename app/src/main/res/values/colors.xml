@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="icon_color_login">#008577</color>
+    <color name="icon_color_nav">#64B5F6</color>
 
 
 </resources>

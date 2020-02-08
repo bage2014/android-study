@@ -2,8 +2,9 @@
     <string name="app_name">app-tutorials</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Lu Ruihua</string>
+    <string name="nav_header_location">Shanghai</string>
+    <string name="nav_header_subtitle">bage2014@outlook.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_login">Login</string>

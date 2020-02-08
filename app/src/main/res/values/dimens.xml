@@ -5,4 +5,13 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!--图标长宽-->
+    <dimen name="icon_width_small">16dp</dimen>
+    <dimen name="icon_height_small">16dp</dimen>
+    <dimen name="icon_width_middle">24dp</dimen>
+    <dimen name="icon_height_middle">24dp</dimen>
+    <dimen name="icon_width_big">64dp</dimen>
+    <dimen name="icon_height_big">64dp</dimen>
+
 </resources>

@@ -14,4 +14,8 @@
     <dimen name="icon_width_big">64dp</dimen>
     <dimen name="icon_height_big">64dp</dimen>
 
+
+    <!--图标长宽-->
+    <dimen name="appbar_height_middle">48dp</dimen>
+
 </resources>

@@ -68,8 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent i=new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
+                return true;
             case R.id.action_login:
-                Intent i=new Intent(MainActivity.this, LoginActivity.class);
+                i=new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);
                 return true;
         }

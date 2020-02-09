@@ -7,5 +7,7 @@
     <color name="icon_color_login">#008577</color>
     <color name="icon_color_nav">#64B5F6</color>
 
+    <color name="text_light">#FFFFFF</color>
+
 
 </resources>

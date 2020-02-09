@@ -22,66 +22,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <net.steamcrafted.materialiconlib.MaterialIconView
-        android:id="@+id/login_account_icon"
-        android:layout_width="@dimen/icon_width_middle"
-        android:layout_height="@dimen/icon_height_middle"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="63dp"
-        android:hint="@string/prompt_email"
-        app:layout_constraintHorizontal_bias="0.45"
-        app:layout_constraintLeft_toLeftOf="@+id/login_account"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_user_icon"
-        app:materialIcon="account"
-        app:materialIconColor="@color/icon_color_login"
-        app:materialIconSize="@dimen/icon_width_middle" />
-
-    <EditText
-        android:id="@+id/login_account"
-        android:layout_width="0dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/login_account_card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="46dp"
-        android:layout_marginRight="24dp"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true"
-
-        app:layout_constraintLeft_toRightOf="@+id/login_account_icon"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_user_icon" />
-
-    <net.steamcrafted.materialiconlib.MaterialIconView
-        android:id="@+id/login_password_icon"
-        android:layout_width="@dimen/icon_width_middle"
-        android:layout_height="@dimen/icon_height_middle"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="112dp"
-        android:hint="@string/prompt_email"
-        app:layout_constraintHorizontal_bias="0.448"
-        app:layout_constraintLeft_toLeftOf="@+id/login_account"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
         app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_user_icon"
-        app:materialIcon="lock"
-        app:materialIconColor="@color/icon_color_login"
-        app:materialIconSize="@dimen/icon_width_middle" />
+        app:layout_constraintTop_toBottomOf="@+id/login_user_icon">
 
-    <EditText
-        android:id="@+id/login_password"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/prompt_email"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:errorEnabled="true"
+            app:helperText="@string/prompt_email"
+            app:helperTextEnabled="true"
+            app:startIconContentDescription="@string/prompt_email"
+            app:startIconDrawable="@android:drawable/sym_action_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/login_password_card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="24dp"
-        android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        app:layout_constraintLeft_toRightOf="@+id/login_password_icon"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_user_icon" />
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_account_card">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/prompt_password"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:helperText="@string/prompt_password"
+            app:helperTextEnabled="true"
+            app:startIconContentDescription="@string/prompt_password"
+            app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <Button
         android:id="@+id/login_btn"
@@ -97,7 +102,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_card"
         app:layout_constraintVertical_bias="0.2" />
 
     <ProgressBar
@@ -111,8 +116,8 @@
         android:layout_marginBottom="64dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/login_password"
-        app:layout_constraintStart_toStartOf="@+id/login_password"
+        app:layout_constraintEnd_toEndOf="@+id/login_password_card"
+        app:layout_constraintStart_toStartOf="@+id/login_password_card"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

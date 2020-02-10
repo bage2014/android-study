@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_profile">
 
 
-    <ImageView
+    <com.bage.tutorials.view.CircleImageView
         android:id="@+id/profile_user_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

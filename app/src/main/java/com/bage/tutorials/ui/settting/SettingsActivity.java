@@ -1,4 +1,4 @@
-package com.bage.tutorials;
+package com.bage.tutorials.ui.settting;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,6 +7,8 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.bage.tutorials.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

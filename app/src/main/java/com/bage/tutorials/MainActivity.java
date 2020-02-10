@@ -2,27 +2,24 @@ package com.bage.tutorials;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.bage.tutorials.ui.login.LoginActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bage.tutorials.ui.login.LoginActivity;
+import com.bage.tutorials.ui.profile.ProfileActivity;
+import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +51,19 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        if (navigationView.getHeaderCount() > 0) {
+            View headerView = navigationView.getHeaderView(0);
+            View userIcon = headerView.findViewById(R.id.nav_menu_user_icon);
+            userIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(i);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -69,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent i=new Intent(MainActivity.this, SettingsActivity.class);
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 return true;
             case R.id.action_login:
-                i=new Intent(MainActivity.this, LoginActivity.class);
+                i = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);
                 return true;
         }

@@ -1,7 +1,5 @@
 package com.bage.tutorials.ui.login;
 
-import java.time.LocalDateTime;
-
 /**
  * Class exposing authenticated user details to the UI.
  */
@@ -38,15 +36,15 @@ class User {
     /**
      * 生日
      */
-    private LocalDateTime birthday;
+    private String birthday;
     /**
      *
      */
-    private LocalDateTime createTime;
+    private String createTime;
     /**
      *
      */
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     public Long getId() {
         return id;
@@ -104,27 +102,27 @@ class User {
         this.icon = icon;
     }
 
-    public LocalDateTime getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDateTime birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public LocalDateTime getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }

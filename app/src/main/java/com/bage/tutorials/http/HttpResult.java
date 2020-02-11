@@ -3,6 +3,7 @@ package com.bage.tutorials.http;
 public class HttpResult {
     int statusCode;
     String value;
+    String originValue;
 
     public HttpResult() {
     }
@@ -32,11 +33,20 @@ public class HttpResult {
         return statusCode == 200;
     }
 
+    public String getOriginValue() {
+        return originValue;
+    }
+
+    public void setOriginValue(String originValue) {
+        this.originValue = originValue;
+    }
+
     @Override
     public String toString() {
         return "HttpResult{" +
                 "statusCode=" + statusCode +
                 ", value='" + value + '\'' +
+                ", originValue='" + originValue + '\'' +
                 '}';
     }
 }

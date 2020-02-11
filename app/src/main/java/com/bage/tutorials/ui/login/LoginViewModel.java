@@ -38,7 +38,7 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onFailure(HttpResult result) {
                 System.out.println(result);
-                loginResult.setValue(new LoginResult(R.string.login_failed));
+                loginResult.postValue(new LoginResult(R.string.login_failed));
             }
 
             @Override
@@ -46,9 +46,9 @@ public class LoginViewModel extends ViewModel {
                 System.out.println(result);
                 if (result.isOk()) {
                     User user = JsonUtils.fromJson(result.getValue(), User.class);
-                    loginResult.setValue(new LoginResult(user));
+                    loginResult.postValue(new LoginResult(user));
                 } else {
-                    loginResult.setValue(new LoginResult(R.string.login_failed));
+                    loginResult.postValue(new LoginResult(R.string.login_failed));
                 }
             }
         });

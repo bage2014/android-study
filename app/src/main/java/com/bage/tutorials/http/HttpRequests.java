@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.bage.tutorials.adapter.okhttp.builder.OkHttpClientBuilder;
 import com.bage.tutorials.config.ServerConfig;
+import com.bage.tutorials.http.server.RestResponse;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
 
@@ -57,7 +58,18 @@ public class HttpRequests {
                 String result = response.body().string();
                 Log.i(TAG, "get statusCodeValue = {}" + result);
                 Log.i(TAG, "get body = {}" + result);
-                callback.onSuccess(new HttpResult(200, result));
+                try {
+                    if(result != null){
+                        RestResponse restResponse = JsonUtils.fromJson(result, RestResponse.class);
+                        if(restResponse != null && restResponse.getCode() == 200){
+                            callback.onSuccess(new HttpResult(200, JsonUtils.toJson(restResponse.getData())));
+                            return ;
+                        }
+                    }
+                } catch (Exception e){
+                    Log.i(TAG, "e = {}" + e.getMessage());
+                }
+                callback.onFailure(new HttpResult(500, result));
             }
         });
     }
@@ -92,9 +104,20 @@ public class HttpRequests {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "post statusCodeValue = {}" + result);
-                Log.i(TAG, "post body = {}" + result);
-                callback.onSuccess(new HttpResult(200, result));
+                Log.i(TAG, "post statusCodeValue = " + response.code());
+                Log.i(TAG, "post body = " + result);
+                try {
+                    if(result != null){
+                        RestResponse restResponse = JsonUtils.fromJson(result, RestResponse.class);
+                        if(restResponse != null && restResponse.getCode() == 200){
+                            callback.onSuccess(new HttpResult(200, JsonUtils.toJson(restResponse.getData())));
+                            return ;
+                        }
+                    }
+                } catch (Exception e){
+                    Log.i(TAG, "e = {}" + e.getMessage());
+                }
+                callback.onFailure(new HttpResult(500, result));
             }
         });
     }
@@ -152,8 +175,9 @@ public class HttpRequests {
         String serverUrl = "";
         if (Objects.nonNull(serverConfig.getServerPort())) {
             serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + ":" + serverConfig.getServerPort() + "/" + serverConfig.getServerPrefix();
+        } else {
+            serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + "/" + serverConfig.getServerPrefix();
         }
-        serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + "/" + serverConfig.getServerPrefix();
         if(serverUrl.endsWith("/") && url.startsWith("/")){
             url = url.substring(1);
         }

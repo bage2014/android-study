@@ -5,7 +5,7 @@ public class ServerConfig {
     private String serverProtocol = "http";
     private String serverHost = "10.0.3.2";
     private String serverPort = "8080";
-    private String serverPrefix = "/";
+    private String serverPrefix = "";
 
     public String getServerProtocol() {
         return serverProtocol;

@@ -4,6 +4,8 @@ package com.bage.tutorials.http;
 import android.util.Log;
 
 import com.bage.tutorials.adapter.okhttp.builder.OkHttpClientBuilder;
+import com.bage.tutorials.config.ServerConfig;
+import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -99,6 +101,7 @@ public class HttpRequests {
 
 
     private static Request buildGetRequest(String url, List<HttpParam> params, List<HttpHeader> headers) {
+        url = rewriteUrl(url);
 
         // param
         HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
@@ -122,6 +125,7 @@ public class HttpRequests {
     }
 
     private static Request buildPostRequest(String url, List<HttpParam> params, List<HttpHeader> headers) {
+        url = rewriteUrl(url);
 
         // param
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
@@ -142,4 +146,20 @@ public class HttpRequests {
         // 返回
         return requestBuilder.url(url).post(formBodyBuilder.build()).build();
     }
+
+    private static String rewriteUrl(String url) {
+        ServerConfig serverConfig = AppConfigUtils.readServerConfig();
+        String serverUrl = "";
+        if (Objects.nonNull(serverConfig.getServerPort())) {
+            serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + ":" + serverConfig.getServerPort() + "/" + serverConfig.getServerPrefix();
+        }
+        serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + "/" + serverConfig.getServerPrefix();
+        if(serverUrl.endsWith("/") && url.startsWith("/")){
+            url = url.substring(1);
+        }
+        url = serverUrl + url;
+
+        return url;
+    }
+
 }

@@ -28,6 +28,10 @@ public class HttpResult {
         this.value = value;
     }
 
+    public boolean isOk() {
+        return statusCode == 200;
+    }
+
     @Override
     public String toString() {
         return "HttpResult{" +

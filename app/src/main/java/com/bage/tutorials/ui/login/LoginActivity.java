@@ -22,10 +22,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.domain.User;
+import com.bage.tutorials.repository.UserRepository;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private UserRepository userRepository;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        userRepository = new UserRepository(this);
     }
 
     @Override
@@ -136,8 +140,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(User model) {
         String welcome = getString(R.string.welcome) + model.getUsername();
-        // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        userRepository.cacheUserToken(model);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

@@ -1,9 +1,9 @@
-package com.bage.tutorials.ui.login;
+package com.bage.tutorials.domain;
 
 /**
  * Class exposing authenticated user details to the UI.
  */
-class User {
+public class User {
 
     /**
      * ID，主键

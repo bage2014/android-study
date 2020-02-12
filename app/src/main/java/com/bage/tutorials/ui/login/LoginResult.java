@@ -2,6 +2,8 @@ package com.bage.tutorials.ui.login;
 
 import androidx.annotation.Nullable;
 
+import com.bage.tutorials.domain.User;
+
 /**
  * Authentication result : success (user details) or error message.
  */

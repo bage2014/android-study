@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpCallback;
 import com.bage.tutorials.http.HttpParam;
 import com.bage.tutorials.http.HttpRequests;

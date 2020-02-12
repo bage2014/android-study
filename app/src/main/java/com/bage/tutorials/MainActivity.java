@@ -1,11 +1,14 @@
 package com.bage.tutorials;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,16 +17,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bage.tutorials.domain.User;
+import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.bage.tutorials.view.CircleImageView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private UserRepository userRepository;
+    private CircleImageView userIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (navigationView.getHeaderCount() > 0) {
             View headerView = navigationView.getHeaderView(0);
-            View userIcon = headerView.findViewById(R.id.nav_menu_user_icon);
+            userIcon = headerView.findViewById(R.id.nav_menu_user_icon);
             userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -88,6 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (Activity.RESULT_OK == resultCode) {
+            User user = userRepository.getLoginedUser();
+            if (Objects.nonNull(user)) {
+                // 已登录
+                userIcon.setImageURI(Uri.parse(user.getIcon()));
+
+            }
+        }
     }
 
     @Override

@@ -10,10 +10,15 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.domain.User;
+import com.bage.tutorials.http.HttpCallback;
+import com.bage.tutorials.http.HttpRequests;
+import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
+import com.bage.tutorials.utils.JsonUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -26,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int RESULT_PICK_IMAGE = 1;
     ImageView imageView;
     private UserRepository userRepository;
+    private ProfileViewModel profileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +69,18 @@ public class ProfileActivity extends AppCompatActivity {
         imageView = findViewById(R.id.profile_user_icon);
 
         userRepository = new UserRepository(this);
-        User user = userRepository.getLoginedUser();
-        if (Objects.nonNull(user)) {
-            // 已登录
-            System.out.println(user.getIcon());
-            Picasso.with(this).load(Uri.parse(user.getIcon())).into(imageView);
+        String jwt = userRepository.getLoginedUser();
+        if (Objects.nonNull(jwt) && jwt.length() > 0) {
+            profileViewModel = new ProfileViewModel();
+            profileViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
+                @Override
+                public void onChanged(HttpResult httpResult) {
+                    String data = httpResult.getData();
+                    User user = JsonUtils.fromJson(data, User.class);
+                    Picasso.with(ProfileActivity.this).load(Uri.parse(user.getIcon())).into(imageView);
+                }
+            });
+            profileViewModel.queryProfile(jwt);
         }
     }
 

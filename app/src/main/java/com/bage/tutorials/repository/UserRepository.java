@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.bage.tutorials.component.SharedPreferencesHelper;
 import com.bage.tutorials.constant.AppConstant;
-import com.bage.tutorials.domain.User;
-import com.bage.tutorials.utils.JsonUtils;
 
 public class UserRepository {
 
@@ -15,15 +13,11 @@ public class UserRepository {
         sharedPreferencesHelper = new SharedPreferencesHelper(context);
     }
 
-    public void cacheUserToken(User user) {
-        sharedPreferencesHelper.insertOrUpdate(AppConstant.userConfigTokenKey, JsonUtils.toJson(user));
+    public void cacheUserToken(String jwt) {
+        sharedPreferencesHelper.insertOrUpdate(AppConstant.userConfigTokenKey, jwt);
     }
 
-    public User getLoginedUser() {
-        String token = sharedPreferencesHelper.get(AppConstant.userConfigTokenKey, "");
-        if (token.length() > 0) {
-            return JsonUtils.fromJson(token, User.class);
-        }
-        return null;
+    public String getLoginedUser() {
+        return sharedPreferencesHelper.get(AppConstant.userConfigTokenKey, "");
     }
 }

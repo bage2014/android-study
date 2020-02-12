@@ -104,13 +104,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (Activity.RESULT_OK == resultCode) {
-            User user = userRepository.getLoginedUser();
-            if (Objects.nonNull(user)) {
-                // 已登录
-                System.out.println(user.getIcon());
-                userIcon.setImageURI(Uri.parse(user.getIcon()));
 
-            }
         }
     }
 

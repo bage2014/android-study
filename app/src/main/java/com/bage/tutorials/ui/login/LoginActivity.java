@@ -25,6 +25,9 @@ import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.JwtUtils;
+
+import io.jsonwebtoken.Claims;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -73,9 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 loadingProgressBar.setVisibility(View.GONE);
                 if (httpResult.getCode() == 200) {
-                    String data = httpResult.getData();
-                    User user = JsonUtils.fromJson(data, User.class);
-                    updateUiWithUser(user);
+                    String jwt = httpResult.getData();
+                    updateUiWithUser(jwt);
 
                     //Complete and destroy login activity once successful
                     setResult(Activity.RESULT_OK);
@@ -140,10 +142,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUiWithUser(User model) {
-        String welcome = model.getUsername();
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-        userRepository.cacheUserToken(model);
+    private void updateUiWithUser(String jwt) {
+        Claims claims = JwtUtils.decodeTokenClaims(jwt);
+        Toast.makeText(getApplicationContext(), claims.getSubject(), Toast.LENGTH_LONG).show();
+        userRepository.cacheUserToken(jwt);
     }
 
     private void showLoginFailed(String errorString) {

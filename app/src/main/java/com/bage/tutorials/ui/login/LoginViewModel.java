@@ -20,13 +20,13 @@ import java.util.List;
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private MutableLiveData<HttpResult> loginResult = new MutableLiveData<>();
 
     LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
 
-    LiveData<LoginResult> getLoginResult() {
+    LiveData<HttpResult> getLoginResult() {
         return loginResult;
     }
 
@@ -38,19 +38,12 @@ public class LoginViewModel extends ViewModel {
         HttpRequests.post("/user/login", params, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
-                System.out.println(result);
-                loginResult.postValue(new LoginResult(R.string.login_failed));
+                loginResult.postValue(result);
             }
 
             @Override
             public void onSuccess(HttpResult result) {
-                System.out.println(result);
-                if (result.isOk()) {
-                    User user = JsonUtils.fromJson(result.getValue(), User.class);
-                    loginResult.postValue(new LoginResult(user));
-                } else {
-                    loginResult.postValue(new LoginResult(R.string.login_failed));
-                }
+                loginResult.postValue(result);
             }
         });
     }

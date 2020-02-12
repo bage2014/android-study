@@ -5,23 +5,16 @@ import android.util.Log;
 
 import com.bage.tutorials.adapter.okhttp.builder.OkHttpClientBuilder;
 import com.bage.tutorials.config.ServerConfig;
-import com.bage.tutorials.http.server.RestResponse;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 public class HttpRequests {
 
@@ -45,33 +38,8 @@ public class HttpRequests {
         Request request = buildGetRequest(url, params, headers);
 
         // 发起请求
-        client.newCall(request).enqueue(new Callback() {
-            // 处理响应并返回
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure(new HttpResult(500, ""));
-            }
+        client.newCall(request).enqueue(new DefaultHttpCallback(callback));
 
-            // 处理响应并返回
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String result = response.body().string();
-                Log.i(TAG, "get statusCodeValue = {}" + result);
-                Log.i(TAG, "get body = {}" + result);
-                try {
-                    if(result != null){
-                        RestResponse restResponse = JsonUtils.fromJson(result, RestResponse.class);
-                        if(restResponse != null && restResponse.getCode() == 200){
-                            callback.onSuccess(new HttpResult(200, JsonUtils.toJson(restResponse.getData())));
-                            return ;
-                        }
-                    }
-                } catch (Exception e){
-                    Log.i(TAG, "e = {}" + e.getMessage());
-                }
-                callback.onFailure(new HttpResult(500, result));
-            }
-        });
     }
 
 
@@ -93,33 +61,7 @@ public class HttpRequests {
         Request request = buildPostRequest(url, params, headers);
 
         // 发起请求
-        client.newCall(request).enqueue(new Callback() {
-            // 处理响应并返回
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure(new HttpResult(500, ""));
-            }
-
-            // 处理响应并返回
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String result = response.body().string();
-                Log.i(TAG, "post statusCodeValue = " + response.code());
-                Log.i(TAG, "post body = " + result);
-                try {
-                    if(result != null){
-                        RestResponse restResponse = JsonUtils.fromJson(result, RestResponse.class);
-                        if(restResponse != null && restResponse.getCode() == 200){
-                            callback.onSuccess(new HttpResult(200, JsonUtils.toJson(restResponse.getData())));
-                            return ;
-                        }
-                    }
-                } catch (Exception e){
-                    Log.i(TAG, "e = {}" + e.getMessage());
-                }
-                callback.onFailure(new HttpResult(500, result));
-            }
-        });
+        client.newCall(request).enqueue(new DefaultHttpCallback(callback));
     }
 
 
@@ -178,7 +120,7 @@ public class HttpRequests {
         } else {
             serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + "/" + serverConfig.getServerPrefix();
         }
-        if(serverUrl.endsWith("/") && url.startsWith("/")){
+        if (serverUrl.endsWith("/") && url.startsWith("/")) {
             url = url.substring(1);
         }
         url = serverUrl + url;

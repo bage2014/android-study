@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -23,7 +22,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.domain.User;
+import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
+import com.bage.tutorials.utils.JsonUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -64,23 +65,24 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<HttpResult>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
+            public void onChanged(@Nullable HttpResult httpResult) {
+                if (httpResult == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
+                if (httpResult.getCode() == 200) {
+                    String data = httpResult.getData();
+                    User user = JsonUtils.fromJson(data, User.class);
+                    updateUiWithUser(user);
 
-                //Complete and destroy login activity once successful
-                finish();
+                    //Complete and destroy login activity once successful
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                } else {
+                    showLoginFailed(httpResult.getMsg());
+                }
             }
         });
 
@@ -139,12 +141,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(User model) {
-        String welcome = getString(R.string.welcome) + model.getUsername();
+        String welcome = model.getUsername();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
         userRepository.cacheUserToken(model);
     }
 
-    private void showLoginFailed(@StringRes Integer errorString) {
+    private void showLoginFailed(String errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

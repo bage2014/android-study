@@ -9,21 +9,40 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.component.SharedPreferencesHelper;
+import com.bage.tutorials.config.ServerConfig;
+import com.bage.tutorials.constant.AppConstant;
+import com.bage.tutorials.utils.AppConfigUtils;
+import com.bage.tutorials.utils.JsonUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        setContentView(R.layout.activity_settings);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.settings, new SettingsFragment())
+                .replace(R.id.settings_content, new SettingsFragment())
                 .commit();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        FloatingActionButton fab = findViewById(R.id.settings_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ServerConfig serverConfig = new ServerConfig();
+                serverConfig.setServerHost(sharedPreferencesHelper.get(AppConstant.serverConfigHostKey, ""));
+                AppConfigUtils.updateServerConfig(serverConfig);
+                System.out.println(JsonUtils.toJson(AppConfigUtils.getServerConfig()));
+            }
+        });
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
     }
 
     @Override
@@ -40,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.setting_preferences, rootKey);
         }
     }
 }

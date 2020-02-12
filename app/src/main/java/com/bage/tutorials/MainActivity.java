@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             User user = userRepository.getLoginedUser();
             if (Objects.nonNull(user)) {
                 // 已登录
+                System.out.println(user.getIcon());
                 userIcon.setImageURI(Uri.parse(user.getIcon()));
 
             }

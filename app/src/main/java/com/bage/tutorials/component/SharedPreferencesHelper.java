@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class SharedPreferencesHelper {
 
@@ -27,9 +29,12 @@ public class SharedPreferencesHelper {
             return false;
         }
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        pairs.forEach((key,value) -> {
-            editor.putString(key, value);
-        });
+        Set<Map.Entry<String, String>> entries = pairs.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String, String> next = iterator.next();
+            editor.putString(next.getKey(), next.getValue());
+        }
         return editor.commit();
     }
 

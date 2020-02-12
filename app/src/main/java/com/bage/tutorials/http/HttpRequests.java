@@ -171,7 +171,7 @@ public class HttpRequests {
     }
 
     private static String rewriteUrl(String url) {
-        ServerConfig serverConfig = AppConfigUtils.readServerConfig();
+        ServerConfig serverConfig = AppConfigUtils.getServerConfig();
         String serverUrl = "";
         if (Objects.nonNull(serverConfig.getServerPort())) {
             serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + ":" + serverConfig.getServerPort() + "/" + serverConfig.getServerPrefix();

@@ -12,15 +12,20 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.domain.User;
+import com.bage.tutorials.repository.UserRepository;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.Objects;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private static final int RESULT_PICK_IMAGE = 1;
     ImageView imageView;
+    private UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.profile_user_icon);
 
+        userRepository = new UserRepository(this);
+        User user = userRepository.getLoginedUser();
+        if (Objects.nonNull(user)) {
+            // 已登录
+            System.out.println(user.getIcon());
+            Picasso.with(this).load(Uri.parse(user.getIcon())).into(imageView);
+        }
     }
 
     @Override

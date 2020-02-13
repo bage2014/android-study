@@ -7,25 +7,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bage.tutorials.domain.User;
+import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -34,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private UserRepository userRepository;
     private CircleImageView userIcon;
+    private MainViewModel mainViewModel;
+    private TextView userName;
+    private TextView userMail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         if (navigationView.getHeaderCount() > 0) {
             View headerView = navigationView.getHeaderView(0);
             userIcon = headerView.findViewById(R.id.nav_menu_user_icon);
+            userName = headerView.findViewById(R.id.nav_menu_user_name);
+            userMail = headerView.findViewById(R.id.nav_menu_user_mail);
             userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -72,6 +82,24 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             });
+        }
+        userRepository = new UserRepository(this);
+
+        String jwt = userRepository.getLoginedUser();
+        if (Objects.nonNull(jwt) && jwt.length() > 0) {
+            mainViewModel = new MainViewModel();
+            mainViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
+                @Override
+                public void onChanged(HttpResult httpResult) {
+                    String data = httpResult.getData();
+                    User user = JsonUtils.fromJson(data, User.class);
+
+                    Picasso.with(MainActivity.this).load(Uri.parse(user.getIcon())).into(userIcon);
+                    userName.setText(user.getUsername());
+                    userMail.setText(user.getMail());
+                }
+            });
+            mainViewModel.queryProfile(jwt);
         }
 
     }
@@ -92,9 +120,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 return true;
-            case R.id.action_login:
+            case R.id.action_logout:
+                userRepository.clearUserToken();
                 i = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);
+                finish();
                 return true;
         }
         return false;

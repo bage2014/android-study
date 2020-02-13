@@ -1,6 +1,7 @@
 package com.bage.tutorials.ui.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,12 +21,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
+import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.JwtUtils;
+
+import java.util.Objects;
 
 import io.jsonwebtoken.Claims;
 
@@ -38,12 +43,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -77,15 +76,14 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.GONE);
                 if (httpResult.getCode() == 200) {
                     String jwt = httpResult.getData();
-                    updateUiWithUser(jwt);
+                    cacheUserToken(jwt);
 
-                    //Complete and destroy login activity once successful
-                    setResult(Activity.RESULT_OK);
-                    finish();
+                    gotoMain();
                 } else {
                     showLoginFailed(httpResult.getMsg());
                 }
             }
+
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
@@ -129,20 +127,20 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         userRepository = new UserRepository(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        String jwt = userRepository.getLoginedUser();
+        if(Objects.nonNull(jwt) && jwt.length() > 0){
+            gotoMain();
         }
     }
 
-    private void updateUiWithUser(String jwt) {
+    private void gotoMain() {
+        //Complete and destroy login activity once successful
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(i);
+        finish(); // 关闭当前
+    }
+
+    private void cacheUserToken(String jwt) {
         Claims claims = JwtUtils.decodeTokenClaims(jwt);
         Toast.makeText(getApplicationContext(), claims.getSubject(), Toast.LENGTH_LONG).show();
         userRepository.cacheUserToken(jwt);

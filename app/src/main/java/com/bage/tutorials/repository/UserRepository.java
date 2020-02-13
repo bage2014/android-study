@@ -20,4 +20,9 @@ public class UserRepository {
     public String getLoginedUser() {
         return sharedPreferencesHelper.get(AppConstant.userConfigTokenKey, "");
     }
+
+
+    public void clearUserToken() {
+        sharedPreferencesHelper.remove(AppConstant.userConfigTokenKey);
+    }
 }

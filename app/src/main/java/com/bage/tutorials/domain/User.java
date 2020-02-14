@@ -34,6 +34,10 @@ public class User {
      */
     private String icon;
     /**
+     * 个人签名
+     */
+    private String signature;
+    /**
      * 生日
      */
     private String birthday;
@@ -100,6 +104,14 @@ public class User {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     public String getBirthday() {

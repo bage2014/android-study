@@ -9,30 +9,308 @@
     tools:showIn="@layout/activity_profile">
 
 
+    <!--用户头像 start -->
     <com.bage.tutorials.view.CircleImageView
-        android:id="@+id/profile_user_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/profile_user_iconview"
+        android:layout_width="@dimen/user_icon_width"
+        android:layout_height="@dimen/user_icon_width"
+        android:layout_marginTop="@dimen/view_margin_middle"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@drawable/user_null"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/profile_user_icon_btn"
-        android:layout_width="match_parent"
+    <TextView
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_icon_edit_textview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_margin="4dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:text="@string/profile_icon_edit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Edit"
+        android:textSize="@dimen/text_size_icon"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_iconview"
+        app:layout_constraintRight_toLeftOf="@+id/profile_user_icon_edit_iconview"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_icon_edit_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginRight="@dimen/view_margin_middle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_icon_edit_textview"
+        app:layout_constraintTop_toTopOf="parent"
+        app:materialIcon="chevron_right"
+        app:materialIconColor="@color/icon_color_nav"
+        app:materialIconSize="@dimen/icon_width_middle" />
+    <!--用户头像 end -->
+
+    <!--用户名称 start -->
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_name_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginLeft="@dimen/view_margin_middle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_user_icon"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintLeft_toLeftOf="@+id/profile_user_name_textview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_iconview"
+        app:materialIcon="account"
+        app:materialIconColor="@color/icon_color_nav"
+        app:materialIconSize="@dimen/icon_width_middle" />
+
+    <TextView
+        android:text="陆瑞华"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_icon"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintLeft_toRightOf="@+id/profile_user_name_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_iconview" />
+
+    <TextView
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_name_edit_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:textSize="@dimen/text_size_icon"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_name_textview"
+        app:layout_constraintRight_toLeftOf="@+id/profile_user_name_edit_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_iconview">
+    </TextView>
+
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_name_edit_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginRight="@dimen/view_margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_name_edit_textview"
+        app:materialIcon="square_edit_outline"
+        app:materialIconColor="@color/icon_color_nav"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_iconview"
+        app:materialIconSize="@dimen/icon_width_middle" />
+    <!--用户名称 end -->
+
+
+    <!--用户手机号 start -->
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_phone_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/profile_user_phone_textview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_name_textview"
+        app:materialIcon="phone"
+        app:materialIconColor="@color/icon_color_nav"
+        app:materialIconSize="@dimen/icon_width_middle" />
+
+    <TextView
+        android:text="17512500150"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_phone_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_icon"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintLeft_toRightOf="@+id/profile_user_phone_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_name_textview" />
+
+    <TextView
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_phone_edit_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:textSize="@dimen/text_size_icon"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_phone_textview"
+        app:layout_constraintRight_toLeftOf="@+id/profile_user_phone_edit_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_name_textview">
+    </TextView>
+
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_phone_edit_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginRight="@dimen/view_margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_phone_edit_textview"
+        app:materialIcon="square_edit_outline"
+        app:materialIconColor="@color/icon_color_nav"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_name_textview"
+        app:materialIconSize="@dimen/icon_width_middle" />
+    <!--用户手机号 end -->
+
+
+    <!--用户用户性别 start -->
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_sex_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/profile_user_sex_textview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_phone_textview"
+        app:materialIcon="gender_male_female"
+        app:materialIconColor="@color/icon_color_nav"
+        app:materialIconSize="@dimen/icon_width_middle" />
+
+    <TextView
+        android:text="Male"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_sex_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_icon"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintLeft_toRightOf="@+id/profile_user_sex_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_phone_textview" />
+
+    <TextView
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_sex_edit_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:textSize="@dimen/text_size_icon"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_sex_textview"
+        app:layout_constraintRight_toLeftOf="@+id/profile_user_sex_edit_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_phone_textview">
+    </TextView>
+
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_sex_edit_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginRight="@dimen/view_margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_sex_edit_textview"
+        app:materialIcon="unfold_more_horizontal"
+        app:materialIconColor="@color/icon_color_nav"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_phone_textview"
+        app:materialIconSize="@dimen/icon_width_middle" />
+    <!--用户用户性别 end -->
+
+
+    <!--用户出生日期 start -->
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_birthday_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/profile_user_birthday_textview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_sex_textview"
+        app:materialIcon="calendar"
+        app:materialIconColor="@color/icon_color_nav"
+        app:materialIconSize="@dimen/icon_width_middle" />
+
+    <TextView
+        android:text="1993-02-04"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_birthday_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_icon"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintLeft_toRightOf="@+id/profile_user_birthday_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_sex_textview" />
+
+    <TextView
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_birthday_edit_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:visibility="gone"
+        android:textSize="@dimen/text_size_icon"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_birthday_textview"
+        app:layout_constraintRight_toLeftOf="@+id/profile_user_birthday_edit_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_sex_textview">
+    </TextView>
+
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_birthday_edit_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginRight="@dimen/view_margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_birthday_edit_textview"
+        app:materialIcon="calendar_edit"
+        app:materialIconColor="@color/icon_color_nav"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_sex_textview"
+        app:materialIconSize="@dimen/icon_width_middle" />
+    <!--用户出生日期 end -->
+
+
+    <!--用户个性签名 start -->
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_signature_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/profile_user_signature_textview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_birthday_textview"
+        app:materialIcon="note_text"
+        app:materialIconColor="@color/icon_color_nav"
+        app:materialIconSize="@dimen/icon_width_middle" />
+
+    <TextView
+        android:text="一蓑烟雨任平生"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_signature_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_icon"
+        android:layout_marginLeft="@dimen/view_margin_middle"
+        app:layout_constraintLeft_toRightOf="@+id/profile_user_signature_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_birthday_textview" />
+
+    <TextView
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:id="@+id/profile_user_signature_edit_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:visibility="gone"
+        android:textSize="@dimen/text_size_icon"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_signature_textview"
+        app:layout_constraintRight_toLeftOf="@+id/profile_user_signature_edit_iconview"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_birthday_textview">
+    </TextView>
+
+    <com.bage.tutorials.view.IconView
+        android:id="@+id/profile_user_signature_edit_iconview"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_width_middle"
+        android:layout_marginTop="@dimen/view_margin_big"
+        android:layout_marginRight="@dimen/view_margin_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/profile_user_signature_edit_textview"
+        app:materialIcon="square_edit_outline"
+        app:materialIconColor="@color/icon_color_nav"
+        app:layout_constraintTop_toBottomOf="@+id/profile_user_birthday_textview"
+        app:materialIconSize="@dimen/icon_width_middle" />
+    <!--用户个性签名 end -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

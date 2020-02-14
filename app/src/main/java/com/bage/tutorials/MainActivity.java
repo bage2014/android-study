@@ -91,12 +91,14 @@ public class MainActivity extends AppCompatActivity {
             mainViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
                 @Override
                 public void onChanged(HttpResult httpResult) {
-                    String data = httpResult.getData();
-                    User user = JsonUtils.fromJson(data, User.class);
+                    if(httpResult.isOk()){
+                        String data = httpResult.getData();
+                        User user = JsonUtils.fromJson(data, User.class);
 
-                    Picasso.with(MainActivity.this).load(Uri.parse(user.getIcon())).into(userIcon);
-                    userName.setText(user.getUsername());
-                    userMail.setText(user.getMail());
+                        Picasso.with(MainActivity.this).load(Uri.parse(user.getIcon())).into(userIcon);
+                        userName.setText(user.getUsername());
+                        userMail.setText(user.getMail());
+                    }
                 }
             });
             mainViewModel.queryProfile(jwt);

@@ -1,6 +1,7 @@
 package com.bage.tutorials.ui.profile;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.component.DialogHelper;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
@@ -36,6 +38,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView birthdayTextView;
     private TextView signatureTextView;
 
+    private DialogHelper dialogHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,8 @@ public class ProfileActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        dialogHelper = new DialogHelper(ProfileActivity.this);
+
         userIconView = findViewById(R.id.profile_user_iconview);
         usernameTextView = findViewById(R.id.profile_user_name_textview);
         phoneTextView = findViewById(R.id.profile_user_phone_textview);
@@ -52,10 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         birthdayTextView = findViewById(R.id.profile_user_birthday_textview);
         signatureTextView = findViewById(R.id.profile_user_signature_textview);
 
-        // 更换头像
-        findViewById(R.id.profile_user_icon_edit_iconview).setOnClickListener(onClickListener);
-        userIconView.setOnClickListener(onClickListener);
-
+        // 初始化
         userRepository = new UserRepository(this);
         String jwt = userRepository.getLoginedUser();
         if (Objects.nonNull(jwt) && jwt.length() > 0) {
@@ -63,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
             profileViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
                 @Override
                 public void onChanged(HttpResult httpResult) {
-                    if(httpResult.isOk()){
+                    if (httpResult.isOk()) {
                         String data = httpResult.getData();
                         User user = JsonUtils.fromJson(data, User.class);
                         // 设置
@@ -79,6 +82,12 @@ public class ProfileActivity extends AppCompatActivity {
             });
             profileViewModel.queryProfile(jwt);
         }
+
+        // 更换头像
+        findViewById(R.id.profile_user_icon_edit_iconview).setOnClickListener(userIconClickListener);
+        userIconView.setOnClickListener(userIconClickListener);
+
+        findViewById(R.id.profile_user_name_edit_iconview).setOnClickListener(userNameClickListener);
     }
 
     @Override
@@ -120,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     // 更换头像
-    View.OnClickListener onClickListener = new View.OnClickListener() {
+    View.OnClickListener userIconClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent galleryIntent = new Intent(
@@ -131,6 +140,19 @@ public class ProfileActivity extends AppCompatActivity {
 //                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{galleryIntent});
 //                startActivityForResult(chooserIntent, RESULT_PICK_IMAGE);
             startActivityForResult(galleryIntent, RESULT_PICK_IMAGE);
+        }
+    };
+
+    // 更新名称
+    View.OnClickListener userNameClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            dialogHelper.showBasicDialog("Title1", "conten1", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            },null);
         }
     };
 }

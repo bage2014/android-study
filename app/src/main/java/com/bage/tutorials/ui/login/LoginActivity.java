@@ -1,12 +1,10 @@
 package com.bage.tutorials.ui.login;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -16,18 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
-import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
-import com.bage.tutorials.ui.settting.SettingsActivity;
-import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.JwtUtils;
 
 import java.util.Objects;
@@ -127,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         userRepository = new UserRepository(this);
-        String jwt = userRepository.getLoginedUser();
+        String jwt = userRepository.getJwt();
         if(Objects.nonNull(jwt) && jwt.length() > 0){
             gotoMain();
         }
@@ -143,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
     private void cacheUserToken(String jwt) {
         Claims claims = JwtUtils.decodeTokenClaims(jwt);
         Toast.makeText(getApplicationContext(), claims.getSubject(), Toast.LENGTH_LONG).show();
-        userRepository.cacheUserToken(jwt);
+        userRepository.cacheUserJwt(jwt);
     }
 
     private void showLoginFailed(String errorString) {

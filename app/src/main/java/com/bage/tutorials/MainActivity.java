@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bage.tutorials.cache.UserCache;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
@@ -27,6 +28,7 @@ import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.view.CircleImageView;
+import com.bage.tutorials.viewmodel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private UserRepository userRepository;
     private CircleImageView userIcon;
-    private MainViewModel mainViewModel;
+    private UserViewModel mainViewModel;
     private TextView userName;
     private TextView userMail;
 
@@ -85,15 +87,16 @@ public class MainActivity extends AppCompatActivity {
         }
         userRepository = new UserRepository(this);
 
-        String jwt = userRepository.getLoginedUser();
+        String jwt = userRepository.getJwt();
         if (Objects.nonNull(jwt) && jwt.length() > 0) {
-            mainViewModel = new MainViewModel();
+            mainViewModel = new UserViewModel();
             mainViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
                 @Override
                 public void onChanged(HttpResult httpResult) {
-                    if(httpResult.isOk()){
+                    if (httpResult.isOk()) {
                         String data = httpResult.getData();
                         User user = JsonUtils.fromJson(data, User.class);
+                        UserCache.cacheUser(user);
 
                         Picasso.with(MainActivity.this).load(Uri.parse(user.getIcon())).into(userIcon);
                         userName.setText(user.getUsername());
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            mainViewModel.queryProfile(jwt);
+            mainViewModel.queryProfile();
         }
 
     }
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 return true;
             case R.id.action_logout:
-                userRepository.clearUserToken();
+                userRepository.unPersistJwt();
                 i = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();

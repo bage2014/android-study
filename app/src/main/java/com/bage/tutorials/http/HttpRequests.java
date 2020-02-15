@@ -4,9 +4,11 @@ package com.bage.tutorials.http;
 import android.util.Log;
 
 import com.bage.tutorials.adapter.okhttp.builder.OkHttpClientBuilder;
+import com.bage.tutorials.cache.UserCache;
 import com.bage.tutorials.config.ServerConfig;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -79,6 +81,8 @@ public class HttpRequests {
 
         // header
         Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.addHeader("Authorization", "Bearer " + UserCache.getJwt());
+
         if (Objects.nonNull(headers)) {
             for (HttpHeader header : headers) {
                 requestBuilder.addHeader(header.getKey(), header.getValue());
@@ -102,6 +106,8 @@ public class HttpRequests {
 
         // header
         Request.Builder requestBuilder = new Request.Builder();
+        requestBuilder.addHeader("Authorization", "Bearer " + UserCache.getJwt());
+
         if (Objects.nonNull(headers)) {
             for (HttpHeader header : headers) {
                 requestBuilder.addHeader(header.getKey(), header.getValue());
@@ -115,7 +121,7 @@ public class HttpRequests {
     private static String rewriteUrl(String url) {
         ServerConfig serverConfig = AppConfigUtils.getServerConfig();
         String serverUrl = "";
-        if (Objects.nonNull(serverConfig.getServerPort())) {
+        if (StringUtils.isNotNullAndNotEmpty(serverConfig.getServerPort())) {
             serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + ":" + serverConfig.getServerPort() + "/" + serverConfig.getServerPrefix();
         } else {
             serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + "/" + serverConfig.getServerPrefix();

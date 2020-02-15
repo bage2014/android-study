@@ -44,5 +44,9 @@
     <string name="choose_an_option">Choose an option</string>
     <string name="profile_icon_edit">Edit</string>
 
+    <!--dialog-->
+    <string name="dialog_edittext_hint">Input</string>
+    <string name="dialog_edittext_helpertext">Input</string>
+
 
 </resources>

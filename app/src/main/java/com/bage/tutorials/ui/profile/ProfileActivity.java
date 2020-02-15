@@ -11,16 +11,19 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.cache.UserCache;
 import com.bage.tutorials.component.DialogHelper;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.view.CircleImageView;
+import com.bage.tutorials.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -31,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int RESULT_PICK_IMAGE = 1;
     CircleImageView userIconView;
     private UserRepository userRepository;
-    private ProfileViewModel profileViewModel;
+    private UserViewModel profileViewModel;
     private TextView usernameTextView;
     private TextView phoneTextView;
     private TextView sexTextView;
@@ -60,34 +63,36 @@ public class ProfileActivity extends AppCompatActivity {
 
         // 初始化
         userRepository = new UserRepository(this);
-        String jwt = userRepository.getLoginedUser();
-        if (Objects.nonNull(jwt) && jwt.length() > 0) {
-            profileViewModel = new ProfileViewModel();
-            profileViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
-                @Override
-                public void onChanged(HttpResult httpResult) {
-                    if (httpResult.isOk()) {
-                        String data = httpResult.getData();
-                        User user = JsonUtils.fromJson(data, User.class);
-                        // 设置
-                        usernameTextView.setText(user.getUsername());
-                        phoneTextView.setText(user.getPhone());
-                        sexTextView.setText(user.getSex());
-                        birthdayTextView.setText(user.getBirthday());
-                        signatureTextView.setText(user.getSignature());
-                        // 图片
-                        Picasso.with(ProfileActivity.this).load(Uri.parse(user.getIcon())).into(userIconView);
-                    }
+        profileViewModel = new UserViewModel();
+        profileViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
+            @Override
+            public void onChanged(HttpResult httpResult) {
+                if (httpResult.isOk()) {
+                    String data = httpResult.getData();
+                    User user = JsonUtils.fromJson(data, User.class);
+                    UserCache.cacheUser(user);
+                    // 设置
+                    usernameTextView.setText(user.getUsername());
+                    phoneTextView.setText(user.getPhone());
+                    sexTextView.setText(user.getSex());
+                    birthdayTextView.setText(user.getBirthday());
+                    signatureTextView.setText(user.getSignature());
+                    // 图片
+                    Picasso.with(ProfileActivity.this).load(Uri.parse(user.getIcon())).into(userIconView);
                 }
-            });
-            profileViewModel.queryProfile(jwt);
-        }
+            }
+        });
+        profileViewModel.queryProfile();
 
         // 更换头像
         findViewById(R.id.profile_user_icon_edit_iconview).setOnClickListener(userIconClickListener);
         userIconView.setOnClickListener(userIconClickListener);
 
         findViewById(R.id.profile_user_name_edit_iconview).setOnClickListener(userNameClickListener);
+        findViewById(R.id.profile_user_sex_edit_iconview).setOnClickListener(userSexClickListener);
+        findViewById(R.id.profile_user_birthday_edit_iconview).setOnClickListener(userBirthdayClickListener);
+        findViewById(R.id.profile_user_signature_edit_iconview).setOnClickListener(userSignatureClickListener);
+
     }
 
     @Override
@@ -122,7 +127,6 @@ public class ProfileActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri croppedImage = result.getUri();
                 Picasso.with(this).load(croppedImage).into(userIconView);
-                System.out.println("croppedImage::::::::::::::::" + croppedImage.toString());
 //                getUrlFromCloudinary(croppedImage);
             }
         }
@@ -147,12 +151,64 @@ public class ProfileActivity extends AppCompatActivity {
     View.OnClickListener userNameClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            dialogHelper.showBasicDialog("Title1", "conten1", new DialogInterface.OnClickListener() {
+
+            dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                    TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
+                    String userName = input.getText().toString();
+                    User user = UserCache.getUser();
+                    user.setUsername(userName);
+                    profileViewModel.updateUser(user);
                 }
-            },null);
+            }, null);
         }
     };
+
+    // 更新性别
+    View.OnClickListener userSexClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            User user = UserCache.getUser();
+            user.setSex(Objects.equals(user.getSex(), "Male") ? "Famale" : "Male");
+            profileViewModel.updateUser(user);
+        }
+    };
+
+    // 更新出生日期
+    View.OnClickListener userBirthdayClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+//                    TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
+//                    String userName = input.getText().toString();
+//                    User user = UserCache.getUser();
+//                    user.setSex(Objects.equals(user.getSex(),"Male") ? "Famale" : "Male");
+//                    profileViewModel.updateUser(user);
+                }
+            }, null);
+        }
+    };
+
+    // 更新个性签名
+    View.OnClickListener userSignatureClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
+                    String signature = input.getText().toString();
+                    User user = UserCache.getUser();
+                    user.setSignature(signature);
+                    profileViewModel.updateUser(user);
+                }
+            }, null);
+        }
+    };
+
 }

@@ -15,6 +15,7 @@ public class DialogHelper {
     private Context context;
     private String positiveText = "OK";
     private String negativeText = "CANCEL";
+    private int layoutResId = android.R.drawable.ic_menu_info_details;
 
     public DialogHelper(Context context) {
         this.context = context;
@@ -32,13 +33,23 @@ public class DialogHelper {
     }
 
 
-    public void showCustomDialog(View customView, String title, @DrawableRes int iconId, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
+    public void showCustomDialog(int layoutResId, String title, @DrawableRes int iconId, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
         MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(context)
                 .setTitle(title)
-                .setView(customView)
+                .setView(layoutResId)
                 .setPositiveButton(positiveText, positiveListener)
                 .setNegativeButton(negativeText, negativeListener)
                 .setIcon(iconId);
+        materialAlertDialogBuilder.show();
+    }
+
+    public void showCustomDialog(int layoutResId, String title, DialogInterface.OnClickListener positiveListener, DialogInterface.OnClickListener negativeListener) {
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(context)
+                .setTitle(title)
+                .setView(layoutResId)
+                .setPositiveButton(positiveText, positiveListener)
+                .setNegativeButton(negativeText, negativeListener)
+                .setIcon(this.layoutResId);
         materialAlertDialogBuilder.show();
     }
 }

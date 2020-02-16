@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="110dp"
             android:layout_marginTop="24dp"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:id="@+id/nav_menu_user_name"
@@ -43,21 +43,19 @@
             android:id="@+id/leftmenu_iv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="62dp"
             app:layout_constraintLeft_toLeftOf="@id/nav_menu_user_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:materialIcon="map_marker"
             app:materialIconColor="@color/icon_color_nav"
-            app:materialIconSize="@dimen/icon_width_middle" />
-
+            app:materialIconSize="@dimen/icon_width_small" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="56dp"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:layout_marginLeft="130dp"
+            android:layout_marginTop="60dp"
             android:text="@string/nav_header_location"
             app:layout_constraintLeft_toLeftOf="@id/nav_menu_user_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +63,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/nav_menu_user_aboutme"
+        android:id="@+id/nav_menu_user_signature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -158,7 +159,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+            AlertDialog title = dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
@@ -168,6 +169,9 @@ public class ProfileActivity extends AppCompatActivity {
                     profileViewModel.updateUser(user);
                 }
             }, null);
+            EditText text = title.findViewById(android.R.id.text1);
+            text.setText(UserCache.getUser().getUsername());
+            text.setSelection(text.getText().toString().length());
         }
     };
 
@@ -211,7 +215,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+            AlertDialog title = dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
@@ -221,6 +225,9 @@ public class ProfileActivity extends AppCompatActivity {
                     profileViewModel.updateUser(user);
                 }
             }, null);
+            EditText text = title.findViewById(android.R.id.text1);
+            text.setText(UserCache.getUser().getSignature());
+            text.setSelection(text.getText().toString().length());
         }
     };
 

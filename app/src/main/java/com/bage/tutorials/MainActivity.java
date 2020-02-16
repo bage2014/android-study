@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private UserViewModel mainViewModel;
     private TextView userName;
     private TextView userMail;
+    private TextView userSignature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             userIcon = headerView.findViewById(R.id.nav_menu_user_icon);
             userName = headerView.findViewById(R.id.nav_menu_user_name);
             userMail = headerView.findViewById(R.id.nav_menu_user_mail);
+            userSignature = headerView.findViewById(R.id.nav_menu_user_signature);
             userIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -95,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
                     if (httpResult.isOk()) {
                         String data = httpResult.getData();
                         User user = JsonUtils.fromJson(data, User.class);
-
+                        // 缓存
                         UserCache.cacheUser(user);
-
+                        // 初始化
                         initUserInfo(user);
                     }
                 }
@@ -108,9 +110,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUserInfo(User user) {
+        // 头像
         PicassoUtils.loadImage(MainActivity.this, user.getIcon(), userIcon);
         userName.setText(user.getUsername());
         userMail.setText(user.getMail());
+        userSignature.setText(user.getSignature());
     }
 
     @Override

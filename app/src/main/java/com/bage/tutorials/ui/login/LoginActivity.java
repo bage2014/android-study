@@ -23,6 +23,7 @@ import com.bage.tutorials.R;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.utils.JwtUtils;
+import com.bage.tutorials.utils.StringUtils;
 
 import java.util.Objects;
 
@@ -71,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (httpResult.getCode() == 200) {
                     String jwt = httpResult.getData();
                     cacheUserToken(jwt);
-
                     gotoMain();
                 } else {
                     showLoginFailed(httpResult.getMsg());
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
 
         userRepository = new UserRepository(this);
         String jwt = userRepository.getJwt();
-        if(Objects.nonNull(jwt) && jwt.length() > 0){
+        if(StringUtils.isNotNullAndNotEmpty(jwt)){
             gotoMain();
         }
     }

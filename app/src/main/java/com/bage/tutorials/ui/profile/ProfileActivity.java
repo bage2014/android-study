@@ -17,23 +17,24 @@ import androidx.lifecycle.Observer;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.cache.UserCache;
+import com.bage.tutorials.component.datepicker.DatePickerCallbackListener;
+import com.bage.tutorials.component.datepicker.DatePickerHelper;
 import com.bage.tutorials.component.DialogHelper;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
-import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private static final int RESULT_PICK_IMAGE = 1;
     CircleImageView userIconView;
-    private UserRepository userRepository;
     private UserViewModel profileViewModel;
     private TextView usernameTextView;
     private TextView phoneTextView;
@@ -41,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView birthdayTextView;
     private TextView signatureTextView;
 
+    private DatePickerHelper datePickerHelper;
     private DialogHelper dialogHelper;
 
     @Override
@@ -53,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         dialogHelper = new DialogHelper(ProfileActivity.this);
+        datePickerHelper = new DatePickerHelper(ProfileActivity.this);
 
         userIconView = findViewById(R.id.profile_user_iconview);
         usernameTextView = findViewById(R.id.profile_user_name_textview);
@@ -62,7 +65,6 @@ public class ProfileActivity extends AppCompatActivity {
         signatureTextView = findViewById(R.id.profile_user_signature_textview);
 
         // 初始化
-        userRepository = new UserRepository(this);
         profileViewModel = new UserViewModel();
         profileViewModel.getHttpResult().observe(this, new Observer<HttpResult>() {
             @Override
@@ -109,7 +111,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null)
@@ -179,17 +180,24 @@ public class ProfileActivity extends AppCompatActivity {
     View.OnClickListener userBirthdayClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-            dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+            datePickerHelper.show(getSupportFragmentManager(), new DatePickerCallbackListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-//                    TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
-//                    String userName = input.getText().toString();
-//                    User user = UserCache.getUser();
-//                    user.setSex(Objects.equals(user.getSex(),"Male") ? "Famale" : "Male");
-//                    profileViewModel.updateUser(user);
+                public void onPositiveButtonClick(Date date) {
+                    User user = UserCache.getUser();
+                    user.setBirthday(date.toString());
+                    profileViewModel.updateUser(user);
                 }
-            }, null);
+
+                @Override
+                public void onNegativeButtonClick() {
+
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
         }
     };
 

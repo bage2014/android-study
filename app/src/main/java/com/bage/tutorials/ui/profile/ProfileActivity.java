@@ -17,17 +17,22 @@ import androidx.lifecycle.Observer;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.cache.UserCache;
+import com.bage.tutorials.component.DialogHelper;
 import com.bage.tutorials.component.datepicker.DatePickerCallbackListener;
 import com.bage.tutorials.component.datepicker.DatePickerHelper;
-import com.bage.tutorials.component.DialogHelper;
+import com.bage.tutorials.domain.DateFormat;
 import com.bage.tutorials.domain.User;
+import com.bage.tutorials.http.HttpCallback;
+import com.bage.tutorials.http.HttpRequests;
 import com.bage.tutorials.http.HttpResult;
+import com.bage.tutorials.utils.DateUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.File;
 import java.util.Date;
 import java.util.Objects;
 
@@ -110,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null)
@@ -128,7 +133,18 @@ public class ProfileActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri croppedImage = result.getUri();
                 Picasso.with(this).load(croppedImage).into(userIconView);
-//                getUrlFromCloudinary(croppedImage);
+
+                HttpRequests.upload("/user/upload", new File(croppedImage.getPath()), "file","bage.jpg", null, null, new HttpCallback() {
+                    @Override
+                    public void onFailure(HttpResult result) {
+                        System.out.println("onFailure:::" + result);
+                    }
+
+                    @Override
+                    public void onSuccess(HttpResult result) {
+                        System.out.println("onSuccess:::" + result);
+                    }
+                });
             }
         }
     }
@@ -184,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onPositiveButtonClick(Date date) {
                     User user = UserCache.getUser();
-                    user.setBirthday(date.toString());
+                    user.setBirthday(DateUtils.format(date, DateFormat.YYYY_MM_DD));
                     profileViewModel.updateUser(user);
                 }
 

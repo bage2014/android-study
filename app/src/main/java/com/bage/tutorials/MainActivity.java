@@ -2,7 +2,6 @@ package com.bage.tutorials;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,12 +26,12 @@ import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -96,17 +95,22 @@ public class MainActivity extends AppCompatActivity {
                     if (httpResult.isOk()) {
                         String data = httpResult.getData();
                         User user = JsonUtils.fromJson(data, User.class);
+
                         UserCache.cacheUser(user);
 
-                        Picasso.with(MainActivity.this).load(Uri.parse(user.getIcon())).into(userIcon);
-                        userName.setText(user.getUsername());
-                        userMail.setText(user.getMail());
+                        initUserInfo(user);
                     }
                 }
             });
             mainViewModel.queryProfile();
         }
 
+    }
+
+    private void initUserInfo(User user) {
+        PicassoUtils.loadImage(MainActivity.this, user.getIcon(), userIcon);
+        userName.setText(user.getUsername());
+        userMail.setText(user.getMail());
     }
 
     @Override
@@ -135,12 +139,21 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 有可能编辑了用户信息，需要重新加载
+        User user = UserCache.getUser();
+        if(user != null){
+            initUserInfo(user);
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (Activity.RESULT_OK == resultCode) {
-
-        }
     }
 
     @Override

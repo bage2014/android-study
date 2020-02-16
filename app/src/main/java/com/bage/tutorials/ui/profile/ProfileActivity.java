@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
 import com.bage.tutorials.cache.UserCache;
 import com.bage.tutorials.component.DialogHelper;
@@ -27,6 +28,7 @@ import com.bage.tutorials.http.HttpRequests;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.DateUtils;
 import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
 import com.squareup.picasso.Picasso;
@@ -85,7 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
                     birthdayTextView.setText(user.getBirthday());
                     signatureTextView.setText(user.getSignature());
                     // 图片
-                    Picasso.with(ProfileActivity.this).load(Uri.parse(user.getIcon())).into(userIconView);
+                    PicassoUtils.loadImage(ProfileActivity.this,user.getIcon(),userIconView);
                 }
             }
         });
@@ -121,30 +123,17 @@ public class ProfileActivity extends AppCompatActivity {
         if (data == null)
             return;
 
-        //After user has picked the image
+        // 新选择了图片
         if (requestCode == RESULT_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
-            //startCropIntent(selectedImage);
             CropImage.activity(selectedImage).start(this);
         }
-        //After user has cropped the image
+        // 完成对图片的裁剪
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri croppedImage = result.getUri();
-                Picasso.with(this).load(croppedImage).into(userIconView);
-
-                HttpRequests.upload("/user/upload", new File(croppedImage.getPath()), "file","bage.jpg", null, null, new HttpCallback() {
-                    @Override
-                    public void onFailure(HttpResult result) {
-                        System.out.println("onFailure:::" + result);
-                    }
-
-                    @Override
-                    public void onSuccess(HttpResult result) {
-                        System.out.println("onSuccess:::" + result);
-                    }
-                });
+                profileViewModel.updateUserIcon(new File(croppedImage.getPath()));
             }
         }
     }

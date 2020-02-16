@@ -11,6 +11,7 @@ import com.bage.tutorials.http.HttpRequests;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.JsonUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,19 @@ public class UserViewModel extends ViewModel {
         List<HttpParam> params = new ArrayList<>();
         params.add(new HttpParam("user", JsonUtils.toJson(user)));
         HttpRequests.post("/user/update", params, null, new HttpCallback() {
+            @Override
+            public void onFailure(HttpResult result) {
+                httpResult.postValue(result);
+            }
+
+            @Override
+            public void onSuccess(HttpResult result) {
+                httpResult.postValue(result);
+            }
+        });
+    }
+    public void updateUserIcon(File file) {
+        HttpRequests.upload("/user/upload", file, "file","bage.jpg", null, null, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 httpResult.postValue(result);

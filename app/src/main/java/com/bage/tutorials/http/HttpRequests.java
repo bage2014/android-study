@@ -9,6 +9,7 @@ import com.bage.tutorials.config.ServerConfig;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.StringUtils;
+import com.bage.tutorials.utils.UrlUtils;
 
 import java.io.File;
 import java.util.List;
@@ -86,7 +87,7 @@ public class HttpRequests {
     }
 
     private static Request buildUploadRequest(String url, File file, String fileParamKey,String fileName, List<HttpParam> params, List<HttpHeader> headers) {
-        url = rewriteUrl(url);
+        url = UrlUtils.rewriteUrl(url);
 
         // param
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
@@ -123,7 +124,7 @@ public class HttpRequests {
     }
 
     private static Request buildGetRequest(String url, List<HttpParam> params, List<HttpHeader> headers) {
-        url = rewriteUrl(url);
+        url = UrlUtils.rewriteUrl(url);
 
         // param
         HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
@@ -149,7 +150,7 @@ public class HttpRequests {
     }
 
     private static Request buildPostRequest(String url, List<HttpParam> params, List<HttpHeader> headers) {
-        url = rewriteUrl(url);
+        url = UrlUtils.rewriteUrl(url);
 
         // param
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
@@ -171,22 +172,6 @@ public class HttpRequests {
 
         // 返回
         return requestBuilder.url(url).post(formBodyBuilder.build()).build();
-    }
-
-    private static String rewriteUrl(String url) {
-        ServerConfig serverConfig = AppConfigUtils.getServerConfig();
-        String serverUrl = "";
-        if (StringUtils.isNotNullAndNotEmpty(serverConfig.getServerPort())) {
-            serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + ":" + serverConfig.getServerPort() + "/" + serverConfig.getServerPrefix();
-        } else {
-            serverUrl = serverConfig.getServerProtocol() + "://" + serverConfig.getServerHost() + "/" + serverConfig.getServerPrefix();
-        }
-        if (serverUrl.endsWith("/") && url.startsWith("/")) {
-            url = url.substring(1);
-        }
-        url = serverUrl + url;
-
-        return url;
     }
 
 }

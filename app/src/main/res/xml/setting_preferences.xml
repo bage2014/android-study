@@ -19,6 +19,11 @@
     <PreferenceCategory app:title="@string/settings_server">
 
         <EditTextPreference
+            app:key="serverConfigProtocolKey"
+            app:title="@string/settings_server_protocol"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
             app:key="serverConfigHostKey"
             app:title="@string/settings_server_host"
             app:useSimpleSummaryProvider="true" />

@@ -6,6 +6,7 @@ public class AppConstant {
 
 
     public static final String serverConfigHostKey = "serverConfigHostKey";
+    public static final String serverConfigProtocolKey = "serverConfigProtocolKey";
 
 
     public static final String cacheKeyUserJwt = "cacheKeyUserJwt";

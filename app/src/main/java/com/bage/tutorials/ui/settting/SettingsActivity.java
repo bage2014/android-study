@@ -39,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ServerConfig serverConfig = new ServerConfig();
                 serverConfig.setServerHost(sharedPreferencesHelper.get(AppConstant.serverConfigHostKey, ""));
+                serverConfig.setServerProtocol(sharedPreferencesHelper.get(AppConstant.serverConfigProtocolKey, ""));
                 AppConfigUtils.updateServerConfig(serverConfig);
                 Snackbar.make(view, JsonUtils.toJson(AppConfigUtils.getServerConfig()), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -22,6 +24,7 @@ import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
+import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.JwtUtils;
 import com.bage.tutorials.utils.StringUtils;
 
@@ -122,9 +125,30 @@ public class LoginActivity extends AppCompatActivity {
 
         userRepository = new UserRepository(this);
         String jwt = userRepository.getJwt();
-        if(StringUtils.isNotNullAndNotEmpty(jwt)){
+        if (StringUtils.isNotNullAndNotEmpty(jwt)) {
             gotoMain();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.login_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.login_menu_settings:
+                Intent i = new Intent(LoginActivity.this, SettingsActivity.class);
+                startActivity(i);
+                return true;
+        }
+        return false;
     }
 
     private void gotoMain() {

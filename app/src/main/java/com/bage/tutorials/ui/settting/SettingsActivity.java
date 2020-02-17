@@ -15,6 +15,7 @@ import com.bage.tutorials.constant.AppConstant;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -39,7 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
                 ServerConfig serverConfig = new ServerConfig();
                 serverConfig.setServerHost(sharedPreferencesHelper.get(AppConstant.serverConfigHostKey, ""));
                 AppConfigUtils.updateServerConfig(serverConfig);
-                System.out.println(JsonUtils.toJson(AppConfigUtils.getServerConfig()));
+                Snackbar.make(view, JsonUtils.toJson(AppConfigUtils.getServerConfig()), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
         sharedPreferencesHelper = new SharedPreferencesHelper(this);

@@ -29,14 +29,14 @@ public class HttpRequests {
     private static String TAG = "HttpRequests";
 
 
-    public static void upload(String url, File file,String fileParamKey,  String fileName,List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
+    public static void upload(String url, File file, String fileParamKey, String fileName, List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
         Log.i(TAG, "upload url = {}" + url);
         Log.i(TAG, "upload headers = {}" + JsonUtils.toJson(headers));
         Log.i(TAG, "upload params = {}" + JsonUtils.toJson(params));
 
         // 构建请求参数
         OkHttpClient client = new OkHttpClientBuilder().build();
-        Request request = buildUploadRequest(url, file, fileParamKey,fileName, params, headers);
+        Request request = buildUploadRequest(url, file, fileParamKey, fileName, params, headers);
 
         // 发起请求
         client.newCall(request).enqueue(new DefaultHttpCallback(callback));
@@ -86,7 +86,7 @@ public class HttpRequests {
         client.newCall(request).enqueue(new DefaultHttpCallback(callback));
     }
 
-    private static Request buildUploadRequest(String url, File file, String fileParamKey,String fileName, List<HttpParam> params, List<HttpHeader> headers) {
+    private static Request buildUploadRequest(String url, File file, String fileParamKey, String fileName, List<HttpParam> params, List<HttpHeader> headers) {
         url = UrlUtils.rewriteUrl(url);
 
         // param

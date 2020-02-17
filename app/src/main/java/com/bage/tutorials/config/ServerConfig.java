@@ -3,7 +3,8 @@ package com.bage.tutorials.config;
 public class ServerConfig {
 
     private String serverProtocol = "http";
-    private String serverHost = "10.0.3.2";
+//    private String serverHost = "10.0.3.2";
+    private String serverHost = "101.132.119.250";
     private String serverPort = "8080";
     private String serverPrefix = "";
 

@@ -38,11 +38,13 @@ public class LoginViewModel extends ViewModel {
         HttpRequests.post("/user/login", params, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
+                System.out.println("onFailure result = " + result);
                 loginResult.postValue(result);
             }
 
             @Override
             public void onSuccess(HttpResult result) {
+                System.out.println("onSuccess result = " + result);
                 loginResult.postValue(result);
             }
         });

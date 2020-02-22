@@ -29,23 +29,6 @@ public class HttpRequests {
 
     private static String TAG = "HttpRequests";
 
-    public static void main(String[] args) {
-        List<HttpParam> params = new ArrayList<>();
-        params.add(new HttpParam("account", "bage"));
-        params.add(new HttpParam("password", "1234"));
-        HttpRequests.post("/user/login", params, new HttpCallback() {
-            @Override
-            public void onFailure(HttpResult result) {
-                System.out.println("onFailure:" + result);
-            }
-
-            @Override
-            public void onSuccess(HttpResult result) {
-                System.out.println("onSuccess:" + result);
-            }
-        });
-    }
-
     public static void upload(String url, File file, String fileParamKey, String fileName, List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
         Log.i(TAG, "upload url = {}" + url);
         Log.i(TAG, "upload headers = {}" + JsonUtils.toJson(headers));

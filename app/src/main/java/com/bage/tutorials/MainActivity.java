@@ -25,6 +25,7 @@ import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.bage.tutorials.utils.ContextUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.view.CircleImageView;
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
             mainViewModel.queryProfile();
         }
 
+        // todo 换成背景线程操作
+        ContextUtils.initPicassoDownloader(MainActivity.this);
     }
 
     private void initUserInfo(User user) {

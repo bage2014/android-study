@@ -25,7 +25,7 @@ public class DefaultHttpCallback implements Callback {
     // 处理响应并返回
     @Override
     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        e.printStackTrace();
+        Log.e(TAG, "e = " + e.getMessage());
         callback.onFailure(new HttpResultBuilder().failure().setCode(500).setMsg("timeout").build());
     }
 
@@ -48,8 +48,7 @@ public class DefaultHttpCallback implements Callback {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.i(TAG, "e = " + e.getMessage());
+            Log.e(TAG, "e = " + e.getMessage());
             callback.onFailure(new HttpResultBuilder().failure().setCode(500).setMsg("timeout").build());
         }
     }

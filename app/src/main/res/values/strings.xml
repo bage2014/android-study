@@ -50,7 +50,10 @@
     <string name="dialog_edittext_helpertext">Input</string>
 
     <!--datepicker-->
-    <string name="date_picker_title_custom" >Select Date</string>
+    <string name="date_picker_title_custom">Select Date</string>
+
+
+    <string name="title_activity_unlock">Account Unlock</string>
 
 
 </resources>

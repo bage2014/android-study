@@ -22,13 +22,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
+import com.bage.tutorials.component.DialogHelper;
+import com.bage.tutorials.component.SharedPreferencesHelper;
+import com.bage.tutorials.component.activity.ActivityHelper;
 import com.bage.tutorials.http.HttpResult;
+import com.bage.tutorials.http.server.RestResponseCodeEnum;
 import com.bage.tutorials.repository.UserRepository;
+import com.bage.tutorials.ui.UnlockActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JwtUtils;
 import com.bage.tutorials.utils.StringUtils;
-
-import java.util.Objects;
 
 import io.jsonwebtoken.Claims;
 
@@ -36,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private UserRepository userRepository;
+    private DialogHelper dialogHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,12 +77,22 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (httpResult.getCode() == 200) {
+                if (httpResult.isOk()) { // 登录成功
                     String jwt = httpResult.getData();
                     cacheUserToken(jwt);
                     gotoMain();
                 } else {
-                    showLoginFailed(httpResult.getMsg());
+                    switch (RestResponseCodeEnum.of(httpResult.getCode())){
+                        case USER_LOGIN_ACCOUNT_LOCKED:
+                            ActivityHelper.startActivity(LoginActivity.this, UnlockActivity.class);
+                            break;
+                        case UNKNOWN_EXCEPTION:
+                            dialogHelper.showBasicErrorDialog(httpResult.getMsg());
+                            break;
+                        default:
+                            showLoginFailed(httpResult.getMsg());
+                            break;
+                    }
                 }
             }
 
@@ -128,6 +143,10 @@ public class LoginActivity extends AppCompatActivity {
         if (StringUtils.isNotNullAndNotEmpty(jwt)) {
             gotoMain();
         }
+
+        dialogHelper = new DialogHelper(this);
+
+        AppConfigUtils.reloadServerConfig(new SharedPreferencesHelper(this));
     }
 
     @Override

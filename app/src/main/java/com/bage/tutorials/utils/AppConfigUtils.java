@@ -1,6 +1,8 @@
 package com.bage.tutorials.utils;
 
+import com.bage.tutorials.component.SharedPreferencesHelper;
 import com.bage.tutorials.config.ServerConfig;
+import com.bage.tutorials.constant.AppConstant;
 
 import java.util.Objects;
 
@@ -28,4 +30,12 @@ public class AppConfigUtils {
         return serverConfig;
     }
 
+    public static void reloadServerConfig(SharedPreferencesHelper sharedPreferencesHelper) {
+        // 准备参数
+        ServerConfig serverConfig = new ServerConfig();
+        serverConfig.setServerHost(sharedPreferencesHelper.get(AppConstant.serverConfigHostKey, ""));
+        serverConfig.setServerProtocol(sharedPreferencesHelper.get(AppConstant.serverConfigProtocolKey, ""));
+        // 更新
+        updateServerConfig(serverConfig);
+    }
 }

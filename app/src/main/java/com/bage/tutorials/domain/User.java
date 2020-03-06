@@ -32,7 +32,7 @@ public class User {
     /**
      * 头像
      */
-    private String icon;
+    private String iconUrl;
     /**
      * 个人签名
      */
@@ -98,12 +98,12 @@ public class User {
         this.sex = sex;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getIconUrl() {
+        return iconUrl;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setIconUrl(String icon) {
+        this.iconUrl = iconUrl;
     }
 
     public String getSignature() {

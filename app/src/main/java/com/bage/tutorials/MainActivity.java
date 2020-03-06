@@ -1,6 +1,5 @@
 package com.bage.tutorials;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUserInfo(User user) {
         // 头像
-        PicassoUtils.loadImage(MainActivity.this, user.getIcon(), userIcon);
+        PicassoUtils.loadImage(MainActivity.this, user.getIconUrl(), userIcon);
         userName.setText(user.getUsername());
         userMail.setText(user.getMail());
         userSignature.setText(user.getSignature());

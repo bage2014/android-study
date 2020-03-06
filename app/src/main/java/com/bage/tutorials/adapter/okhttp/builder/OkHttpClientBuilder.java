@@ -13,6 +13,10 @@ import okhttp3.OkHttpClient;
 public class OkHttpClientBuilder {
 
     public OkHttpClient build() {
+        return new OkHttpClient.Builder().build();
+    }
+
+    public OkHttpClient buildHttps() {
 
         OkHttpClient instance = null;
         try {

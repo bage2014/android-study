@@ -35,7 +35,7 @@ public class DialogHelper {
                 .setMessage(message)
                 .setPositiveButton(positiveText, positiveListener)
                 .setNegativeButton(negativeText, negativeListener)
-//                .setIcon(android.R.drawable.ic_dialog_info);
+//                .setIconUrl(android.R.drawable.ic_dialog_info);
                 .setIcon(android.R.drawable.ic_menu_info_details);
         return materialAlertDialogBuilder.show();
     }

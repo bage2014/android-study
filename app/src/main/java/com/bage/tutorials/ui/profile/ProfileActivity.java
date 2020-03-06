@@ -16,7 +16,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
-import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
 import com.bage.tutorials.cache.UserCache;
 import com.bage.tutorials.component.DialogHelper;
@@ -24,15 +23,12 @@ import com.bage.tutorials.component.datepicker.DatePickerCallbackListener;
 import com.bage.tutorials.component.datepicker.DatePickerHelper;
 import com.bage.tutorials.domain.DateFormat;
 import com.bage.tutorials.domain.User;
-import com.bage.tutorials.http.HttpCallback;
-import com.bage.tutorials.http.HttpRequests;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.DateUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
@@ -88,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
                     birthdayTextView.setText(user.getBirthday());
                     signatureTextView.setText(user.getSignature());
                     // 图片
-                    PicassoUtils.loadImage(ProfileActivity.this,user.getIcon(),userIconView);
+                    PicassoUtils.loadImage(ProfileActivity.this,user.getIconUrl(),userIconView);
                 }
             }
         });

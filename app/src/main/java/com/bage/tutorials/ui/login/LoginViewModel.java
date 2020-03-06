@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.constant.AppConstant;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpCallback;
 import com.bage.tutorials.http.HttpParam;
@@ -35,7 +36,7 @@ public class LoginViewModel extends ViewModel {
         List<HttpParam> params = new ArrayList<>();
         params.add(new HttpParam("account", username));
         params.add(new HttpParam("password", password));
-        HttpRequests.post("/user/login", params, new HttpCallback() {
+        HttpRequests.post(AppConstant.urlUserLogin, params, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 System.out.println("onFailure result = " + result);

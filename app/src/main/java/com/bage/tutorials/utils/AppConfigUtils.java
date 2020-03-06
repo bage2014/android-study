@@ -35,6 +35,7 @@ public class AppConfigUtils {
         ServerConfig serverConfig = new ServerConfig();
         serverConfig.setServerHost(sharedPreferencesHelper.get(AppConstant.serverConfigHostKey, ""));
         serverConfig.setServerProtocol(sharedPreferencesHelper.get(AppConstant.serverConfigProtocolKey, ""));
+        serverConfig.setServerPort(sharedPreferencesHelper.get(AppConstant.serverConfigPortKey, ""));
         // 更新
         updateServerConfig(serverConfig);
     }

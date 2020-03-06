@@ -28,12 +28,9 @@
             app:title="@string/settings_server_host"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
+        <EditTextPreference
+            app:key="serverConfigPortKey"
+            app:title="@string/settings_server_port"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

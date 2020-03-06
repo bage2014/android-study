@@ -53,7 +53,7 @@ public class UserViewModel extends ViewModel {
         });
     }
     public void updateUserIcon(File file) {
-        HttpRequests.upload("/user/upload", file, "file","bage.jpg", null, null, new HttpCallback() {
+        HttpRequests.upload("/user/icon/upload", file, "file","bage.jpg", null, null, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 httpResult.postValue(result);

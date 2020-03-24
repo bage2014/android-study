@@ -14,5 +14,9 @@ public class AppConstant {
     public static final String cacheKeyUser = "cacheKeyUser";
 
     public static final String urlUserLogin = "/auth/user/login";
-
+    public static final String urlUserRegister = "/auth-server/register";
+    public static final String urlUserUploadIcon = "/auth-server/user/icon/upload";
+    public static final String urlUserProfile = "/auth-server/user/profile";
+    public static final String urlUserUpdate = "/auth-server/user/update";
+            ;
 }

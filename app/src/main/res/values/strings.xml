@@ -56,5 +56,12 @@
 
     <string name="title_activity_unlock">Account Unlock</string>
 
+    <!-- Register-->
+    <string name="title_activity_register">Sign out</string>
+    <string name="register_sign_out">Sign out</string>
+    <string name="register_signin">Already an account, Sign in</string>
+    <string name="invalid_re_password">Password must be >5 characters</string>
+    <string name="invalid_re_password_password">Password do not same</string>
+    <string name="invalid_validate_code">Not a valid validate code</string>
 
 </resources>

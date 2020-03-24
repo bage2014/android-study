@@ -1,4 +1,4 @@
-package com.bage.tutorials.ui.login;
+package com.bage.tutorials.ui.register;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -29,49 +31,65 @@ import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.http.server.RestResponseCodeEnum;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.UnlockActivity;
-import com.bage.tutorials.ui.register.RegisterActivity;
+import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.bage.tutorials.utils.AndroidUtils;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JwtUtils;
+import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.utils.StringUtils;
 
 import io.jsonwebtoken.Claims;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    private RegisterViewModel registerViewModel;
     private UserRepository userRepository;
     private DialogHelper dialogHelper;
+    private ImageView validateImageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        setContentView(R.layout.activity_register);
+        registerViewModel = ViewModelProviders.of(this, new RegisterViewModelFactory())
+                .get(RegisterViewModel.class);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        final EditText usernameEditText = findViewById(R.id.login_account);
-        final EditText passwordEditText = findViewById(R.id.login_password);
-        final Button loginButton = findViewById(R.id.login_btn);
-        final ProgressBar loadingProgressBar = findViewById(R.id.login_loading);
+        final EditText usernameEditText = findViewById(R.id.register_account);
+        final EditText passwordEditText = findViewById(R.id.register_password);
+        final EditText rePasswordEditText = findViewById(R.id.register_repassword);
+        final EditText validateCodeEditText = findViewById(R.id.register_validate_code);
+        final Button registerButton = findViewById(R.id.register_btn);
+        final ProgressBar loadingProgressBar = findViewById(R.id.register_loading);
+        validateImageView = findViewById(R.id.register_validate_image);
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        registerViewModel.getRegisterFormState().observe(this, new Observer<RegisterFormState>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
+            public void onChanged(@Nullable RegisterFormState loginFormState) {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                registerButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
                 if (loginFormState.getPasswordError() != null) {
                     passwordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
+                if (loginFormState.getRePasswordError() != null) {
+                    rePasswordEditText.setError(getString(loginFormState.getRePasswordError()));
+                }
+                if (loginFormState.getValidateCodeError() != null) {
+                    validateCodeEditText.setError(getString(loginFormState.getValidateCodeError()));
+                }
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<HttpResult>() {
+        registerViewModel.getRegisterResult().observe(this, new Observer<HttpResult>() {
             @Override
             public void onChanged(@Nullable HttpResult httpResult) {
                 if (httpResult == null) {
@@ -79,19 +97,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 loadingProgressBar.setVisibility(View.GONE);
                 if (httpResult.isOk()) { // 登录成功
-                    String jwt = httpResult.getData();
-                    cacheUserToken(jwt);
-                    gotoMain();
+                    gotoLogin();
                 } else {
-                    switch (RestResponseCodeEnum.of(httpResult.getCode())){
-                        case USER_LOGIN_ACCOUNT_LOCKED:
-                            gotoUnlock();
-                            break;
+                    switch (RestResponseCodeEnum.of(httpResult.getCode())) {
                         case UNKNOWN_EXCEPTION:
                             dialogHelper.showBasicErrorDialog(httpResult.getMsg());
                             break;
                         default:
-                            showLoginFailed(httpResult.getMsg());
+                            showRegisterFailed(httpResult.getMsg());
                             break;
                     }
                 }
@@ -112,90 +125,77 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                registerViewModel.registerDataChanged(usernameEditText.getText().toString(),passwordEditText.getText().toString(),rePasswordEditText.getText().toString(),
+                        validateCodeEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        rePasswordEditText.addTextChangedListener(afterTextChangedListener);
+        validateCodeEditText.addTextChangedListener(afterTextChangedListener);
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                registerViewModel.register(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString(),AndroidUtils.getDeviceId(),validateCodeEditText.getText().toString());
             }
         });
 
         userRepository = new UserRepository(this);
         String jwt = userRepository.getJwt();
         if (StringUtils.isNotNullAndNotEmpty(jwt)) {
-            gotoMain();
+            gotoLogin();
         }
 
         dialogHelper = new DialogHelper(this);
 
-        AppConfigUtils.reloadServerConfig(this);
+        refreshValidateImage();
+        validateImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshValidateImage();
+            }
+        });
     }
 
-    public void gotoUnlock() {
-        ActivityHelper.startActivity(LoginActivity.this, UnlockActivity.class);
-    }
-    public void gotoForgetPassword(View v) {
-        showLoginFailed("todo ");
-    }
 
-    public void gotoRegister(View v) {
-        ActivityHelper.startActivity(LoginActivity.this, RegisterActivity.class);
+    public void refreshValidateImage() {
+        String url = "/auth-server/validate/code/generate?clientId=" + AndroidUtils.getDeviceId() + "&timestramp=" + System.currentTimeMillis();
+        PicassoUtils.loadImage(this, url, validateImageView);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.login_menu, menu);
         return true;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle item selection
         switch (item.getItemId()) {
-            case R.id.login_menu_settings:
-                Intent i = new Intent(LoginActivity.this, SettingsActivity.class);
-                startActivity(i);
+            case android.R.id.home:
+                finish();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
     }
 
-    private void gotoMain() {
+    public void back(View v) {
+        finish();
+    }
+
+    private void gotoLogin() {
         //Complete and destroy login activity once successful
-        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(i);
         finish(); // 关闭当前
     }
 
-    private void cacheUserToken(String jwt) {
-        Claims claims = JwtUtils.decodeTokenClaims(jwt);
-        Toast.makeText(getApplicationContext(), claims.getSubject(), Toast.LENGTH_LONG).show();
-        userRepository.cacheUserJwt(jwt);
-    }
-
-    private void showLoginFailed(String errorString) {
+    private void showRegisterFailed(String errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

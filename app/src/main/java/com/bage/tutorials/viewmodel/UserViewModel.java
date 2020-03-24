@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.bage.tutorials.constant.AppConstant;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpCallback;
 import com.bage.tutorials.http.HttpParam;
@@ -24,7 +25,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public void queryProfile() {
-        HttpRequests.post("/user/profile", null, null, new HttpCallback() {
+        HttpRequests.post(AppConstant.urlUserProfile, null, null, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 httpResult.postValue(result);
@@ -40,7 +41,7 @@ public class UserViewModel extends ViewModel {
     public void updateUser(User user) {
         List<HttpParam> params = new ArrayList<>();
         params.add(new HttpParam("user", JsonUtils.toJson(user)));
-        HttpRequests.post("/user/update", params, null, new HttpCallback() {
+        HttpRequests.post(AppConstant.urlUserUpdate, params, null, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 httpResult.postValue(result);
@@ -53,7 +54,7 @@ public class UserViewModel extends ViewModel {
         });
     }
     public void updateUserIcon(File file) {
-        HttpRequests.upload("/user/icon/upload", file, "file","bage.jpg", null, null, new HttpCallback() {
+        HttpRequests.upload(AppConstant.urlUserUploadIcon, file, "file","bage.jpg", null, null, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 httpResult.postValue(result);

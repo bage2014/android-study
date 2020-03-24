@@ -9,28 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.login.LoginActivity">
-
-    <com.bage.tutorials.view.CircleImageView
-        android:id="@+id/login_user_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/user_null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".ui.register.RegisterActivity">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/login_account_card"
+        android:id="@+id/register_account_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
         android:layout_marginRight="@dimen/mtrl_card_spacing"
-        app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_user_icon">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -47,7 +37,7 @@
             app:startIconDrawable="@android:drawable/sym_action_email">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_account"
+                android:id="@+id/register_account"
                 android:text="bage2014@qq.com"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -55,15 +45,16 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/login_password_card"
+        android:id="@+id/register_password_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/mtrl_card_spacing"
         android:layout_marginTop="@dimen/mtrl_card_spacing"
         android:layout_marginRight="@dimen/mtrl_card_spacing"
         app:layout_constraintRight_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_account_card">
+        app:layout_constraintTop_toBottomOf="@+id/register_account_card">
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -81,7 +72,7 @@
             app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_password"
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="12345678"
@@ -90,54 +81,108 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/register_repassword_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_card">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/prompt_password"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:helperText="@string/prompt_password"
+            app:helperTextEnabled="true"
+            app:startIconContentDescription="@string/prompt_password"
+            app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_repassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="12345678"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/register_validate_code_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        app:layout_constraintTop_toBottomOf="@+id/register_repassword_card">
+
+        <ImageView
+            android:id="@+id/register_validate_image"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_margin="3dp"
+            android:src="@drawable/crop_image_menu_flip" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_email"
+            android:layout_marginLeft="130dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="6"
+            app:errorEnabled="true"
+            app:helperText="@string/prompt_email"
+            app:helperTextEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/register_validate_code"
+                android:text=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
     <Button
-        android:id="@+id/login_btn"
+        android:id="@+id/register_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_margin="4dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="64dp"
         android:enabled="true"
-        android:text="@string/login_sign_in"
+        android:text="@string/register_sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_password_card"
-        app:layout_constraintVertical_bias="0.2" />
-
-
-    <TextView
-        android:id="@+id/login_forget_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_forget_password"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="16dp"
-        android:onClick="gotoForgetPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn"
-        app:layout_constraintVertical_bias="0" />
-
+        app:layout_constraintTop_toBottomOf="@+id/register_validate_code_card"
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
-        android:id="@+id/login_register"
+        android:id="@+id/register_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_register"
-        android:onClick="gotoRegister"
+        android:text="@string/register_signin"
         android:textColor="@android:color/holo_blue_light"
         android:textSize="16dp"
+        android:onClick="back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn"
+        app:layout_constraintTop_toBottomOf="@+id/register_btn"
         app:layout_constraintVertical_bias="0" />
 
     <ProgressBar
-        android:id="@+id/login_loading"
+        android:id="@+id/register_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -147,8 +192,8 @@
         android:layout_marginBottom="64dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/login_password_card"
-        app:layout_constraintStart_toStartOf="@+id/login_password_card"
+        app:layout_constraintEnd_toEndOf="@+id/register_password_card"
+        app:layout_constraintStart_toStartOf="@+id/register_password_card"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

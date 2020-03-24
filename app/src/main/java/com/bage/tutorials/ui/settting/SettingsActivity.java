@@ -9,17 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.bage.tutorials.R;
-import com.bage.tutorials.component.SharedPreferencesHelper;
-import com.bage.tutorials.config.ServerConfig;
-import com.bage.tutorials.constant.AppConstant;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SettingsActivity extends AppCompatActivity {
-
-    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +32,11 @@ public class SettingsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppConfigUtils.reloadServerConfig(sharedPreferencesHelper);
+                AppConfigUtils.reloadServerConfig(SettingsActivity.this);
                 Snackbar.make(view, JsonUtils.toJson(AppConfigUtils.getServerConfig()), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-        sharedPreferencesHelper = new SharedPreferencesHelper(this);
     }
 
     @Override

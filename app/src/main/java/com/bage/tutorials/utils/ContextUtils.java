@@ -8,10 +8,15 @@ import com.squareup.picasso.Picasso;
 
 public class ContextUtils {
 
+    private static boolean needInit = true;
+
     public static void initPicassoDownloader(Context context) {
-        Picasso.setSingletonInstance(new Picasso.Builder(context).
-                downloader(new OkHttp3Downloader(new OkHttpClientBuilder().build()))
-                .build());
+        if(needInit){
+            Picasso.setSingletonInstance(new Picasso.Builder(context).
+                    downloader(new OkHttp3Downloader(new OkHttpClientBuilder().build()))
+                    .build());
+            needInit = false;
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package com.bage.tutorials.utils;
 
+import android.content.Context;
+
 import com.bage.tutorials.component.SharedPreferencesHelper;
 import com.bage.tutorials.config.ServerConfig;
 import com.bage.tutorials.constant.AppConstant;
@@ -9,6 +11,7 @@ import java.util.Objects;
 public class AppConfigUtils {
 
     private static ServerConfig defaultServerConfig = new ServerConfig();
+    private static SharedPreferencesHelper sharedPreferencesHelper = null;
 
     public static ServerConfig getServerConfig() {
         return defaultServerConfig;
@@ -30,7 +33,10 @@ public class AppConfigUtils {
         return serverConfig;
     }
 
-    public static void reloadServerConfig(SharedPreferencesHelper sharedPreferencesHelper) {
+    public static void reloadServerConfig(Context context) {
+        if(Objects.isNull(sharedPreferencesHelper)){
+            sharedPreferencesHelper = new SharedPreferencesHelper(context);
+        }
         // 准备参数
         ServerConfig serverConfig = new ServerConfig();
         serverConfig.setServerHost(sharedPreferencesHelper.get(AppConstant.serverConfigHostKey, ""));
@@ -38,5 +44,7 @@ public class AppConfigUtils {
         serverConfig.setServerPort(sharedPreferencesHelper.get(AppConstant.serverConfigPortKey, ""));
         // 更新
         updateServerConfig(serverConfig);
+
+        AndroidUtils.initDeviceId(context);
     }
 }

@@ -36,7 +36,7 @@ public class LoginViewModel extends ViewModel {
         List<HttpParam> params = new ArrayList<>();
         params.add(new HttpParam("account", username));
         params.add(new HttpParam("password", password));
-        HttpRequests.post(AppConstant.urlUserLogin, params, new HttpCallback() {
+        HttpRequests.get(AppConstant.urlUserLogin, params, new HttpCallback() {
             @Override
             public void onFailure(HttpResult result) {
                 System.out.println("onFailure result = " + result);

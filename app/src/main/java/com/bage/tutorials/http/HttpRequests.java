@@ -51,13 +51,14 @@ public class HttpRequests {
     }
 
     public static void get(String url, List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
-        Log.i(TAG, "get url = {}" + url);
-        Log.i(TAG, "get headers = {}" + JsonUtils.toJson(headers));
-        Log.i(TAG, "get params = {}" + JsonUtils.toJson(params));
+        Log.i(TAG, "get url = " + url);
+        Log.i(TAG, "get headers = " + JsonUtils.toJson(headers));
+        Log.i(TAG, "get params = " + JsonUtils.toJson(params));
 
         // 构建请求参数
         OkHttpClient client = new OkHttpClientBuilder().build();
         Request request = buildGetRequest(url, params, headers);
+        Log.i(TAG, "get rewrite url = " + request.url().toString());
 
         // 发起请求
         client.newCall(request).enqueue(new DefaultHttpCallback(callback));
@@ -74,13 +75,14 @@ public class HttpRequests {
     }
 
     public static void post(String url, List<HttpParam> params, List<HttpHeader> headers, final HttpCallback callback) {
-        Log.i(TAG, "post url = {}" + url);
-        Log.i(TAG, "post headers = {}" + JsonUtils.toJson(headers));
-        Log.i(TAG, "post params = {}" + JsonUtils.toJson(params));
+        Log.i(TAG, "post url = " + url);
+        Log.i(TAG, "post headers = " + JsonUtils.toJson(headers));
+        Log.i(TAG, "post params = " + JsonUtils.toJson(params));
 
         // 构建请求参数
         OkHttpClient client = new OkHttpClientBuilder().build();
         Request request = buildPostRequest(url, params, headers);
+        Log.i(TAG, "post rewrite url = " + request.url().toString());
 
         // 发起请求
         client.newCall(request).enqueue(new DefaultHttpCallback(callback));

@@ -65,7 +65,11 @@
     <string name="invalid_validate_code">Not a valid validate code</string>
 
 
-    <!-- Register-->
+    <!-- TV-->
     <string name="title_activity_tv">TV</string>
+
+
+    <!-- TVPlaying-->
+    <string name="title_activity_tv_playing">TV</string>
 
 </resources>

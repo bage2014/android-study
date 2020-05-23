@@ -13,45 +13,37 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.component.media.VLCMedia;
 import com.bage.tutorials.domain.TVItem;
 import com.bage.tutorials.http.HttpResult;
-import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.google.gson.reflect.TypeToken;
 
+import org.videolan.libvlc.util.VLCVideoLayout;
+
 import java.util.List;
 
-public class TVActivity extends AppCompatActivity {
+public class TVPlayingActivity extends AppCompatActivity {
 
-    private TVViewModel TVViewModel;
+    private VLCMedia vlcMedia;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tv);
-        TVViewModel = ViewModelProviders.of(this, new TVViewModelFactory())
-                .get(TVViewModel.class);
+        setContentView(R.layout.activity_tv_playing);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        TVViewModel.doSomething("some param");
-        TVViewModel.getResult().observe(this, new Observer<HttpResult>() {
-            @Override
-            public void onChanged(@Nullable HttpResult httpResult) {
-                LoggerUtils.info(TVActivity.class, "data = " + httpResult.getData());
-                if (httpResult == null) {
-                    return;
-                }
-                // do something
-                List<TVItem> items = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
-                }.getType());
+        final VLCVideoLayout view = findViewById(R.id.video_layout);
+        vlcMedia = new VLCMedia(view);
 
-                gotoPlaying(items.get(0));
-            }
-
-        });
+        Intent intent = getIntent();
+        TVItem tvItem = (TVItem) intent.getSerializableExtra("tvItem");
+        LoggerUtils.info(TVPlayingActivity.class, "data = " + JsonUtils.toJson(tvItem));
+        vlcMedia.init(tvItem);
+        vlcMedia.play();
     }
 
     @Override
@@ -59,13 +51,6 @@ public class TVActivity extends AppCompatActivity {
         return true;
     }
 
-    private void gotoPlaying(TVItem tvItem) {
-        Intent intent = new Intent(TVActivity.this, TVPlayingActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("tvItem", tvItem);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -82,4 +67,15 @@ public class TVActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vlcMedia.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        vlcMedia.onStop();
+    }
 }

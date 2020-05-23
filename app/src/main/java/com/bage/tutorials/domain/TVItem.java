@@ -1,6 +1,8 @@
 package com.bage.tutorials.domain;
 
-public class TVItem {
+import java.io.Serializable;
+
+public class TVItem implements Serializable {
 
     private long id;
     private String name;

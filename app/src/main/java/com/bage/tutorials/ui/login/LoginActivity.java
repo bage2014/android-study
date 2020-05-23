@@ -31,6 +31,7 @@ import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.UnlockActivity;
 import com.bage.tutorials.ui.register.RegisterActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
+import com.bage.tutorials.ui.tv.TVActivity;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JwtUtils;
 import com.bage.tutorials.utils.StringUtils;
@@ -55,99 +56,105 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login_btn);
         final ProgressBar loadingProgressBar = findViewById(R.id.login_loading);
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-            @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
-            }
-        });
-
-        loginViewModel.getLoginResult().observe(this, new Observer<HttpResult>() {
-            @Override
-            public void onChanged(@Nullable HttpResult httpResult) {
-                if (httpResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (httpResult.isOk()) { // 登录成功
-                    String jwt = httpResult.getData();
-                    cacheUserToken(jwt);
-                    gotoMain();
-                } else {
-                    switch (RestResponseCodeEnum.of(httpResult.getCode())){
-                        case USER_LOGIN_ACCOUNT_LOCKED:
-                            gotoUnlock();
-                            break;
-                        case UNKNOWN_EXCEPTION:
-                            dialogHelper.showBasicErrorDialog(httpResult.getMsg());
-                            break;
-                        default:
-                            showLoginFailed(httpResult.getMsg());
-                            break;
-                    }
-                }
-            }
-
-        });
-
-        TextWatcher afterTextChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        });
-
-        userRepository = new UserRepository(this);
-        String jwt = userRepository.getJwt();
-        if (StringUtils.isNotNullAndNotEmpty(jwt)) {
-            gotoMain();
-        }
-
-        dialogHelper = new DialogHelper(this);
-
-        AppConfigUtils.reloadServerConfig(this);
+        //Complete and destroy login activity once successful
+        // todo skip login
+        Intent i = new Intent(LoginActivity.this, TVActivity.class);
+        startActivity(i);
+        finish(); // 关闭当前
+//
+//        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+//            @Override
+//            public void onChanged(@Nullable LoginFormState loginFormState) {
+//                if (loginFormState == null) {
+//                    return;
+//                }
+//                loginButton.setEnabled(loginFormState.isDataValid());
+//                if (loginFormState.getUsernameError() != null) {
+//                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+//                }
+//                if (loginFormState.getPasswordError() != null) {
+//                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+//                }
+//            }
+//        });
+//
+//        loginViewModel.getLoginResult().observe(this, new Observer<HttpResult>() {
+//            @Override
+//            public void onChanged(@Nullable HttpResult httpResult) {
+//                if (httpResult == null) {
+//                    return;
+//                }
+//                loadingProgressBar.setVisibility(View.GONE);
+//                if (httpResult.isOk()) { // 登录成功
+//                    String jwt = httpResult.getData();
+//                    cacheUserToken(jwt);
+//                    gotoMain();
+//                } else {
+//                    switch (RestResponseCodeEnum.of(httpResult.getCode())){
+//                        case USER_LOGIN_ACCOUNT_LOCKED:
+//                            gotoUnlock();
+//                            break;
+//                        case UNKNOWN_EXCEPTION:
+//                            dialogHelper.showBasicErrorDialog(httpResult.getMsg());
+//                            break;
+//                        default:
+//                            showLoginFailed(httpResult.getMsg());
+//                            break;
+//                    }
+//                }
+//            }
+//
+//        });
+//
+//        TextWatcher afterTextChangedListener = new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                // ignore
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                // ignore
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
+//                        passwordEditText.getText().toString());
+//            }
+//        };
+//        usernameEditText.addTextChangedListener(afterTextChangedListener);
+//        passwordEditText.addTextChangedListener(afterTextChangedListener);
+//        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                    loginViewModel.login(usernameEditText.getText().toString(),
+//                            passwordEditText.getText().toString());
+//                }
+//                return false;
+//            }
+//        });
+//
+//        loginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                loadingProgressBar.setVisibility(View.VISIBLE);
+//                loginViewModel.login(usernameEditText.getText().toString(),
+//                        passwordEditText.getText().toString());
+//            }
+//        });
+//
+//        userRepository = new UserRepository(this);
+//        String jwt = userRepository.getJwt();
+//        if (StringUtils.isNotNullAndNotEmpty(jwt)) {
+//            gotoMain();
+//        }
+//
+//        dialogHelper = new DialogHelper(this);
+//
+//        AppConfigUtils.reloadServerConfig(this);
     }
 
     public void gotoUnlock() {

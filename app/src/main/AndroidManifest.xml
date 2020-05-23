@@ -57,7 +57,10 @@
         <activity
             android:name=".ui.tv.TVActivity"
             android:label="@string/title_activity_tv"></activity>
-
+        <activity
+            android:name=".ui.tv.TVPlayingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_tv_playing"></activity>
     </application>
 
 </manifest>

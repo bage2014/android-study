@@ -64,4 +64,8 @@
     <string name="invalid_re_password_password">Password do not same</string>
     <string name="invalid_validate_code">Not a valid validate code</string>
 
+
+    <!-- Register-->
+    <string name="title_activity_tv">TV</string>
+
 </resources>

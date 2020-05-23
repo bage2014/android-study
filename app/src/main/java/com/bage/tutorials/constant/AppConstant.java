@@ -18,5 +18,8 @@ public class AppConstant {
     public static final String urlUserUploadIcon = "/auth-server/user/icon/upload";
     public static final String urlUserProfile = "/auth-server/user/profile";
     public static final String urlUserUpdate = "/auth-server/user/update";
+
+
+    public static final String urlDemo = "/demo/xxx";
             ;
 }

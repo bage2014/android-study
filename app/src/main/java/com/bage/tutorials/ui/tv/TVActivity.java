@@ -11,20 +11,26 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.domain.TVItem;
 import com.bage.tutorials.http.HttpResult;
-import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TVActivity extends AppCompatActivity {
 
     private TVViewModel TVViewModel;
+    private RecyclerView recyclerView;
+    private MyRecyclerViewAdapter adapter;
+    private List<TVItem> list = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,14 @@ public class TVActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        TVViewModel.doSomething("some param");
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        adapter = new MyRecyclerViewAdapter(TVActivity.this, list);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+        TVViewModel.init("some param");
         TVViewModel.getResult().observe(this, new Observer<HttpResult>() {
             @Override
             public void onChanged(@Nullable HttpResult httpResult) {
@@ -45,26 +58,23 @@ public class TVActivity extends AppCompatActivity {
                     return;
                 }
                 // do something
-                List<TVItem> items = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
+                list.clear();
+                List<TVItem> datas = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
                 }.getType());
+                for (TVItem data : datas) {
+                    list.add(data);
+                }
 
-                gotoPlaying(items.get(0));
+                adapter.notifyDataSetChanged();
+
             }
-
         });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
-    }
-
-    private void gotoPlaying(TVItem tvItem) {
-        Intent intent = new Intent(TVActivity.this, TVPlayingActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("tvItem", tvItem);
-        intent.putExtras(bundle);
-        startActivity(intent);
     }
 
     @Override

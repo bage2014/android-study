@@ -26,7 +26,7 @@ public class TVViewModel extends ViewModel {
         return result;
     }
 
-    public void doSomething(String... param) {
+    public void init(String param) {
         String userJson = JsonUtils.toJson(param);
         List<HttpParam> params = new ArrayList<>();
         params.add(new HttpParam("param", userJson));

@@ -9,5 +9,7 @@
 
     <color name="text_light">#FFFFFF</color>
 
+    <color name="divider">#008577</color>
+
 
 </resources>

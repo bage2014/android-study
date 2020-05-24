@@ -47,6 +47,8 @@ public class TVActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyRecyclerViewAdapter(TVActivity.this, list);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new MyItemDecoration(this, R.dimen.divider_height,
+                R.color.divider));
         recyclerView.setAdapter(adapter);
 
         TVViewModel.init("some param");

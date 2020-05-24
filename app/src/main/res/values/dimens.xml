@@ -30,4 +30,7 @@
 
     <dimen name="text_size_icon">17dp</dimen>
 
+    <dimen name="divider_height">1px</dimen>
+
+
 </resources>

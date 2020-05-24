@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:padding="10dp"
-        android:textColor="@color/cardview_dark_background" />
+        android:padding="15dp"
+        android:text="Item"
+        android:textColor="@color/icon_color_nav" />
 
 </LinearLayout>

@@ -34,13 +34,78 @@ public class TVViewModel extends ViewModel {
             @Override
             public void onFailure(HttpResult httpResult) {
                 LoggerUtils.info(DemoViewModel.class, "onFailure httpResult = " + httpResult);
+                List<TVItem> list = new ArrayList<>();
                 TVItem item = new TVItem();
                 item.setId(1L);
-                item.setLogo("");
+                item.setName("CCTV1");
                 item.setLogo("XXX");
-                item.setUrl("http://111.40.205.87/PLTV/88888888/224/3221225710/index.m3u8");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-1/.m3u8");
+                list.add(item);
 
-                httpResult.setData(JsonUtils.toJson(Collections.singleton(item)));
+                item = new TVItem();
+                item.setId(2L);
+                item.setName("CCTV2");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-2/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(3L);
+                item.setName("CCTV3");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-3/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(4L);
+                item.setName("CCTV4");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-4/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(5L);
+                item.setName("CCTV5");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-5/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(6L);
+                item.setName("CCTV6");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-6/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(7L);
+                item.setName("CCTV7");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-7/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(8L);
+                item.setName("CCTV8");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-8/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(9L);
+                item.setName("CCTV9");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-9/.m3u8");
+                list.add(item);
+
+                item = new TVItem();
+                item.setId(10L);
+                item.setName("CCTV10");
+                item.setLogo("XXX");
+                item.setUrl("http://117.169.120.140:8080/live/cctv-10/.m3u8");
+                list.add(item);
+
+                httpResult.setData(JsonUtils.toJson(list));
                 result.postValue(httpResult);
             }
 

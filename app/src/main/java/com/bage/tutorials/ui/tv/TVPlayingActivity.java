@@ -8,27 +8,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.R;
-import com.bage.tutorials.component.media.VLCMedia;
+import com.bage.tutorials.component.media.MediaPlay;
 import com.bage.tutorials.domain.TVItem;
-import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
-import com.google.gson.reflect.TypeToken;
+import com.google.android.exoplayer2.ui.PlayerView;
 
-import org.videolan.libvlc.util.VLCVideoLayout;
-
-import java.util.List;
 
 public class TVPlayingActivity extends AppCompatActivity {
 
-    private VLCMedia vlcMedia;
+    private MediaPlay mediaPlay;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -45,14 +37,13 @@ public class TVPlayingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tv_playing);
 
 
-        final VLCVideoLayout view = findViewById(R.id.video_layout);
-        vlcMedia = new VLCMedia(view);
-
         Intent intent = getIntent();
         TVItem tvItem = (TVItem) intent.getSerializableExtra("tvItem");
         LoggerUtils.info(TVPlayingActivity.class, "data = " + JsonUtils.toJson(tvItem));
-        vlcMedia.init(tvItem);
-        vlcMedia.play();
+
+        mediaPlay = new MediaPlay();
+        PlayerView view = findViewById(R.id.video_layout);
+        mediaPlay.init(TVPlayingActivity.this,view,tvItem);
     }
 
     @Override
@@ -63,12 +54,12 @@ public class TVPlayingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        vlcMedia.onDestroy();
+        mediaPlay.release();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        vlcMedia.onStop();
+        mediaPlay.release();
     }
 }

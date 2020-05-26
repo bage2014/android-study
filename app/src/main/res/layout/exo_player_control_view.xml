@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageButton android:id="@id/exo_play"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/icon_width_big"
+        android:layout_height="@dimen/icon_width_big"
         android:layout_gravity="center"
         android:background="#CC000000"
         style="@style/ExoMediaButton.Play"/>
 
     <ImageButton android:id="@id/exo_pause"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/icon_width_big"
+        android:layout_height="@dimen/icon_width_big"
         android:layout_gravity="center"
         android:background="#CC000000"
         style="@style/ExoMediaButton.Pause"/>
 
+    <ImageView
+        android:id="@+id/exo_fullscreen_icon"
+        android:layout_width="@dimen/icon_width_big"
+        android:layout_height="@dimen/icon_width_big"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/icon_padding"
+        android:paddingTop="@dimen/icon_padding"
+        android:paddingRight="@dimen/icon_padding"
+        android:paddingBottom="@dimen/icon_padding"
+        android:background="#CC000000"
+        android:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_fullscreen_24dp" />
 </FrameLayout>

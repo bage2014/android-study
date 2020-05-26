@@ -24,7 +24,6 @@ import com.google.android.exoplayer2.util.Util;
 
 public class MediaPlay {
 
-    private Context context = null;
     private SimpleExoPlayer player = null;
 
     public MediaPlay() {
@@ -32,7 +31,6 @@ public class MediaPlay {
     }
 
     public void init(Context context, PlayerView playerView, TVItem item) {
-        this.context = context;
         player = new SimpleExoPlayer.Builder(context).build();
 
         // Bind the player to the view.
@@ -50,6 +48,15 @@ public class MediaPlay {
         // Prepare the player with the source.
         player.prepare(hlsMediaSource);
 
+    }
+
+    public void play() {
+        player.setPlayWhenReady(true);
+    }
+
+
+    public void stop() {
+        player.stop(false);
     }
 
     public void release() {

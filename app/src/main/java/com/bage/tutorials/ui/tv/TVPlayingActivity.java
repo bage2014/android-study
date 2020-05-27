@@ -71,6 +71,12 @@ public class TVPlayingActivity extends AppCompatActivity {
             releaseScreenOn();
         });
 
+        findViewById(R.id.exo_back_icon).setOnClickListener((view) -> {
+            mediaPlay.stop();
+            mediaPlay.release();
+            finish();
+        });
+
     }
 
     @Override

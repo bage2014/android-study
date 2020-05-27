@@ -105,6 +105,14 @@ public class TVViewModel extends ViewModel {
                 item.setUrl("http://117.169.120.140:8080/live/cctv-10/.m3u8");
                 list.add(item);
 
+                list.add(item);
+                list.add(item);
+                list.add(item);
+                list.add(item);
+                list.add(item);
+                list.add(item);
+                list.add(item);
+
                 httpResult.setData(JsonUtils.toJson(list));
                 result.postValue(httpResult);
             }

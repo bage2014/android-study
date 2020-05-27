@@ -5,6 +5,14 @@
     android:layout_height="match_parent">
 
     <ImageButton
+        android:id="@+id/exo_back_icon"
+        android:layout_width="@dimen/icon_width_big"
+        android:layout_height="@dimen/icon_width_big"
+        android:layout_gravity="top|left"
+        android:background="#00000000"
+        app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+    <ImageButton
         android:id="@id/exo_play"
         android:layout_width="@dimen/icon_width_big"
         android:layout_height="@dimen/icon_width_big"

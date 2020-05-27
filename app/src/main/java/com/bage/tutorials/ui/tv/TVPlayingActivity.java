@@ -134,9 +134,9 @@ public class TVPlayingActivity extends AppCompatActivity {
 
     private void toggleFullscreenImage() {
         if (TVPlayingActivity.isFullscreen) {
-            fullScreenImageView.setImageResource(R.drawable.exo_icon_fullscreen_exit);
+            fullScreenImageView.setImageResource(R.drawable.ic_exo_fullscreen_exit);
         } else {
-            fullScreenImageView.setImageResource(R.drawable.exo_icon_fullscreen_enter);
+            fullScreenImageView.setImageResource(R.drawable.ic_exo_fullscreen_enter);
         }
     }
 

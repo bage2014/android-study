@@ -56,7 +56,7 @@ public class MediaPlay {
 
 
     public void stop() {
-        player.stop(false);
+        player.setPlayWhenReady(false);
     }
 
     public void release() {

@@ -1,36 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <ImageButton android:id="@id/exo_play"
+    <ImageButton
+        android:id="@id/exo_play"
+        style="@style/ExoMediaButton.Play"
         android:layout_width="@dimen/icon_width_big"
         android:layout_height="@dimen/icon_width_big"
         android:layout_gravity="center"
-        android:background="#CC000000"
-        style="@style/ExoMediaButton.Play"/>
+        android:background="#00000000" />
 
-    <ImageButton android:id="@id/exo_pause"
+    <ImageButton
+        android:id="@id/exo_pause"
+        style="@style/ExoMediaButton.Pause"
         android:layout_width="@dimen/icon_width_big"
         android:layout_height="@dimen/icon_width_big"
         android:layout_gravity="center"
-        android:background="#CC000000"
-        style="@style/ExoMediaButton.Pause"/>
+        android:background="#00000000" />
 
 
-        <ImageView
-            android:id="@+id/exo_fullscreen_icon"
-            android:layout_width="@dimen/icon_width_big"
-            android:layout_height="@dimen/icon_width_big"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/icon_padding"
-            android:paddingTop="@dimen/icon_padding"
-            android:paddingRight="@dimen/icon_padding"
-            android:paddingBottom="@dimen/icon_padding"
-            android:background="#CC000000"
-            android:tint="@android:color/white"
-            app:srcCompat="@drawable/ic_fullscreen_24dp" />
+    <ImageButton
+        android:id="@+id/exo_fullscreen_icon"
+        android:layout_width="@dimen/icon_width_big"
+        android:layout_height="@dimen/icon_width_big"
+        android:layout_gravity="bottom|right"
+        android:background="#00000000"
+        app:srcCompat="@drawable/exo_icon_fullscreen_enter" />
+
 </FrameLayout>

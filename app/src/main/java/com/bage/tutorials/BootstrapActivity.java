@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bage.tutorials.ui.login.LoginActivity;
-
 public class BootstrapActivity extends AppCompatActivity {
 
     @Override
@@ -14,8 +12,14 @@ public class BootstrapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bootstrap);
 
-        Intent i = new Intent(BootstrapActivity.this, LoginActivity.class);
+//        Intent i = new Intent(BootstrapActivity.this, LoginActivity.class);
+//        startActivity(i);
+//        finish();
+
+        //Complete and destroy login activity once successful
+        Intent i = new Intent(BootstrapActivity.this, MainActivity.class);
         startActivity(i);
-        finish();
+        finish(); // 关闭当前
+
     }
 }

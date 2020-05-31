@@ -1,16 +1,16 @@
-package com.bage.tutorials.ui.share;
+package com.bage.tutorials.ui.deliver;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ShareViewModel extends ViewModel {
+public class DeliverViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShareViewModel() {
+    public DeliverViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is share fragment");
+        mText.setValue("This is Deliver fragment");
     }
 
     public LiveData<String> getText() {

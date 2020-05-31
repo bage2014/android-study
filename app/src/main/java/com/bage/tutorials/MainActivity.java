@@ -21,7 +21,6 @@ import com.bage.tutorials.cache.UserCache;
 import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
-import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.ContextUtils;
@@ -64,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_tv,R.id.nav_deliver, R.id.nav_settings, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -135,12 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 return true;
-            case R.id.action_logout:
-                userRepository.unPersistJwt();
-                i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-                return true;
         }
         return false;
     }
@@ -151,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // 有可能编辑了用户信息，需要重新加载
         User user = UserCache.getUser();
-        if(user != null){
+        if (user != null) {
             initUserInfo(user);
         }
     }

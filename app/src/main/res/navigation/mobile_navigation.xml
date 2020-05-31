@@ -3,41 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_tv">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.bage.tutorials.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_tv"
+        android:name="com.bage.tutorials.ui.tv.TVFragment"
+        android:label="@string/menu_tv"
+        tools:layout="@layout/fragment_tv" />
+    <fragment
+        android:id="@+id/nav_deliver"
+        android:name="com.bage.tutorials.ui.deliver.DeliverFragment"
+        android:label="@string/menu_deliver"
+        tools:layout="@layout/fragment_deliver" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.bage.tutorials.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_settings"
+        android:name="com.bage.tutorials.ui.settings.SettingFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.bage.tutorials.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.bage.tutorials.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
-
-    <fragment
-        android:id="@+id/nav_share"
-        android:name="com.bage.tutorials.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
-
-    <fragment
-        android:id="@+id/nav_send"
-        android:name="com.bage.tutorials.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        android:id="@+id/nav_about"
+        android:name="com.bage.tutorials.ui.about.AboutFragment"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

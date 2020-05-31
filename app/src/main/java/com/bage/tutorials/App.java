@@ -2,10 +2,12 @@ package com.bage.tutorials;
 
 import android.content.Context;
 
-import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-public class App extends MultiDexApplication{
+import com.bage.tutorials.utils.AppConfigUtils;
+import com.bage.tutorials.utils.ContextUtils;
+
+public class App extends MultiDexApplication {
 
     private static Context mContext;
 
@@ -13,11 +15,10 @@ public class App extends MultiDexApplication{
     public void onCreate() {
         super.onCreate();
         mContext = this.getApplicationContext();
-    }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
+        ContextUtils.initPicassoDownloader(mContext);
+
+        AppConfigUtils.reloadServerConfig(mContext);
+
     }
 }

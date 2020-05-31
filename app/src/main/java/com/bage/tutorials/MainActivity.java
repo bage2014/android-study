@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -22,19 +24,17 @@ import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.profile.ProfileActivity;
-import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.ContextUtils;
 import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.LoggerUtils;
 import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private UserRepository userRepository;
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView userName;
     private TextView userMail;
     private TextView userSignature;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -104,9 +98,6 @@ public class MainActivity extends AppCompatActivity {
             });
             mainViewModel.queryProfile();
         }
-
-        // todo 换成背景线程操作
-        ContextUtils.initPicassoDownloader(MainActivity.this);
     }
 
     private void initUserInfo(User user) {
@@ -121,19 +112,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(i);
-                return true;
-        }
         return false;
     }
 
@@ -159,5 +146,17 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        LoggerUtils.info(MainActivity.class,"query:" + query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        LoggerUtils.info(MainActivity.class,"newText:" + newText);
+        return false;
     }
 }

@@ -146,8 +146,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         dialogHelper = new DialogHelper(this);
-
-        AppConfigUtils.reloadServerConfig(this);
     }
 
     public void gotoUnlock() {

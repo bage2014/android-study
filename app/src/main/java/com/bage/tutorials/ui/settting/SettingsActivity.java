@@ -2,17 +2,12 @@ package com.bage.tutorials.ui.settting;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceFragmentCompat;
 
 import com.bage.tutorials.R;
-import com.bage.tutorials.utils.AppConfigUtils;
-import com.bage.tutorials.utils.JsonUtils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.bage.tutorials.ui.settings.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -28,15 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        FloatingActionButton fab = findViewById(R.id.settings_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppConfigUtils.reloadServerConfig(SettingsActivity.this);
-                Snackbar.make(view, JsonUtils.toJson(AppConfigUtils.getServerConfig()), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
     @Override
@@ -50,10 +37,4 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.setting_preferences, rootKey);
-        }
-    }
 }

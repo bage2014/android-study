@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public class HttpParam {
     String key;
-    String value;
+    Object value;
 
     public HttpParam() {
     }
 
-    public HttpParam(String key, String value) {
+    public HttpParam(String key, Object value) {
         this.key = key;
         this.value = value;
     }
@@ -22,11 +22,11 @@ public class HttpParam {
         this.key = key;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 

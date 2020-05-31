@@ -95,7 +95,7 @@ public class HttpRequests {
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                formBodyBuilder.add(param.getKey(), param.getValue());
+                formBodyBuilder.add(param.getKey(), String.valueOf(param.getValue()));
             }
         }
 
@@ -133,7 +133,7 @@ public class HttpRequests {
                 .newBuilder();
         if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                urlBuilder.addQueryParameter(param.getKey(), param.getValue());
+                urlBuilder.addQueryParameter(param.getKey(), String.valueOf(param.getValue()));
             }
         }
 
@@ -158,7 +158,7 @@ public class HttpRequests {
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                formBodyBuilder.add(param.getKey(), param.getValue());
+                formBodyBuilder.add(param.getKey(), String.valueOf(param.getValue()));
             }
         }
 

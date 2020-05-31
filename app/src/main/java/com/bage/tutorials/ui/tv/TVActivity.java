@@ -49,14 +49,8 @@ public class TVActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
-                TVItem item = new TVItem();
-                item.setId(list.size() + 1);
-                item.setName("CCTVRefresh");
-                item.setLogo("XXX" + (list.size() + 1));
-                item.setUrl("http://117.169.120.140:8080/live/cctv-10/.m3u8");
-                list.add(0,item);
-
+                list.clear();
+                TVViewModel.query(1);
                 adapter.notifyDataSetChanged();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -67,14 +61,7 @@ public class TVActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new LoadMoreOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                TVItem item = new TVItem();
-                item.setId(list.size() + 1);
-                item.setName("CCTVLoadMore");
-                item.setLogo("XXX" + (list.size() + 1));
-                item.setUrl("http://117.169.120.140:8080/live/cctv-10/.m3u8");
-                list.add(item);
-
-                adapter.notifyDataSetChanged();
+                TVViewModel.query(currentPage);
             }
         });
 
@@ -84,7 +71,7 @@ public class TVActivity extends AppCompatActivity {
                 R.color.divider));
         recyclerView.setAdapter(adapter);
 
-        TVViewModel.init("some param");
+        TVViewModel.queryAll();
         TVViewModel.getResult().observe(this, new Observer<HttpResult>() {
             @Override
             public void onChanged(@Nullable HttpResult httpResult) {
@@ -92,16 +79,16 @@ public class TVActivity extends AppCompatActivity {
                 if (httpResult == null) {
                     return;
                 }
-                // do something
-                list.clear();
-                List<TVItem> datas = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
-                }.getType());
-                for (TVItem data : datas) {
-                    list.add(data);
+                if(httpResult.isOk()){
+                    httpResult.getData();
+                    // do something
+                    List<TVItem> datas = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
+                    }.getType());
+                    for (TVItem data : datas) {
+                        list.add(data);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-
-                adapter.notifyDataSetChanged();
-
             }
         });
 

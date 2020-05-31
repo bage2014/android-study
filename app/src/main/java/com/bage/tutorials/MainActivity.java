@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
@@ -24,7 +23,6 @@ import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.profile.ProfileActivity;
-import com.bage.tutorials.utils.ContextUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.bage.tutorials.utils.PicassoUtils;
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -97,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 }
             });
             mainViewModel.queryProfile();
+        }
+    }
+
+    public void setSearchViewVisibility(boolean visibility) {
+        if(Objects.nonNull(searchView)){
+            searchView.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -151,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String query) {
         LoggerUtils.info(MainActivity.class,"query:" + query);
+        LoggerUtils.info(MainActivity.class,"query-tag:" + getSupportFragmentManager().getPrimaryNavigationFragment().getTag());
         return false;
     }
 

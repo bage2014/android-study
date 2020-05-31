@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
 import com.bage.tutorials.component.recycleview.LoadMoreOnScrollListener;
 import com.bage.tutorials.domain.TVItem;
@@ -46,7 +48,8 @@ public class TVFragment extends Fragment {
             }
         });
         recyclerView = root.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        FragmentActivity activity = getActivity();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addOnScrollListener(new LoadMoreOnScrollListener(linearLayoutManager) {
             @Override
@@ -55,9 +58,9 @@ public class TVFragment extends Fragment {
             }
         });
 
-        adapter = new MyRecyclerViewAdapter(getActivity(), list);
+        adapter = new MyRecyclerViewAdapter(activity, list);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new MyItemDecoration(getActivity(), R.dimen.divider_height,
+        recyclerView.addItemDecoration(new MyItemDecoration(activity, R.dimen.divider_height,
                 R.color.divider));
         recyclerView.setAdapter(adapter);
 
@@ -79,6 +82,11 @@ public class TVFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+
+        if (activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.setSearchViewVisibility(true);
+        }
 
         return root;
     }

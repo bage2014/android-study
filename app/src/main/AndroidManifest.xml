@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bage.tutorials">
 
+    <meta-data
+        android:name="UPDATE_APP_KEY"
+        android:value="ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"/>
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />

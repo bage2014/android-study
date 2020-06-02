@@ -7,7 +7,7 @@ import androidx.multidex.MultiDexApplication;
 import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.ContextUtils;
 
-public class App extends MultiDexApplication {
+public class TutorialsApplication extends MultiDexApplication {
 
     private static Context mContext;
 

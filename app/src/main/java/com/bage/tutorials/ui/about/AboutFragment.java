@@ -13,8 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bage.tutorials.BootstrapActivity;
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
+import com.bage.tutorials.http.HttpResult;
+import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.LoggerUtils;
 import com.king.app.dialog.AppDialog;
 import com.king.app.dialog.AppDialogConfig;
 import com.king.app.updater.AppUpdater;
@@ -35,6 +39,27 @@ public class AboutFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        aboutViewModel.getUpdatableResult().observe(this, new Observer<HttpResult>() {
+            @Override
+            public void onChanged(@Nullable HttpResult httpResult) {
+                //简单弹框升级
+                AppDialogConfig config = new AppDialogConfig();
+                config.setTitle("简单弹框升级")
+                        .setOk("升级")
+                        .setContent("1、修改TV链接、\n2、修改某某问题、\n3、优化某某BUG、")
+                        .setOnClickOk(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AppUpdater.Builder()
+                                        .serUrl("http://116.198.163.212:8088/tutorials/ignore/file/download/1591747724222")
+                                        .build(getContext())
+                                        .start();
+                                AppDialog.INSTANCE.dismissDialog();
+                            }
+                        });
+                AppDialog.INSTANCE.showDialog(getContext(),config);
+            }
+        });
 
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
@@ -45,22 +70,7 @@ public class AboutFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //简单弹框升级
-                AppDialogConfig config = new AppDialogConfig();
-                config.setTitle("简单弹框升级")
-                        .setOk("升级")
-                        .setContent("1、新增某某功能、\n2、修改某某问题、\n3、优化某某BUG、")
-                        .setOnClickOk(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new AppUpdater.Builder()
-                                        .serUrl("http://192.168.43.13:8080/hello/app-20200602.apk")
-                                        .build(getContext())
-                                        .start();
-                                AppDialog.INSTANCE.dismissDialog();
-                            }
-                        });
-                AppDialog.INSTANCE.showDialog(getContext(),config);
+                aboutViewModel.checkForUpdate(BootstrapActivity.appVersion);
             }
         });
         return root;

@@ -19,7 +19,9 @@ public class AppConstant {
     public static final String urlUserProfile = "/auth-server/user/profile";
     public static final String urlUserUpdate = "/auth-server/user/update";
     public static final String urlTVQuery = "/todo/tv/query/page";
-    public static final String urlTVQueryAll = "/todo/tv/query/all";
+    public static final String urlTVQueryAll = "/ignore/tv/query/all";
+    public static final String urlCheckForUpdate = "/ignore/version/updatable/{appVersion}";
+    public static final String urlFileDownload = "/ignore/file/download/{id}";
 
 
     public static final String urlDemo = "/demo/xxx";

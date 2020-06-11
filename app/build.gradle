@@ -73,8 +73,8 @@ dependencies {
 
     implementation "androidx.multidex:multidex:2.0.1"
 
-//appupdate
-    //app-updater
+
+    //app-updater //https://github.com/jenly1314/AppUpdater
     implementation 'com.king.app:app-updater:1.0.8'
     //app-dialog
     implementation 'com.king.app:app-dialog:1.0.8'

@@ -1,8 +1,6 @@
 package com.bage.tutorials.ui.about;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +22,6 @@ import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.king.app.dialog.AppDialogConfig;
 import com.king.app.updater.AppUpdater;
 
 import java.util.Objects;

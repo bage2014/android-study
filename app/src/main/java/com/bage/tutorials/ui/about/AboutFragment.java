@@ -1,6 +1,8 @@
 package com.bage.tutorials.ui.about;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +23,7 @@ import com.bage.tutorials.domain.UpdateResult;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
-import com.king.app.dialog.AppDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.king.app.dialog.AppDialogConfig;
 import com.king.app.updater.AppUpdater;
 
@@ -50,21 +52,20 @@ public class AboutFragment extends Fragment {
                 LoggerUtils.info(AboutFragment.class, JsonUtils.toJson(httpResult));
                 UpdateResult result = JsonUtils.fromJson(httpResult.getData(), UpdateResult.class);
                 if (Objects.nonNull(result) && result.isNeedUpdate()) {
-                    AppDialogConfig config = new AppDialogConfig();
-                    config.setTitle("简单弹框升级")
-                            .setOk("升级")
-                            .setContent("1、修改TV链接、\n2、修改某某问题、\n3、优化某某BUG、")
-                            .setOnClickOk(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    new AppUpdater.Builder()
-                                            .serUrl(result.getApkUrl())
-                                            .build(getContext())
-                                            .start();
-                                    AppDialog.INSTANCE.dismissDialog();
-                                }
-                            });
-                    AppDialog.INSTANCE.showDialog(getContext(), config);
+                    String positiveText = "Update";
+                    String negativeText = "Cancel";
+                    String title = "App Update";
+                    String message = "1、修改TV链接、\n2、修改已知Bug";
+                    // icon, title, message, 2 actions
+                    new MaterialAlertDialogBuilder(getContext())
+                            .setTitle(title)
+                            .setMessage(message)
+                            .setPositiveButton(positiveText, (dialog, which) -> new AppUpdater.Builder()
+                                    .serUrl(result.getApkUrl())
+                                    .build(getContext())
+                                    .start())
+                            .setNegativeButton(negativeText, null)
+                            .setIcon(R.drawable.ic_about_outline_black_24dp).show();
                 } else {
                     Toast.makeText(getActivity(), "do not need update!", Toast.LENGTH_SHORT).show();
                 }

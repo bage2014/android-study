@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,12 +17,15 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bage.tutorials.BootstrapActivity;
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
+import com.bage.tutorials.domain.UpdateResult;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.king.app.dialog.AppDialog;
 import com.king.app.dialog.AppDialogConfig;
 import com.king.app.updater.AppUpdater;
+
+import java.util.Objects;
 
 public class AboutFragment extends Fragment {
 
@@ -43,21 +47,27 @@ public class AboutFragment extends Fragment {
             @Override
             public void onChanged(@Nullable HttpResult httpResult) {
                 //简单弹框升级
-                AppDialogConfig config = new AppDialogConfig();
-                config.setTitle("简单弹框升级")
-                        .setOk("升级")
-                        .setContent("1、修改TV链接、\n2、修改某某问题、\n3、优化某某BUG、")
-                        .setOnClickOk(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new AppUpdater.Builder()
-                                        .serUrl("http://116.198.163.212:8088/tutorials/ignore/file/download/1591747724222")
-                                        .build(getContext())
-                                        .start();
-                                AppDialog.INSTANCE.dismissDialog();
-                            }
-                        });
-                AppDialog.INSTANCE.showDialog(getContext(),config);
+                LoggerUtils.info(AboutFragment.class, JsonUtils.toJson(httpResult));
+                UpdateResult result = JsonUtils.fromJson(httpResult.getData(), UpdateResult.class);
+                if (Objects.nonNull(result) && result.isNeedUpdate()) {
+                    AppDialogConfig config = new AppDialogConfig();
+                    config.setTitle("简单弹框升级")
+                            .setOk("升级")
+                            .setContent("1、修改TV链接、\n2、修改某某问题、\n3、优化某某BUG、")
+                            .setOnClickOk(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new AppUpdater.Builder()
+                                            .serUrl(result.getApkUrl())
+                                            .build(getContext())
+                                            .start();
+                                    AppDialog.INSTANCE.dismissDialog();
+                                }
+                            });
+                    AppDialog.INSTANCE.showDialog(getContext(), config);
+                } else {
+                    Toast.makeText(getActivity(), "do not need update!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

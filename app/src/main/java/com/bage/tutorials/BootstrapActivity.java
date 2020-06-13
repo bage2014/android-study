@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class BootstrapActivity extends AppCompatActivity {
 
-    public static final int appVersion = 1;
+    public static final int appVersion = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

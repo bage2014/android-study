@@ -1,12 +1,13 @@
 package com.bage.tutorials.domain;
 
+
 import java.io.Serializable;
 
 public class UpdateResult implements Serializable {
 
     private boolean needUpdate;
 
-    private String apkUrl;
+    private AppVersion appVersion;
 
     public boolean isNeedUpdate() {
         return needUpdate;
@@ -16,11 +17,11 @@ public class UpdateResult implements Serializable {
         this.needUpdate = needUpdate;
     }
 
-    public String getApkUrl() {
-        return apkUrl;
+    public AppVersion getAppVersion() {
+        return appVersion;
     }
 
-    public void setApkUrl(String apkUrl) {
-        this.apkUrl = apkUrl;
+    public void setAppVersion(AppVersion appVersion) {
+        this.appVersion = appVersion;
     }
 }

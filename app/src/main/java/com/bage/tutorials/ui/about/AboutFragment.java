@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bage.tutorials.BootstrapActivity;
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
+import com.bage.tutorials.domain.AppVersion;
 import com.bage.tutorials.domain.UpdateResult;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.JsonUtils;
@@ -36,36 +37,29 @@ public class AboutFragment extends Fragment {
                 ViewModelProviders.of(this).get(AboutViewModel.class);
         View root = inflater.inflate(R.layout.fragment_about, container, false);
         final TextView textView = root.findViewById(R.id.text_send);
-        aboutViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        aboutViewModel.getUpdatableResult().observe(this, new Observer<HttpResult>() {
-            @Override
-            public void onChanged(@Nullable HttpResult httpResult) {
-                //简单弹框升级
-                LoggerUtils.info(AboutFragment.class, JsonUtils.toJson(httpResult));
-                UpdateResult result = JsonUtils.fromJson(httpResult.getData(), UpdateResult.class);
-                if (Objects.nonNull(result) && result.isNeedUpdate()) {
-                    String positiveText = "Update";
-                    String negativeText = "Cancel";
-                    String title = "App Update";
-                    String message = "1、修改TV链接、\n2、修改已知Bug";
-                    // icon, title, message, 2 actions
-                    new MaterialAlertDialogBuilder(getContext())
-                            .setTitle(title)
-                            .setMessage(message)
-                            .setPositiveButton(positiveText, (dialog, which) -> new AppUpdater.Builder()
-                                    .serUrl(result.getApkUrl())
-                                    .build(getContext())
-                                    .start())
-                            .setNegativeButton(negativeText, null)
-                            .setIcon(R.drawable.ic_about_outline_black_24dp).show();
-                } else {
-                    Toast.makeText(getActivity(), "do not need update!", Toast.LENGTH_SHORT).show();
-                }
+        aboutViewModel.getText().observe(this, s -> textView.setText(s));
+        aboutViewModel.getUpdatableResult().observe(this, httpResult -> {
+            //简单弹框升级
+            LoggerUtils.info(AboutFragment.class, JsonUtils.toJson(httpResult));
+            UpdateResult result = JsonUtils.fromJson(httpResult.getData(), UpdateResult.class);
+            if (Objects.nonNull(result) && result.isNeedUpdate()) {
+                AppVersion appVersion = result.getAppVersion();
+                String positiveText = "Update";
+                String negativeText = "Cancel";
+                String title = "App Update";
+                String message = appVersion.getDesc();
+                // icon, title, message, 2 actions
+                new MaterialAlertDialogBuilder(getContext())
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(positiveText, (dialog, which) -> new AppUpdater.Builder()
+                                .serUrl(appVersion.getApkUrl())
+                                .build(getContext())
+                                .start())
+                        .setNegativeButton(negativeText, null)
+                        .setIcon(R.drawable.ic_about_outline_black_24dp).show();
+            } else {
+                Toast.makeText(getActivity(), "do not need update!", Toast.LENGTH_SHORT).show();
             }
         });
 

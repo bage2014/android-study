@@ -1,5 +1,6 @@
 package com.bage.tutorials.domain;
 
+
 public class AppVersion {
 
     private long id;

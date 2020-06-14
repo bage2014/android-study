@@ -13,4 +13,8 @@ public class AndroidUtils {
     public static String getDeviceId() {
         return deviceId;
     }
+
+    public static String getIp() {
+        return "58.247.238.43";
+    }
 }

@@ -15,6 +15,11 @@
         android:name="com.bage.tutorials.ui.deliver.DeliverFragment"
         android:label="@string/menu_deliver"
         tools:layout="@layout/fragment_deliver" />
+    <fragment
+        android:id="@+id/nav_weather"
+        android:name="com.bage.tutorials.ui.weather.WeatherFragment"
+        android:label="@string/menu_weather"
+        tools:layout="@layout/fragment_weather" />
 
     <fragment
         android:id="@+id/nav_settings"

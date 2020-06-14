@@ -22,6 +22,7 @@ public class AppConstant {
     public static final String urlTVQueryAll = "/ignore/tv/query/all";
     public static final String urlCheckForUpdate = "/ignore/version/updatable/{appVersion}";
     public static final String urlFileDownload = "/ignore/file/download/{id}";
+    public static final String urlWeatherWeeklyQuery = "/ignore/weather/weekly/query/{ip}";
 
 
     public static final String urlDemo = "/demo/xxx";

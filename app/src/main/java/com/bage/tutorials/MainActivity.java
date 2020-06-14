@@ -32,7 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private UserRepository userRepository;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_tv,R.id.nav_deliver, R.id.nav_settings, R.id.nav_about)
+                R.id.nav_tv, R.id.nav_weather, R.id.nav_deliver, R.id.nav_settings, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
     public void setSearchViewVisibility(boolean visibility) {
-        if(Objects.nonNull(searchView)){
+        if (Objects.nonNull(searchView)) {
             searchView.setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
         }
     }
@@ -155,14 +155,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        LoggerUtils.info(MainActivity.class,"query:" + query);
-        LoggerUtils.info(MainActivity.class,"query-tag:" + getSupportFragmentManager().getPrimaryNavigationFragment().getTag());
+        LoggerUtils.info(MainActivity.class, "query:" + query);
+        LoggerUtils.info(MainActivity.class, "query-tag:" + getSupportFragmentManager().getPrimaryNavigationFragment().getTag());
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        LoggerUtils.info(MainActivity.class,"newText:" + newText);
+        LoggerUtils.info(MainActivity.class, "newText:" + newText);
         return false;
     }
 }

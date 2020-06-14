@@ -1,4 +1,4 @@
-package com.bage.tutorials.component;
+package com.bage.tutorials.component.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.bage.tutorials.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class DialogHelper {
+public class AlertDialogHelper {
 
     private Context context;
     private String positiveText = "OK";
@@ -18,7 +18,7 @@ public class DialogHelper {
     private String confirmTitle = "Warning";
     private String errorTitle = "Ops";
 
-    public DialogHelper(Context context) {
+    public AlertDialogHelper(Context context) {
         this.context = context;
     }
 

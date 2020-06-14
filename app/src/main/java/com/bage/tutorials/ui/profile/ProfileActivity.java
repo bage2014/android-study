@@ -18,7 +18,7 @@ import androidx.lifecycle.Observer;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.cache.UserCache;
-import com.bage.tutorials.component.DialogHelper;
+import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.component.datepicker.DatePickerCallbackListener;
 import com.bage.tutorials.component.datepicker.DatePickerHelper;
 import com.bage.tutorials.domain.DateFormat;
@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView signatureTextView;
 
     private DatePickerHelper datePickerHelper;
-    private DialogHelper dialogHelper;
+    private AlertDialogHelper alertDialogHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        dialogHelper = new DialogHelper(ProfileActivity.this);
+        alertDialogHelper = new AlertDialogHelper(ProfileActivity.this);
         datePickerHelper = new DatePickerHelper(ProfileActivity.this);
 
         userIconView = findViewById(R.id.profile_user_iconview);
@@ -155,7 +155,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            AlertDialog title = dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+            AlertDialog title = alertDialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);
@@ -211,7 +211,7 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            AlertDialog title = dialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
+            AlertDialog title = alertDialogHelper.showCustomDialog(R.layout.dialog_edit_text, "Title", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     TextView input = ((AlertDialog) dialogInterface).findViewById(android.R.id.text1);

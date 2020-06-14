@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
-import com.bage.tutorials.component.DialogHelper;
+import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.component.activity.ActivityHelper;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.http.server.RestResponseCodeEnum;
@@ -30,7 +30,6 @@ import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.UnlockActivity;
 import com.bage.tutorials.ui.register.RegisterActivity;
 import com.bage.tutorials.ui.settting.SettingsActivity;
-import com.bage.tutorials.utils.AppConfigUtils;
 import com.bage.tutorials.utils.JwtUtils;
 import com.bage.tutorials.utils.StringUtils;
 
@@ -40,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private UserRepository userRepository;
-    private DialogHelper dialogHelper;
+    private AlertDialogHelper alertDialogHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                             gotoUnlock();
                             break;
                         case UNKNOWN_EXCEPTION:
-                            dialogHelper.showBasicErrorDialog(httpResult.getMsg());
+                            alertDialogHelper.showBasicErrorDialog(httpResult.getMsg());
                             break;
                         default:
                             showLoginFailed(httpResult.getMsg());
@@ -145,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
             gotoMain();
         }
 
-        dialogHelper = new DialogHelper(this);
+        alertDialogHelper = new AlertDialogHelper(this);
     }
 
     public void gotoUnlock() {

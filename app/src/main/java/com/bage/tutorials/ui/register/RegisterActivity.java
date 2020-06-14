@@ -4,16 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,30 +19,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
-import com.bage.tutorials.component.DialogHelper;
-import com.bage.tutorials.component.SharedPreferencesHelper;
-import com.bage.tutorials.component.activity.ActivityHelper;
+import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.http.server.RestResponseCodeEnum;
 import com.bage.tutorials.repository.UserRepository;
-import com.bage.tutorials.ui.UnlockActivity;
 import com.bage.tutorials.ui.login.LoginActivity;
-import com.bage.tutorials.ui.settting.SettingsActivity;
 import com.bage.tutorials.utils.AndroidUtils;
-import com.bage.tutorials.utils.AppConfigUtils;
-import com.bage.tutorials.utils.JwtUtils;
 import com.bage.tutorials.utils.PicassoUtils;
 import com.bage.tutorials.utils.StringUtils;
-
-import io.jsonwebtoken.Claims;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private RegisterViewModel registerViewModel;
     private UserRepository userRepository;
-    private DialogHelper dialogHelper;
+    private AlertDialogHelper alertDialogHelper;
     private ImageView validateImageView;
 
     @Override
@@ -101,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     switch (RestResponseCodeEnum.of(httpResult.getCode())) {
                         case UNKNOWN_EXCEPTION:
-                            dialogHelper.showBasicErrorDialog(httpResult.getMsg());
+                            alertDialogHelper.showBasicErrorDialog(httpResult.getMsg());
                             break;
                         default:
                             showRegisterFailed(httpResult.getMsg());
@@ -149,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
             gotoLogin();
         }
 
-        dialogHelper = new DialogHelper(this);
+        alertDialogHelper = new AlertDialogHelper(this);
 
         refreshValidateImage();
         validateImageView.setOnClickListener(new View.OnClickListener() {

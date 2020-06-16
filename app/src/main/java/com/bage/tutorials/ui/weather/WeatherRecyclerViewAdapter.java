@@ -31,14 +31,15 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherRecy
 
     @Override
     public WeatherRecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tv_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_weather_item, parent, false);
         MyViewHolder viewHolder = new WeatherRecyclerViewAdapter.MyViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(WeatherRecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.mText.setText(list.get(position).getWea());
+        holder.tvDay.setText(list.get(position).getDay());
+        holder.tvWeather.setText(list.get(position).getTem());
     }
 
     @Override
@@ -47,11 +48,13 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherRecy
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView mText;
+        TextView tvDay;
+        TextView tvWeather;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            mText = itemView.findViewById(R.id.item_tx);
+            tvDay = itemView.findViewById(R.id.item_tv_day);
+            tvWeather = itemView.findViewById(R.id.item_tv_weather);
 
             //添加点击事件
             itemView.setOnClickListener(new View.OnClickListener() {

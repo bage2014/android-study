@@ -20,6 +20,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bage.tutorials.R;
 import com.bage.tutorials.component.recycleview.LoadMoreOnScrollListener;
 import com.bage.tutorials.domain.weather.DayWeather;
+import com.bage.tutorials.domain.weather.WeekWeather;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.ui.tv.MyItemDecoration;
 import com.bage.tutorials.ui.tv.MyRecyclerViewAdapter;
@@ -47,8 +48,6 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onRefresh() {
                 weatherViewModel.query(AndroidUtils.getIp());
-                // adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
         recyclerView = root.findViewById(R.id.recycler_view);
@@ -76,8 +75,14 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onChanged(@Nullable HttpResult httpResult) {
                 swipeRefreshLayout.setRefreshing(false);
-
-                LoggerUtils.info(WeatherFragment.class, JsonUtils.toJson(httpResult));
+                LoggerUtils.info(WeatherFragment.class,JsonUtils.toJson(httpResult));
+                if (httpResult.isOk()) {
+                    String data = httpResult.getData();
+                    WeekWeather weekWeather = JsonUtils.fromJson(data, WeekWeather.class);
+                    list.clear();
+                    list.addAll(weekWeather.getDays());
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
         return root;

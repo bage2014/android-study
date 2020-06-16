@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/item_tx"
@@ -12,5 +13,12 @@
         android:padding="15dp"
         android:text="Item"
         android:textColor="@color/icon_color_nav" />
+
+    <ImageButton
+        android:id="@+id/exo_back_icon"
+        android:layout_width="@dimen/icon_width_big"
+        android:layout_height="@dimen/icon_width_big"
+        android:layout_gravity="top|left"
+        app:srcCompat="@drawable/ic_location_on_white_24dp" />
 
 </LinearLayout>

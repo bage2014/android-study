@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginTop="20dp"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_iv_favorite"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_width="@dimen/icon_width_middle"
+        android:layout_height="@dimen/icon_height_middle"
+        app:srcCompat="@drawable/ic_favorite_black_24dp" />
 
     <TextView
         android:id="@+id/item_tx"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:paddingTop="20dp"
         android:text="Item"
         android:textColor="@color/icon_color_nav" />
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/exo_back_icon"-->
-<!--        android:layout_width="@dimen/icon_width_big"-->
-<!--        android:layout_height="@dimen/icon_width_big"-->
-<!--        android:layout_gravity="top|left"-->
-<!--        app:srcCompat="@drawable/ic_menu_manage" />-->
 
 </LinearLayout>

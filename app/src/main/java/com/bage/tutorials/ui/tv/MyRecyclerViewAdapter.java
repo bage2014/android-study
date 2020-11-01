@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bage.tutorials.R;
 import com.bage.tutorials.domain.TVItem;
+import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.LoggerUtils;
 
 import java.util.List;
 
@@ -43,13 +46,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView mText;
+        ImageView mImage;
 
         MyViewHolder(View itemView) {
             super(itemView);
             mText = itemView.findViewById(R.id.item_tx);
-
             //添加点击事件
-            itemView.setOnClickListener(new View.OnClickListener() {
+            mText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TVItem tvItem = list.get(getLayoutPosition());
@@ -58,6 +61,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     bundle.putSerializable("tvItem", tvItem);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                }
+            });
+
+            //添加点击事件
+            mImage = itemView.findViewById(R.id.item_iv_favorite);
+            mImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TVItem tvItem = list.get(getLayoutPosition());
+                    LoggerUtils.info(MyRecyclerViewAdapter.class, "tvItem = " + JsonUtils.toJson(tvItem));
                 }
             });
         }

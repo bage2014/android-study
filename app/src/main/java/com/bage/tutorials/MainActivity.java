@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,6 +24,7 @@ import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.profile.ProfileActivity;
+import com.bage.tutorials.ui.tv.TVFragment;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.bage.tutorials.utils.PicassoUtils;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private TextView userMail;
     private TextView userSignature;
     private SearchView searchView;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String newText) {
         LoggerUtils.info(MainActivity.class, "newText:" + newText);
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        Fragment fragment = current.getChildFragmentManager().getPrimaryNavigationFragment();
+        if(fragment instanceof TVFragment){
+            TVFragment tvFragment = (TVFragment) fragment;
+            return tvFragment.onQueryTextChange(newText);
+        }
         return false;
     }
 }

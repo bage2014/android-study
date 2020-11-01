@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TVFragment extends Fragment {
 
@@ -32,6 +34,7 @@ public class TVFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private MyRecyclerViewAdapter adapter;
     private List<TVItem> list = new ArrayList<>();
+    private List<TVItem> originList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class TVFragment extends Fragment {
                 for (TVItem data : datas) {
                     list.add(data);
                 }
+                originList = new ArrayList<>(list);
                 adapter.notifyDataSetChanged();
             } else {
                 HttpResultUtils.errorCallback(activity, httpResult);
@@ -87,5 +91,20 @@ public class TVFragment extends Fragment {
         }
 
         return root;
+    }
+
+    public boolean onQueryTextChange(String newText) {
+        list.clear();
+        if (Objects.isNull(newText) || newText.isEmpty()) {
+            list.addAll(originList);
+        } else {
+            originList.forEach(item -> {
+                if (item.getName().contains(newText)) {
+                    list.add(item);
+                }
+            });
+        }
+        adapter.notifyDataSetChanged();
+        return true;
     }
 }

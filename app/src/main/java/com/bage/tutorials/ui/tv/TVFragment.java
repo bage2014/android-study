@@ -18,8 +18,8 @@ import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
 import com.bage.tutorials.component.recycleview.LoadMoreOnScrollListener;
 import com.bage.tutorials.domain.TVItem;
+import com.bage.tutorials.utils.HttpResultUtils;
 import com.bage.tutorials.utils.JsonUtils;
-import com.bage.tutorials.utils.LoggerUtils;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
@@ -68,11 +68,7 @@ public class TVFragment extends Fragment {
         TVViewModel.queryAll();
         TVViewModel.getResult().observe(this, httpResult -> {
             swipeRefreshLayout.setRefreshing(false);
-            LoggerUtils.info(TVFragment.class, "data = " + httpResult.getData());
-            if (httpResult == null) {
-                return;
-            }
-            if (httpResult.isOk()) {
+            if (HttpResultUtils.isOk(httpResult)) {
                 list.clear();
                 List<TVItem> datas = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
                 }.getType());
@@ -80,6 +76,8 @@ public class TVFragment extends Fragment {
                     list.add(data);
                 }
                 adapter.notifyDataSetChanged();
+            } else {
+                HttpResultUtils.errorCallback(activity, httpResult);
             }
         });
 

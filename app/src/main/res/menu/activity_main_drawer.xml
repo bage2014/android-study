@@ -11,6 +11,7 @@
             android:icon="@drawable/ic_live_tv_black_24dp"
             android:title="@string/menu_tv" />
         <item
+            android:visible="false"
             android:id="@+id/nav_weather"
             android:icon="@drawable/ic_wb_sunny_black_24dp"
             android:title="@string/menu_weather" />

@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
+        android:gravity="left"
         android:text="Item"
         android:textColor="@color/icon_color_nav" />
 

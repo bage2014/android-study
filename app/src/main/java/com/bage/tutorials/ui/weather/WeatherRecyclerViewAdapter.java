@@ -1,8 +1,6 @@
 package com.bage.tutorials.ui.weather;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bage.tutorials.R;
-import com.bage.tutorials.domain.TVItem;
 import com.bage.tutorials.domain.weather.DayWeather;
-import com.bage.tutorials.domain.weather.WeekWeather;
-import com.bage.tutorials.ui.tv.TVPlayingActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 

@@ -12,7 +12,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -76,4 +82,8 @@ dependencies {
 
     //app-updater //https://github.com/jenly1314/AppUpdater
     implementation 'com.king.app:app-updater:1.0.8'
+
+    compileOnly "org.projectlombok:lombok:1.18.4"
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+
 }

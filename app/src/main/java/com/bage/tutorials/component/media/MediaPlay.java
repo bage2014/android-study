@@ -13,7 +13,6 @@ package com.bage.tutorials.component.media;
 import android.content.Context;
 import android.net.Uri;
 
-import com.bage.tutorials.domain.TVItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -30,7 +29,7 @@ public class MediaPlay {
 
     }
 
-    public void init(Context context, PlayerView playerView, TVItem item) {
+    public void init(Context context, PlayerView playerView, String url) {
         player = new SimpleExoPlayer.Builder(context).build();
 
         // Bind the player to the view.
@@ -43,7 +42,7 @@ public class MediaPlay {
         HlsMediaSource hlsMediaSource =
                 new HlsMediaSource.Factory(dataSourceFactory)
                         .setAllowChunklessPreparation(true)
-                        .createMediaSource(Uri.parse(item.getUrl()));
+                        .createMediaSource(Uri.parse(url));
 
         // Prepare the player with the source.
         player.prepare(hlsMediaSource);

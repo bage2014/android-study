@@ -3,26 +3,25 @@ package com.bage.tutorials.ui.tv;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.api.android.TVItem;
 import com.bage.tutorials.component.media.MediaPlay;
-import com.bage.tutorials.domain.TVItem;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
+
+import java.util.Arrays;
 
 
 public class TVPlayingActivity extends AppCompatActivity {
@@ -45,11 +44,17 @@ public class TVPlayingActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         TVItem tvItem = (TVItem) intent.getSerializableExtra("tvItem");
+        // todo remove mock data
+        tvItem.setUrls(Arrays.asList(
+                "http://117.169.120.140:8080/live/cctv-1/.m3u8",
+                "http://117.169.120.140:8080/live/cctv-2/.m3u8",
+                "http://117.169.120.140:8080/live/cctv-3/.m3u8",
+                "http://117.169.120.140:8080/live/cctv-4/.m3u8"));
         LoggerUtils.info(TVPlayingActivity.class, "data = " + JsonUtils.toJson(tvItem));
 
         mediaPlay = new MediaPlay();
         PlayerView playerView = findViewById(R.id.video_layout);
-        mediaPlay.init(TVPlayingActivity.this, playerView, tvItem);
+        mediaPlay.init(TVPlayingActivity.this, playerView, tvItem.getUrl());
         keepScreenOn();
 
         fullScreenImageView = findViewById(R.id.exo_fullscreen_icon);

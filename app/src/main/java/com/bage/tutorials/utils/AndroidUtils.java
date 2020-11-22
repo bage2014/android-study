@@ -14,6 +14,10 @@ public class AndroidUtils {
         return deviceId;
     }
 
+    public static Long getUserId() {
+        return Long.valueOf(getDeviceId().hashCode());
+    }
+
     public static String getIp() {
         return "58.247.238.43";
     }

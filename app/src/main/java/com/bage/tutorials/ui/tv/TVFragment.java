@@ -79,6 +79,7 @@ public class TVFragment extends Fragment {
         TVViewModel.getResult().observe(this, httpResult -> {
             swipeRefreshLayout.setRefreshing(false);
             if (HttpResultUtils.isOk(httpResult)) {
+                onQueryFavorite();
                 list.clear();
                 List<TVItem> datas = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
                 }.getType());
@@ -103,9 +104,7 @@ public class TVFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 System.out.println("tab onTabSelected " + tab.getPosition());
-                if (tab.getPosition() == 1) {
-                    filterQueryFavorite(true);
-                }
+                filterQueryFavorite(tab.getPosition() == 1);
             }
 
             @Override
@@ -117,7 +116,6 @@ public class TVFragment extends Fragment {
             }
         });
 
-        onQueryFavorite();
         favoriteViewModel.getResult().observe(this, httpResult -> {
             swipeRefreshLayout.setRefreshing(false);
             if (HttpResultUtils.isOk(httpResult)) {
@@ -166,6 +164,8 @@ public class TVFragment extends Fragment {
                 list.add(item);
             }
         });
+        System.out.println("list = " + JsonUtils.toJson(list));
+
         adapter.notifyDataSetChanged();
         return true;
     }

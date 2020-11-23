@@ -45,7 +45,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(MyRecyclerViewAdapter.MyViewHolder holder, int position) {
         TVItem tvItem = list.get(position);
         holder.mText.setText(tvItem.getName());
-        Drawable drawable = context.getResources().getDrawable(R.drawable.ic_favorite_black_24dp);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.ic_favorite_red_24dp);
         if(Objects.equals(tvItem.getIsFavorite(), true)){
             holder.mImage.setImageDrawable(drawable);
         }

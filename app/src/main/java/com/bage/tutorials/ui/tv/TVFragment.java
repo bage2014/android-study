@@ -103,7 +103,6 @@ public class TVFragment extends Fragment {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                System.out.println("tab onTabSelected " + tab.getPosition());
                 filterQueryFavorite(tab.getPosition() == 1);
             }
 
@@ -164,8 +163,6 @@ public class TVFragment extends Fragment {
                 list.add(item);
             }
         });
-        System.out.println("list = " + JsonUtils.toJson(list));
-
         adapter.notifyDataSetChanged();
         return true;
     }

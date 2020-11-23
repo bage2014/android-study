@@ -39,6 +39,7 @@ public class TVFragment extends Fragment {
     private MyRecyclerViewAdapter adapter;
     private List<TVItem> list = new ArrayList<>();
     private List<TVItem> originList = new ArrayList<>();
+    private List<AppFavorite> favoriteList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class TVFragment extends Fragment {
             }
         });
 
-        adapter = new MyRecyclerViewAdapter(activity, list,favoriteViewModel);
+        adapter = new MyRecyclerViewAdapter(activity, list, favoriteViewModel);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new MyItemDecoration(activity, R.dimen.divider_height,
                 R.color.divider));
@@ -102,7 +103,9 @@ public class TVFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 System.out.println("tab onTabSelected " + tab.getPosition());
-//                onQueryFavorite(tab.getPosition());
+                if (tab.getPosition() == 1) {
+                    filterQueryFavorite(true);
+                }
             }
 
             @Override
@@ -114,13 +117,14 @@ public class TVFragment extends Fragment {
             }
         });
 
-        favoriteViewModel.queryByUserId(AndroidUtils.getUserId(), 1);
+        onQueryFavorite();
         favoriteViewModel.getResult().observe(this, httpResult -> {
+            swipeRefreshLayout.setRefreshing(false);
             if (HttpResultUtils.isOk(httpResult)) {
-                List<AppFavorite> favoriteList = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<AppFavorite>>() {
+                favoriteList = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<AppFavorite>>() {
                 }.getType());
                 for (AppFavorite appFavorite : favoriteList) {
-                    for (TVItem data : list) {
+                    for (TVItem data : originList) {
                         if (Objects.equals(appFavorite.getFavoriteId(), data.getId())) {
                             data.setIsFavorite(true);
                         }
@@ -137,22 +141,32 @@ public class TVFragment extends Fragment {
             } else {
                 HttpResultUtils.errorCallback(activity, httpResult);
             }
-        });;
+        });
+        ;
         return root;
     }
 
-    private boolean onQueryFavorite(int position) {
+    private boolean onQueryFavorite() {
         swipeRefreshLayout.setRefreshing(true);
+        favoriteViewModel.queryByUserId(AndroidUtils.getUserId(), 1);
+        return true;
+    }
+
+    public boolean filterQueryFavorite(boolean isFilter) {
         list.clear();
-        for (int i = 0; i < originList.size(); i++) {
-            int max = position == 1 ? 5 : originList.size();
-            if (i <= max) {
-                list.add(originList.get(i));
+
+        originList.forEach(item -> {
+            if(isFilter){
+                for (AppFavorite appFavorite : favoriteList) {
+                    if (Objects.equals(appFavorite.getFavoriteId(),item.getId())) {
+                        list.add(item);
+                    }
+                }
+            } else {
+                list.add(item);
             }
-        }
-        ;
+        });
         adapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
         return true;
     }
 

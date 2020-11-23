@@ -11,7 +11,6 @@ import com.bage.tutorials.http.HttpCallback;
 import com.bage.tutorials.http.HttpParam;
 import com.bage.tutorials.http.HttpRequests;
 import com.bage.tutorials.http.HttpResult;
-import com.bage.tutorials.ui.demo.DemoViewModel;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.bage.tutorials.utils.QueryParamUtils;
@@ -42,17 +41,18 @@ public class FavoriteViewModel extends ViewModel {
         HttpRequests.post(url, params, new HttpCallback() {
             @Override
             public void onFailure(HttpResult httpResult) {
-                LoggerUtils.info(DemoViewModel.class, "onFailure httpResult = " + JsonUtils.toJson(httpResult));
-                result.postValue(httpResult);
+                LoggerUtils.info(FavoriteViewModel.class, "onFailure httpResult = " + JsonUtils.toJson(httpResult));
+                updateResult.postValue(httpResult);
             }
 
             @Override
             public void onSuccess(HttpResult httpResult) {
-                LoggerUtils.info(DemoViewModel.class, "onSuccess httpResult = " + JsonUtils.toJson(httpResult));
-                result.postValue(httpResult);
+                LoggerUtils.info(FavoriteViewModel.class, "onSuccess httpResult = " + JsonUtils.toJson(httpResult));
+                updateResult.postValue(httpResult);
             }
         });
     }
+
     public void queryByUserId(Long userId, int targetPage) {
         List<HttpParam> params = new ArrayList<>();
         AppFavoriteQueryParam param = new AppFavoriteQueryParam();
@@ -67,13 +67,13 @@ public class FavoriteViewModel extends ViewModel {
         HttpRequests.get(url, params, new HttpCallback() {
             @Override
             public void onFailure(HttpResult httpResult) {
-                LoggerUtils.info(DemoViewModel.class, "onFailure httpResult = " + JsonUtils.toJson(httpResult));
+                LoggerUtils.info(FavoriteViewModel.class, "onFailure httpResult = " + JsonUtils.toJson(httpResult));
                 result.postValue(httpResult);
             }
 
             @Override
             public void onSuccess(HttpResult httpResult) {
-                LoggerUtils.info(DemoViewModel.class, "onSuccess httpResult = " + JsonUtils.toJson(httpResult));
+                LoggerUtils.info(FavoriteViewModel.class, "onSuccess httpResult = " + JsonUtils.toJson(httpResult));
                 result.postValue(httpResult);
             }
         });

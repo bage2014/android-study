@@ -7,12 +7,24 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class JsonUtils {
 
-    private static Gson gson = new GsonBuilder().create();
-    private static JsonParser jsonParser = new JsonParser();
+    private static Gson gson;
+    private static JsonParser parser;
+
+    static {
+        gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class,TypeAdapter.localDateTimeJsonSerializer)
+                .registerTypeAdapter(LocalDateTime.class,TypeAdapter.localDateTimeJsonDeserializer)
+                .registerTypeAdapter(LocalDate.class,TypeAdapter.localDateJsonSerializer)
+                .registerTypeAdapter(LocalDate.class,TypeAdapter.localDateJsonDeserializer)
+                .serializeNulls().create();
+        parser = new JsonParser();
+    }
 
     /**
      * 将一个对象转换成JSON字符串返回
@@ -24,6 +36,17 @@ public class JsonUtils {
         return gson.toJson(obj);
     }
 
+    /**
+     * 解析一个 key
+     *
+     * @param json
+     * @param key
+     * @return
+     */
+    public static String getAsString(String json, String key) {
+        JsonObject parse = parser.parse(json).getAsJsonObject();
+        return parse.get(key).getAsString();
+    }
 
     /**
      * 将JSON字符串转换成一个对象返回
@@ -35,7 +58,6 @@ public class JsonUtils {
     public static <T> T fromJson(String json, Class<T> classOfT) {
         return gson.fromJson(json, classOfT);
     }
-
 
     /**
      * 解析泛型 <br/>
@@ -54,8 +76,9 @@ public class JsonUtils {
         return gson.fromJson(json, typeOfT);
     }
 
+
     public static String parseString(String json, String key) {
-        JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+        JsonObject jsonObject = parser.parse(json).getAsJsonObject();
         JsonElement jsonElement = jsonObject.get(key);
         if (jsonElement.isJsonNull()) {
             return null;
@@ -70,7 +93,7 @@ public class JsonUtils {
     }
 
     public static int parseInt(String json, String key) {
-        JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+        JsonObject jsonObject = parser.parse(json).getAsJsonObject();
         JsonElement jsonElement = jsonObject.get(key);
         if (Objects.nonNull(jsonElement)) {
             return jsonElement.getAsInt();

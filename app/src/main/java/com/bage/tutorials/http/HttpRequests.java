@@ -95,7 +95,11 @@ public class HttpRequests {
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                formBodyBuilder.add(param.getKey(), String.valueOf(param.getValue()));
+                if(param.getValue() instanceof String){
+                    formBodyBuilder.add(param.getKey(), (String) param.getValue());
+                } else {
+                    formBodyBuilder.add(param.getKey(), JsonUtils.toJson(param.getValue()));
+                }
             }
         }
 
@@ -133,7 +137,11 @@ public class HttpRequests {
                 .newBuilder();
         if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                urlBuilder.addQueryParameter(param.getKey(), String.valueOf(param.getValue()));
+                if(param.getValue() instanceof String){
+                    urlBuilder.addQueryParameter(param.getKey(), (String) param.getValue());
+                } else {
+                    urlBuilder.addQueryParameter(param.getKey(), JsonUtils.toJson(param.getValue()));
+                }
             }
         }
 
@@ -158,7 +166,11 @@ public class HttpRequests {
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         if (Objects.nonNull(params)) {
             for (HttpParam param : params) {
-                formBodyBuilder.add(param.getKey(), String.valueOf(param.getValue()));
+                if(param.getValue() instanceof String){
+                    formBodyBuilder.add(param.getKey(), (String) param.getValue());
+                } else {
+                    formBodyBuilder.add(param.getKey(), JsonUtils.toJson(param.getValue()));
+                }
             }
         }
 

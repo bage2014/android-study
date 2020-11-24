@@ -34,29 +34,7 @@ public class AboutFragment extends Fragment {
         aboutViewModel =
                 ViewModelProviders.of(this).get(AboutViewModel.class);
         View root = inflater.inflate(R.layout.fragment_about, container, false);
-        View btnCheckForUpdate = root.findViewById(R.id.btn_check_for_update);
-        aboutViewModel.getUpdatableResult().observe(this, httpResult -> {
-            //简单弹框升级
-            LoggerUtils.info(AboutFragment.class, JsonUtils.toJson(httpResult));
-            UpdateResult result = JsonUtils.fromJson(httpResult.getData(), UpdateResult.class);
-            if (Objects.nonNull(result) && result.isNeedUpdate()) {
-                AppVersion appVersion = result.getAppVersion();
-                String title = "App Update";
-                String message = appVersion.getDesc().replace("\\n", "\n");
-                // icon, title, message, 2 actions
-                new AlertDialogHelper(getContext()).showConfirmDialog(title, message, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new AppUpdater.Builder()
-                                .serUrl(appVersion.getApkUrl())
-                                .build(getContext())
-                                .start();
-                    }
-                }, null);
-            } else {
-                ToastUtils.show(getActivity(), "This is the latest version");
-            }
-        });
+
 
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
@@ -64,12 +42,6 @@ public class AboutFragment extends Fragment {
             mainActivity.setSearchViewVisibility(false);
         }
 
-        btnCheckForUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                aboutViewModel.checkForUpdate(BootstrapActivity.appVersion);
-            }
-        });
         return root;
     }
 }

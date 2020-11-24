@@ -17,6 +17,7 @@ import com.bage.tutorials.utils.QueryParamUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FavoriteViewModel extends ViewModel {
 
@@ -33,8 +34,13 @@ public class FavoriteViewModel extends ViewModel {
 
     public void setFavorite(AppFavorite appFavorite) {
         List<HttpParam> params = new ArrayList<>();
-        params.add(new HttpParam("param", appFavorite));
-        doUpdate(AppConstant.urlFavoriteUpdate, params);
+        if (Objects.isNull(appFavorite.getId())) {
+            params.add(new HttpParam("param", appFavorite));
+            doUpdate(AppConstant.urlFavoriteUpdate, params);
+        } else {
+            params.add(new HttpParam("param", appFavorite.getId()));
+            doUpdate(AppConstant.urlFavoriteDelete, params);
+        }
     }
 
     public void doUpdate(String url, List<HttpParam> params) {

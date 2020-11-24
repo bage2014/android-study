@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bage.tutorials.R;
@@ -25,13 +24,13 @@ import java.util.Objects;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     private List<TVItem> list;
-    private FavoriteViewModel favoriteViewModel;
+    private SetFavoriteClickListener setFavoriteClickListener;
     private Context context;
 
-    public MyRecyclerViewAdapter(Context context, List<TVItem> list, FavoriteViewModel favoriteViewModel) {
+    public MyRecyclerViewAdapter(Context context, List<TVItem> list, SetFavoriteClickListener setFavoriteClickListener) {
         this.list = list;
         this.context = context;
-        this.favoriteViewModel = favoriteViewModel;
+        this.setFavoriteClickListener = setFavoriteClickListener;
     }
 
     @Override
@@ -45,10 +44,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(MyRecyclerViewAdapter.MyViewHolder holder, int position) {
         TVItem tvItem = list.get(position);
         holder.mText.setText(tvItem.getName());
-        Drawable drawable = context.getResources().getDrawable(R.drawable.ic_favorite_red_24dp);
-        if(Objects.equals(tvItem.getIsFavorite(), true)){
-            holder.mImage.setImageDrawable(drawable);
+        int iconId = R.drawable.ic_favorite_black_24dp;
+        if (Objects.nonNull(tvItem.getAppFavorite())) {
+            iconId = R.drawable.ic_favorite_red_24dp;
         }
+        Drawable drawable = context.getResources().getDrawable(iconId);
+        holder.mImage.setImageDrawable(drawable);
     }
 
     @Override
@@ -78,10 +79,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mImage.setOnClickListener(v -> {
                 TVItem tvItem = list.get(getLayoutPosition());
                 LoggerUtils.info(MyRecyclerViewAdapter.class, "tvItem = " + JsonUtils.toJson(tvItem));
-                AppFavorite item = new AppFavorite();
-                item.setUserId(AndroidUtils.getUserId());
-                item.setFavoriteId(tvItem.getId());
-                favoriteViewModel.setFavorite(item);
+                AppFavorite appFavorite = tvItem.getAppFavorite();
+                if (Objects.isNull(appFavorite)) {
+                    appFavorite = new AppFavorite();
+                    appFavorite.setUserId(AndroidUtils.getUserId());
+                    appFavorite.setFavoriteId(tvItem.getId());
+                }
+                setFavoriteClickListener.setAppFavorite(appFavorite);
             });
         }
     }

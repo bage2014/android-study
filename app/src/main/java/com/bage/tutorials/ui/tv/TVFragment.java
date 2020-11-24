@@ -28,6 +28,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class TVFragment extends Fragment {
 
@@ -40,6 +41,8 @@ public class TVFragment extends Fragment {
     private List<TVItem> list = new ArrayList<>();
     private List<TVItem> originList = new ArrayList<>();
     private List<AppFavorite> favoriteList = new ArrayList<>();
+    private boolean isFilter;
+    private String newText;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +71,10 @@ public class TVFragment extends Fragment {
             }
         });
 
-        adapter = new MyRecyclerViewAdapter(activity, list, favoriteViewModel);
+        adapter = new MyRecyclerViewAdapter(activity, list, appFavorite -> {
+            swipeRefreshLayout.setRefreshing(true);
+            favoriteViewModel.setFavorite(appFavorite);
+        });
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new MyItemDecoration(activity, R.dimen.divider_height,
                 R.color.divider));
@@ -103,7 +109,8 @@ public class TVFragment extends Fragment {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                filterQueryFavorite(tab.getPosition() == 1);
+                isFilter = tab.getPosition() == 1;
+                filterQueryFavorite();
             }
 
             @Override
@@ -120,12 +127,14 @@ public class TVFragment extends Fragment {
             if (HttpResultUtils.isOk(httpResult)) {
                 favoriteList = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<AppFavorite>>() {
                 }.getType());
-                for (AppFavorite appFavorite : favoriteList) {
-                    for (TVItem data : originList) {
+                for (TVItem data : originList) {
+                    AppFavorite isAppFavorite = null; // 默认是 null
+                    for (AppFavorite appFavorite : favoriteList) {
                         if (Objects.equals(appFavorite.getFavoriteId(), data.getId())) {
-                            data.setIsFavorite(true);
+                            isAppFavorite = appFavorite;
                         }
                     }
+                    data.setAppFavorite(isAppFavorite);
                 }
                 adapter.notifyDataSetChanged();
             } else {
@@ -149,38 +158,45 @@ public class TVFragment extends Fragment {
         return true;
     }
 
-    public boolean filterQueryFavorite(boolean isFilter) {
-        list.clear();
-
-        originList.forEach(item -> {
-            if(isFilter){
-                for (AppFavorite appFavorite : favoriteList) {
-                    if (Objects.equals(appFavorite.getFavoriteId(),item.getId())) {
-                        list.add(item);
-                    }
-                }
-            } else {
-                list.add(item);
-            }
-        });
-        adapter.notifyDataSetChanged();
-        return true;
+    public boolean filterQueryFavorite() {
+        return doFilter();
     }
 
     public boolean onQueryTextChange(String newText) {
+        this.newText = newText;
+        return doFilter();
+    }
+
+    private boolean doFilter() {
         swipeRefreshLayout.setRefreshing(true);
         list.clear();
-        if (Objects.isNull(newText) || newText.isEmpty()) {
-            list.addAll(originList);
-        } else {
-            originList.forEach(item -> {
-                if (item.getName().contains(newText)) {
-                    list.add(item);
-                }
-            });
-        }
+        List<TVItem> tvItemList = filterQueryText(originList);
+        list.addAll(filterQueryFavorite(tvItemList));
         adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
         return true;
     }
+
+    private List<TVItem> filterQueryText(List<TVItem> list) {
+        if (Objects.isNull(newText) || newText.isEmpty()) {
+            return list;
+        }
+        return list.stream().filter(item -> item.getName().contains(newText)).collect(Collectors.toList());
+    }
+
+    private List<TVItem> filterQueryFavorite(List<TVItem> list) {
+        return list.stream().filter(item -> {
+            if(isFilter){
+                for (AppFavorite appFavorite : favoriteList) {
+                    if (Objects.equals(appFavorite.getFavoriteId(),item.getId())) {
+                        return true;
+                    }
+                }
+            } else {
+                return true;
+            }
+            return false;
+        }).collect(Collectors.toList());
+    }
+
 }

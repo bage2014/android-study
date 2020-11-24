@@ -25,6 +25,7 @@ public class AppConstant {
     public static final String urlWeatherWeeklyQuery = "/ignore/weather/weekly/query/{ip}";
     public static final String urlFavoriteQuery = "/ignore/favorite/query/page";
     public static final String urlFavoriteUpdate = "/ignore/favorite/insert";
+    public static final String urlFavoriteDelete = "/ignore/favorite/delete";
 
     public static final String urlDemo = "/demo/xxx";
             ;

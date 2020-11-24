@@ -11,7 +11,7 @@ public class TVItem implements Serializable {
     private Long id;
     private String name;
     private String logo;
-    private Boolean isFavorite;
+    private AppFavorite appFavorite;
     @Deprecated
     private String url;
     private List<String> urls;

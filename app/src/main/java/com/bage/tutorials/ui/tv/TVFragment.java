@@ -56,8 +56,6 @@ public class TVFragment extends Fragment {
             @Override
             public void onRefresh() {
                 TVViewModel.queryAll();
-                adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
         recyclerView = root.findViewById(R.id.recycler_view);
@@ -85,15 +83,9 @@ public class TVFragment extends Fragment {
         TVViewModel.getResult().observe(this, httpResult -> {
             swipeRefreshLayout.setRefreshing(false);
             if (HttpResultUtils.isOk(httpResult)) {
+                originList = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() { }.getType());
+                doFilter();
                 onQueryFavorite();
-                list.clear();
-                List<TVItem> datas = JsonUtils.fromJson(httpResult.getData(), new TypeToken<List<TVItem>>() {
-                }.getType());
-                for (TVItem data : datas) {
-                    list.add(data);
-                }
-                originList = new ArrayList<>(list);
-                adapter.notifyDataSetChanged();
             } else {
                 HttpResultUtils.errorCallback(activity, httpResult);
             }
@@ -168,12 +160,10 @@ public class TVFragment extends Fragment {
     }
 
     private boolean doFilter() {
-        swipeRefreshLayout.setRefreshing(true);
         list.clear();
         List<TVItem> tvItemList = filterQueryText(originList);
         list.addAll(filterQueryFavorite(tvItemList));
         adapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
         return true;
     }
 

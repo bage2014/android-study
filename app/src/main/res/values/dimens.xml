@@ -18,13 +18,16 @@
     <dimen name="icon_width_big">64dp</dimen>
     <dimen name="icon_height_big">64dp</dimen>
 
+    <dimen name="textview_width_big">48dp</dimen>
+    <dimen name="textview_height_big">48dp</dimen>
+
 
     <!--图标长宽-->
     <dimen name="appbar_height_middle">48dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="icon_padding">24dp</dimen>
+    <dimen name="item_padding">16dp</dimen>
 
 
     <dimen name="user_icon_width">92dp</dimen>

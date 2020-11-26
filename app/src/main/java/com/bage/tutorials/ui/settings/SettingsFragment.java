@@ -2,16 +2,15 @@ package com.bage.tutorials.ui.settings;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.preference.PreferenceFragmentCompat;
 
 import com.bage.tutorials.BootstrapActivity;
 import com.bage.tutorials.MainActivity;
@@ -20,7 +19,7 @@ import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.domain.AppVersion;
 import com.bage.tutorials.domain.UpdateResult;
 import com.bage.tutorials.ui.about.AboutFragment;
-import com.bage.tutorials.ui.about.AboutViewModel;
+import com.bage.tutorials.ui.server.ServerSettingActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.bage.tutorials.utils.ToastUtils;
@@ -63,14 +62,8 @@ public class SettingsFragment extends Fragment {
                 ToastUtils.show(getActivity(), "This is the latest version");
             }
         });
-        View btnCheckForUpdate = root.findViewById(R.id.btn_check_for_update);
-        btnCheckForUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateViewModel.checkForUpdate(BootstrapActivity.appVersion);
-            }
-        });
-
+        root.findViewById(R.id.settings_card_update).setOnClickListener(v -> updateViewModel.checkForUpdate(BootstrapActivity.appVersion));
+        root.findViewById(R.id.settings_card_server).setOnClickListener(v -> startActivity(new Intent(activity, ServerSettingActivity.class)));
         return root;
     }
 

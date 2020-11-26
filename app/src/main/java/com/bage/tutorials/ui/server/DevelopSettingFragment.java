@@ -1,4 +1,4 @@
-package com.bage.tutorials.ui.settings;
+package com.bage.tutorials.ui.server;
 
 import android.app.Activity;
 import android.os.Bundle;

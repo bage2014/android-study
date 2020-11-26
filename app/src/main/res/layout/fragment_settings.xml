@@ -4,28 +4,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_check_for_update"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/settings_card_update"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/view_margin_small"
-        android:text="检查更新"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.bage.tutorials.view.IconView
-        android:id="@+id/profile_user_icon_edit_iconview"
-        android:layout_width="@dimen/icon_width_middle"
-        android:layout_height="@dimen/icon_width_middle"
-        android:layout_marginTop="@dimen/view_margin_small"
-        android:layout_marginRight="@dimen/view_margin_middle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/btn_check_for_update"
-        app:layout_constraintTop_toTopOf="parent"
-        app:materialIcon="chevron_right"
-        app:materialIconColor="@color/icon_color_nav"
-        app:materialIconSize="@dimen/icon_width_middle" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height_big"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/item_padding">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="6"
+                android:text="检查更新"></com.google.android.material.textview.MaterialTextView>
+
+            <com.bage.tutorials.view.IconView
+                android:layout_width="@dimen/icon_width_middle"
+                android:layout_height="@dimen/icon_width_middle"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                app:materialIcon="chevron_right"
+                app:materialIconColor="@color/icon_color_nav"
+                app:materialIconSize="@dimen/icon_width_middle" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/settings_card_server"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/settings_card_update">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/textview_height_big"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/item_padding">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="6"
+                android:text="开发者模式"></com.google.android.material.textview.MaterialTextView>
+
+            <com.bage.tutorials.view.IconView
+                android:layout_width="@dimen/icon_width_middle"
+                android:layout_height="@dimen/icon_width_middle"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                app:materialIcon="chevron_right"
+                app:materialIconColor="@color/icon_color_nav"
+                app:materialIconSize="@dimen/icon_width_middle" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

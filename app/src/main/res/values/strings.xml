@@ -70,5 +70,16 @@
 
     <!-- TVPlaying-->
     <string name="title_activity_tv_playing">TV</string>
+    <string name="title_activity_server_setting">Server Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
 
 </resources>

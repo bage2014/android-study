@@ -20,6 +20,7 @@
 
         <SwitchPreferenceCompat
             app:key="debugMode"
+            app:defaultValue="false"
             app:title="@string/server" />
 
     </PreferenceCategory>

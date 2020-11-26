@@ -18,7 +18,7 @@ public class DevelopSettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_activity);
+        setContentView(R.layout.develop_settings_activity);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.settings, new DevelopSettingFragment())

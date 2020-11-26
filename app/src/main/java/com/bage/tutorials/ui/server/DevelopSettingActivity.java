@@ -1,5 +1,6 @@
 package com.bage.tutorials.ui.server;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -7,8 +8,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bage.tutorials.R;
+import com.bage.tutorials.config.ServerConfig;
+import com.bage.tutorials.utils.AppConfigUtils;
+import com.bage.tutorials.utils.JsonUtils;
+import com.bage.tutorials.utils.ToastUtils;
 
-public class ServerSettingActivity extends AppCompatActivity {
+public class DevelopSettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,12 @@ public class ServerSettingActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        Context context = this;
+        findViewById(R.id.settings_fab).setOnClickListener(item -> {
+            AppConfigUtils.reloadServerConfig(context);
+            ServerConfig serverConfig = AppConfigUtils.getServerConfig();
+            ToastUtils.show(context, JsonUtils.toJson(serverConfig));
+        });
     }
 
     @Override

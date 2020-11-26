@@ -12,6 +12,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.bage.tutorials.MainActivity;
 import com.bage.tutorials.R;
+import com.bage.tutorials.utils.ToastUtils;
 
 public class DevelopSettingFragment extends PreferenceFragmentCompat {
 

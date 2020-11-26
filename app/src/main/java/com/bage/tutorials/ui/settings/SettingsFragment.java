@@ -19,7 +19,7 @@ import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.domain.AppVersion;
 import com.bage.tutorials.domain.UpdateResult;
 import com.bage.tutorials.ui.about.AboutFragment;
-import com.bage.tutorials.ui.server.ServerSettingActivity;
+import com.bage.tutorials.ui.server.DevelopSettingActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
 import com.bage.tutorials.utils.ToastUtils;
@@ -63,7 +63,7 @@ public class SettingsFragment extends Fragment {
             }
         });
         root.findViewById(R.id.settings_card_update).setOnClickListener(v -> updateViewModel.checkForUpdate(BootstrapActivity.appVersion));
-        root.findViewById(R.id.settings_card_server).setOnClickListener(v -> startActivity(new Intent(activity, ServerSettingActivity.class)));
+        root.findViewById(R.id.settings_card_server).setOnClickListener(v -> startActivity(new Intent(activity, DevelopSettingActivity.class)));
         return root;
     }
 

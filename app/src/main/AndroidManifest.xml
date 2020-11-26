@@ -34,7 +34,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.server.ServerSettingActivity"
+            android:name=".ui.server.DevelopSettingActivity"
             android:label="@string/title_activity_server_setting"></activity>
         <activity
             android:name=".ui.UnlockActivity"

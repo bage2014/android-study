@@ -21,9 +21,9 @@
 
             <!--用户头像 start -->
             <com.bage.tutorials.view.CircleImageView
+                android:id="@+id/about_im_author"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
-                android:id="@+id/about_im_author"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/view_margin_middle"
                 android:src="@drawable/user_null" />
@@ -42,45 +42,131 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="bage2014"></com.google.android.material.textview.MaterialTextView>
+                android:text="bage2014"
+                android:textSize="25sp"></com.google.android.material.textview.MaterialTextView>
 
         </com.google.android.material.card.MaterialCardView>
 
-<!--
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_card_update"
+            android:id="@+id/about_card_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:layout_constraintTop_toBottomOf="@+id/settings_card_name">
-
+            app:layout_constraintTop_toBottomOf="@+id/about_card_name">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/textview_height_big"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/item_padding">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <com.bage.tutorials.view.IconView
+                    android:id="@+id/about_iv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    app:materialIcon="map_marker"
+                    app:materialIconColor="@color/icon_color_nav"
+                    app:materialIconSize="@dimen/icon_width_small" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="6"
-                    android:text="检查更新"></com.google.android.material.textview.MaterialTextView>
+                    android:layout_marginLeft="4dp"
+                    android:text="Shanghai,China"
+                    android:textSize="16sp"></com.google.android.material.textview.MaterialTextView>
 
-                <com.bage.tutorials.view.IconView
-                    android:layout_width="@dimen/icon_width_middle"
-                    android:layout_height="@dimen/icon_width_middle"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    app:materialIcon="chevron_right"
-                    app:materialIconColor="@color/icon_color_nav"
-                    app:materialIconSize="@dimen/icon_width_middle" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>-->
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about_card_followers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:layout_constraintTop_toBottomOf="@+id/about_card_location">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="15"
+                        android:textSize="25sp"></com.google.android.material.textview.MaterialTextView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Follower"
+                        android:textSize="16sp"></com.google.android.material.textview.MaterialTextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="25"
+                        android:textSize="25sp"></com.google.android.material.textview.MaterialTextView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Following"
+                        android:textSize="16sp"></com.google.android.material.textview.MaterialTextView>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="300"
+                        android:textSize="25sp"></com.google.android.material.textview.MaterialTextView>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Star"
+                        android:textSize="16sp"></com.google.android.material.textview.MaterialTextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.core.widget.NestedScrollView>

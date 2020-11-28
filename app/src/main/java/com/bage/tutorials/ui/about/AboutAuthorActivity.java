@@ -24,7 +24,7 @@ public class AboutAuthorActivity extends AppCompatActivity {
                 .setAction("Action", null).show());
 
         String url = "https://avatars1.githubusercontent.com/u/18094768?s=460&u=1a2cacb3972a01fc3592f3c314b6e6b8e41d59b4&v=4";
-        ImageViewUtils.loadImage(this,url,findViewById(R.id.about_im_author));
+        ImageViewUtils.loadImage(this,url,findViewById(R.id.about_im_author),R.drawable.user_null,R.drawable.user_null);
 
 
     }

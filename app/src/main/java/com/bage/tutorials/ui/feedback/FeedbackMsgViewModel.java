@@ -1,4 +1,4 @@
-package com.bage.tutorials.ui.about;
+package com.bage.tutorials.ui.feedback;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -6,7 +6,7 @@ import com.bage.tutorials.component.viewmodel.HttpResultViewModel;
 import com.bage.tutorials.constant.AppConstant;
 import com.bage.tutorials.http.HttpResult;
 
-public class AboutViewModel extends HttpResultViewModel {
+public class FeedbackMsgViewModel extends HttpResultViewModel {
 
     private MutableLiveData<HttpResult> updatableResult = new MutableLiveData<>();
 

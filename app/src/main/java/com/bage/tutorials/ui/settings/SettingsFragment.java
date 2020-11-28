@@ -18,7 +18,8 @@ import com.bage.tutorials.R;
 import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.domain.AppVersion;
 import com.bage.tutorials.domain.UpdateResult;
-import com.bage.tutorials.ui.about.AboutFragment;
+import com.bage.tutorials.ui.about.AboutAuthorActivity;
+import com.bage.tutorials.ui.feedback.FeedbackMsgFragment;
 import com.bage.tutorials.ui.server.DevelopSettingActivity;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
@@ -42,7 +43,7 @@ public class SettingsFragment extends Fragment {
         updateViewModel = ViewModelProviders.of(this).get(UpdateViewModel.class);
         updateViewModel.getUpdatableResult().observe(this, httpResult -> {
             //简单弹框升级
-            LoggerUtils.info(AboutFragment.class, JsonUtils.toJson(httpResult));
+            LoggerUtils.info(FeedbackMsgFragment.class, JsonUtils.toJson(httpResult));
             UpdateResult result = JsonUtils.fromJson(httpResult.getData(), UpdateResult.class);
             if (Objects.nonNull(result) && result.isNeedUpdate()) {
                 AppVersion appVersion = result.getAppVersion();
@@ -64,6 +65,7 @@ public class SettingsFragment extends Fragment {
         });
         root.findViewById(R.id.settings_card_update).setOnClickListener(v -> updateViewModel.checkForUpdate(BootstrapActivity.appVersion));
         root.findViewById(R.id.settings_card_server).setOnClickListener(v -> startActivity(new Intent(activity, DevelopSettingActivity.class)));
+        root.findViewById(R.id.settings_card_author).setOnClickListener(v -> startActivity(new Intent(activity, AboutAuthorActivity.class)));
         return root;
     }
 

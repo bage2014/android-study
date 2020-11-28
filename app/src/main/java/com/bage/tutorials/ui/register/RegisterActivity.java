@@ -26,7 +26,7 @@ import com.bage.tutorials.http.server.RestResponseCodeEnum;
 import com.bage.tutorials.repository.UserRepository;
 import com.bage.tutorials.ui.login.LoginActivity;
 import com.bage.tutorials.utils.AndroidUtils;
-import com.bage.tutorials.utils.PicassoUtils;
+import com.bage.tutorials.utils.ImageViewUtils;
 import com.bage.tutorials.utils.StringUtils;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -151,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void refreshValidateImage() {
         String url = "/auth-server/validate/code/generate?clientId=" + AndroidUtils.getDeviceId() + "&timestramp=" + System.currentTimeMillis();
-        PicassoUtils.loadImage(this, url, validateImageView);
+        ImageViewUtils.loadImage(this, url, validateImageView);
 
     }
 

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.about.AboutAuthorActivity"
+    tools:showIn="@layout/activity_about_author">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about_card_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--用户头像 start -->
+            <com.bage.tutorials.view.CircleImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:id="@+id/about_im_author"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/view_margin_middle"
+                android:src="@drawable/user_null" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/about_card_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:layout_constraintTop_toBottomOf="@+id/about_card_image">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="bage2014"></com.google.android.material.textview.MaterialTextView>
+
+        </com.google.android.material.card.MaterialCardView>
+
+<!--
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/settings_card_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:layout_constraintTop_toBottomOf="@+id/settings_card_name">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/textview_height_big"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/item_padding">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="6"
+                    android:text="检查更新"></com.google.android.material.textview.MaterialTextView>
+
+                <com.bage.tutorials.view.IconView
+                    android:layout_width="@dimen/icon_width_middle"
+                    android:layout_height="@dimen/icon_width_middle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    app:materialIcon="chevron_right"
+                    app:materialIconColor="@color/icon_color_nav"
+                    app:materialIconSize="@dimen/icon_width_middle" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

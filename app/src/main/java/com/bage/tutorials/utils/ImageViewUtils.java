@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-public class PicassoUtils {
+public class ImageViewUtils {
 
     public static void loadImage(Context context, String url, ImageView imageView) {
         if(StringUtils.isNotNullAndNotEmpty(url)){

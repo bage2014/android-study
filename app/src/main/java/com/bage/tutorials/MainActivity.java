@@ -27,7 +27,7 @@ import com.bage.tutorials.ui.profile.ProfileActivity;
 import com.bage.tutorials.ui.tv.TVFragment;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
-import com.bage.tutorials.utils.PicassoUtils;
+import com.bage.tutorials.utils.ImageViewUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
 import com.google.android.material.navigation.NavigationView;
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void initUserInfo(User user) {
         // 头像
-        PicassoUtils.loadImage(MainActivity.this, user.getIconUrl(), userIcon);
+        ImageViewUtils.loadImage(MainActivity.this, user.getIconUrl(), userIcon);
         userName.setText(user.getUsername());
         userMail.setText(user.getMail());
         userSignature.setText(user.getSignature());

@@ -26,7 +26,7 @@ import com.bage.tutorials.domain.User;
 import com.bage.tutorials.http.HttpResult;
 import com.bage.tutorials.utils.DateUtils;
 import com.bage.tutorials.utils.JsonUtils;
-import com.bage.tutorials.utils.PicassoUtils;
+import com.bage.tutorials.utils.ImageViewUtils;
 import com.bage.tutorials.view.CircleImageView;
 import com.bage.tutorials.viewmodel.UserViewModel;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -84,7 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
                     birthdayTextView.setText(user.getBirthday());
                     signatureTextView.setText(user.getSignature());
                     // 图片
-                    PicassoUtils.loadImage(ProfileActivity.this,user.getIconUrl(),userIconView);
+                    ImageViewUtils.loadImage(ProfileActivity.this,user.getIconUrl(),userIconView);
                 }
             }
         });

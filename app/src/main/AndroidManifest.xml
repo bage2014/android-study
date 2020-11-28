@@ -34,8 +34,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.about.AboutAuthorActivity"
+            android:label="@string/title_activity_about_author"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ui.server.DevelopSettingActivity"
-            android:label="@string/title_activity_server_setting"></activity>
+            android:label="@string/title_activity_server_setting" />
         <activity
             android:name=".ui.UnlockActivity"
             android:label="@string/title_activity_unlock" />

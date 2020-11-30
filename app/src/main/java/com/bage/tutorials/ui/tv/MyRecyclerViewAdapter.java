@@ -1,6 +1,7 @@
 package com.bage.tutorials.ui.tv;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,10 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bage.tutorials.R;
 import com.bage.tutorials.api.android.AppFavorite;
 import com.bage.tutorials.api.android.TVItem;
+import com.bage.tutorials.component.dialog.AlertDialogHelper;
 import com.bage.tutorials.utils.AndroidUtils;
 import com.bage.tutorials.utils.JsonUtils;
 import com.bage.tutorials.utils.LoggerUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,11 +31,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private List<TVItem> list;
     private SetFavoriteClickListener setFavoriteClickListener;
     private Context context;
+    private AlertDialogHelper alertDialogHelper;
 
     public MyRecyclerViewAdapter(Context context, List<TVItem> list, SetFavoriteClickListener setFavoriteClickListener) {
         this.list = list;
         this.context = context;
         this.setFavoriteClickListener = setFavoriteClickListener;
+        alertDialogHelper = new AlertDialogHelper(context);
     }
 
     @Override
@@ -66,12 +73,35 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mText = itemView.findViewById(R.id.item_tx);
             //添加点击事件
             mText.setOnClickListener(v -> {
+
+//                alertDialogHelper.showCustomDialog(R.layout.dialog_tv_listview, "", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        TVItem tvItem = list.get(getLayoutPosition());
+//                        LoggerUtils.info(MyRecyclerViewAdapter.class, "onClick tvItem = " + JsonUtils.toJson(tvItem));                    }
+//                }, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                });
+
                 TVItem tvItem = list.get(getLayoutPosition());
-                Intent intent = new Intent(context, TVPlayingActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("tvItem", tvItem);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                tvItem.setUrls(new ArrayList<String>(Arrays.asList("A", "B", "C")));
+                new MaterialAlertDialogBuilder(context)
+                        .setSingleChoiceItems(tvItem.getUrls().toArray(new String[0]), 1, (dialog, which) -> {
+                            dialog.dismiss();
+                            LoggerUtils.info(MyRecyclerViewAdapter.class, "onClick tvItem = " + JsonUtils.toJson(tvItem));
+                            TVItem tvItem1 = list.get(getLayoutPosition());
+                            Intent intent = new Intent(context, TVPlayingActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("tvItem", tvItem1);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        })
+                        .show();
+
+
             });
 
             //添加点击事件
